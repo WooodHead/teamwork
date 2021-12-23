@@ -81,7 +81,6 @@ export default {
     }
   },
   mounted () {
-    debugger
     this.addQuestions([Checkin.Question.from(this.publicContent.question)])
     if (this.publicContent.answers) {
       this.addAnswers(Checkin.Answer.from(this.publicContent.answers))
