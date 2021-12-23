@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    .attachment {
+      display: inline-block;
+      width: 100%;
+      max-width: 100%;
+      margin: 1rem 0 0 0;
+      text-align: center;
+      line-height: 1
+    }
+
+    .attachment__caption {
+      padding: 0.5rem 0 0.3rem 2.5em;
+      background-position: -3px -1px;
+      background-repeat: no-repeat;
+      background-size: 2.5em;
+      text-align: left;
+      max-width: 100%;
+      vertical-align: bottom
+    }
+
+    .attachment__caption {
+      background-image:
+        url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAKwAAADICAMAAABCivqmAAAAQlBMVEX////a2tra2tr5+fnh4eHr6+vj4+P9/f3////X19fW1tbMzMzQ0NDi4uLd3d3t7e3k5OTc3Nz19fXZ2dnU1NTo6Ojr7FvZAAAAA3RSTlMA/9oPVAJmAAABiklEQVR4AezVhRHDMADAwIYZ9x+2EwR1ViHWBH+ol10sFovFkmClAlbQAmwWphxodWyRAK2PBVofm+dAa2PLCmh1bA20PhZofSzQ+lig9bFA62OB1scCrY8FWh8LtD4WaH0s0PpYoPWxQOtjgdbHAq2PBVofC7Q+Fmh9LND6WKz1sVzrY7e1HNvA2g3shpZhO1i/gQVaA8u1PnZby7EDbNzAEq2PBVofC7Sb2Ak2b2GB1p8C0PpYoPWxQOtjgdbHAq2PBVofC7Q+Fmh9LND6WKD1sEArYJfydHmyrXWwV0s/h12La+VJYmNBBDsEKwC2e7drFwQQAgEABAv84/SvSopFZxMMzkkW7IOwa9bXH7B/FGwXbBtsHywsLCwsLKx5A0NxWPMGhuKwpwULCwsLCwsLCwtrdNsEu2UZ3TbBjlm+YGWwfbCwsLCwsLCwhuKw5g2yYIPMG9TB9sHCwsLCwsLC2vpvKA47ZBmKPwi7Z/mCwcLCwsLCwsLCwsLCwsLCwkbB3qfnYyVJUQcF+8ryiImNJAAAAABJRU5ErkJggg==)
+    }
+
+    .attachment__caption>.attachment__size,
+    .attachment__caption .attachment__attributes {
+      display: block;
+      margin-top: 0.5em;
+      color: #6d6d6d;
+      font-size: 0.875em
+    }
+
+    .attachment__attribute:not(:first-child)::before {
+      content: ' · '
+    }
+
+    .attachment--content {
+      background: none !important
+    }
+
+    .attachment__progress {
+      appearance: none;
+      position: absolute;
+      margin: -1.2rem 0 0 -6rem;
+      background-color: rgba(255, 255, 255, 0.8);
+      border: 0;
+      border-radius: 0.3rem;
+      box-shadow: 0 0 0.5rem rgba(0, 0, 0, 0.15) inset;
+      color: #2da562;
+      z-index: 2
+    }
+
+    .attachment__progress::-webkit-progress-bar {
+      background-color: rgba(255, 255, 255, 0.8);
+      border-radius: 0.3rem;
+      box-shadow: 0 0 0.5rem rgba(0, 0, 0, 0.15) inset
+    }
+
+    .attachment__progress::-webkit-progress-value {
+      background: #2da562;
+      border-radius: 0.3rem
+    }
+
+    .attachment__progress::-moz-progress-bar {
+      background: #2da562;
+      border-radius: 0.3rem
+    }
+
+    .attachment__link {
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      overflow: hidden;
+      display: inline-block;
+      word-break: normal;
+      max-width: 100%;
+    }
+
+    .attachment a {
+      color: inherit;
+      text-decoration: none;
+      background: transparent;
+    }
+
+    .attachment .decorated--matched {
+      color: inherit !important;
+      text-decoration: underline;
+    }
+
+  </style>
+</head>
+
+<body>
+
+  <figure contenteditable="false" class="attachment">
+    <figcaption class="attachment__caption">
+      <a class="attachment__link" target="_blank"
+        href="https://storage.3.basecamp.com/4422234/blobs/209794ec-ce25-11ea-ac5f-a0369f740db1/download/%E8%BF%98%E9%9C%80%E5%AE%8C%E5%96%84%E7%9A%84%E5%8A%9F%E8%83%BD.docx">
+        还需完善的功能.docx
+        <span class="attachment__attributes">
+          <span class="attachment__size"> 13.3 KB</span>
+          <span class="attachment__attribute attachment__dowload">
+            <object>
+              <a class="decorated--matched" target="_blank"
+                href="https://storage.3.basecamp.com/4422234/blobs/209794ec-ce25-11ea-ac5f-a0369f740db1/download/%E8%BF%98%E9%9C%80%E5%AE%8C%E5%96%84%E7%9A%84%E5%8A%9F%E8%83%BD.docx?attachment=true">Download</a>
+            </object>
+          </span>
+        </span>
+      </a>
+    </figcaption>
+    <progress class="attachment__progress" value="47.38005216088364" max="100"></progress>
+  </figure>
+  <div contenteditable="false" class="attachment">
+    <div class="attachment__caption">
+      <a class="attachment__link" target="_blank"
+        href="javascript:download('/upload/file/document/无接触工程服务流程示意图_2020072501595745.pdf')">
+        无接触工程服务流程示意图.pdf
+        <span class="attachment__attributes">
+          <span class="attachment__size">686.3B</span>
+          <span class="attachment__attribute">
+            <object>
+              <a class="decorated--matched" target="_blank"
+                href="javascript:download('/upload/file/document/无接触工程服务流程示意图_2020072501595745.pdf')">下载</a>
+            </object>
+          </span>
+        </span>
+      </a>
+    </div>
+  </div>
+  <div data-v-36e02300="" class="tiptap-content editor__content">
+    <p>辑公告添加一个视频文件</p>
+    <p><a href="javascript:download('/upload/file/document/无接触工程服务流程示意图_2020072503362375.pdf')"
+        rel="noopener noreferrer nofollow">无接触工程服务流程示意图.pdf&nbsp;&nbsp;<em>(686.3KB)</em></a></p>
+    <p>通知公告内容是Html，邮件中要确保html中css的样式：</p>
+    <h1>我是标题1</h1>
+    <h2>我是标题2</h2>
+    <h3>我是标题3</h3>
+    <p><strong>加重的字体 </strong><em>斜体 </em><s>删除的字体 </s><u>下划线的字体</u></p>
+    <p><code>code高亮显示</code></p>
+    <blockquote>
+      <p>我是引用</p>
+    </blockquote>
+    <ul>
+      <li>
+        <p>无需列表</p>
+      </li>
+      <li>
+        <p>啊首发身份</p>
+      </li>
+      <li>
+        <p>阿凡达</p>
+      </li>
+    </ul>
+    <ol>
+      <li>
+        <p>有序列表</p>
+      </li>
+      <li>
+        <p>所覆盖萨芬</p>
+      </li>
+      <li>
+        <p>非gas</p>
+      </li>
+    </ol>
+    <p><a href="https://www.jingdiao.com" rel="noopener noreferrer nofollow">这是链接到公司网址</a></p>
+    <p><img src="/api/files/preview?filePath=%2Fupload%2Ffile%2Fdocument%2FS001L05_2020072411035920.jpg"></p>
+    <p></p>
+    <table>
+      <tbody>
+        <tr>
+          <td>
+            <p><strong>阿萨法撒旦法</strong></p>
+          </td>
+          <td>
+            <p><strong>啊as放大s</strong></p>
+          </td>
+          <td>
+            <p><strong>暗室逢灯</strong></p>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2">
+            <p>as放大是</p>
+            <p>萨斯房贷首付</p>
+          </td>
+          <td>
+            <p>暗室逢灯</p>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <p>暗室逢灯a</p>
+          </td>
+          <td>
+            <p>暗室逢灯</p>
+          </td>
+          <td>
+            <p>安放</p>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <p></p>
+    <p><a href="javascript:download('pdf')"
+        rel="noopener noreferrer nofollow">Ones系统竞品pdf<em>(2904.18KB)</em></a></p>
+    <p><a href="javascript:download('/upload/file/document/北京精雕集团宣传视频-通用版（手机版）2020.06.24_2020072510053804.mp4')"
+        rel="noopener noreferrer nofollow">北京精雕集团宣传视频-通用版（手机版）2020.06.24.mp4&nbsp;&nbsp;<em>(32422.80KB)</em></a></p>
+  </div>
+</body>
+
+</html>

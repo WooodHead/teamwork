@@ -1,0 +1,159 @@
+{
+  "version": "ent",
+  "name": "jd",
+  "title": "北京精雕集团",
+  "extranet": true,
+  "imHeartBeatTime": 120000,
+  "dutyLevelProtection": 6,
+  "appUrl": {
+    "client": "https://teamworktest.jingdiao.com",
+    "server": "https://teamworkservertest.jingdiao.com"
+  },
+  "wechat": {
+    "wx_appid": "ww12e6970054a2df7d",
+    "wx_agentid": "1000010",
+    "wx_approval_leave_templateId": "1970325122023546_1688850915300868_999587701_1499158576",
+    "wx_approval_overtime_templateId": "1970325122023546_1688850915300868_1289800174_1497833746"
+  },
+  "workflow": {
+    "appMark": "JD_PMS_TEST",
+    "clientUrl": "https://testbpmsweb.jingdiao.com/"
+  },
+  "socket": {
+    "appMark": "jd-teamwork-test",
+    "serverUrl": "wss://msgserver.jingdiao.com:8443/JDXANWebSocketPushService/PushServerLogin"
+  },
+  "oss": {
+    "enable": true,
+    "baseDir": "teamwork-test",
+    "options": {
+      "accesskeyId": "LTAI4G4SjSVDWErXo42WyyEU",
+      "accesskeySecret": "9rOpnXfjbo6TpmsDA9AMBlJl5iA0k8",
+      "secure": true,
+      "cname": true,
+      "region": "oss-cn-hangzhou",
+      "endpoint": "https://file.jingdiao.com",
+      "bucket": "jd-teamwork"
+    }
+  },
+  "email": "teamwork@notice.jingdiao.com",
+  "userDefined": {
+    "downloadArea": "/organize/1/document",
+    "guobiao": "/organize/1/document/folder/18257",
+    "wikiHome": "/document/1",
+    "room": "/room/10/schedule"
+  },
+  "thirdpartyApp": {
+    "help": "https://teamwork-help.jingdiao.com"
+  },
+  "app": {
+    "menusOfExclusive": [
+      "downloadArea",
+      "wikiHome",
+      "room",
+      "guobiao",
+      "consultHome",
+      "productHome",
+      "serviceHome",
+      "workRecordHome",
+      "jobHome",
+      "salaryHome",
+      "positionHome",
+      "customerHome",
+      "opportunityHome",
+      "orderHome",
+      "manufacturerHome"
+    ],
+    "menusOfAllRole": [
+      "home",
+      "contactsHome",
+      "downloadArea",
+      "wikiHome",
+      "guobiao",
+      "room",
+      "teamHome",
+      "projectHome",
+      "productDevHome",
+      "help",
+      "customerHome",
+      "consultHome",
+      "productHome",
+      "serviceHome",
+      "workRecordHome"
+    ],
+    "menusProperOfRole": {
+      "User": [],
+      "SystemAdministrator": [
+        "documentCenter",
+        "settings",
+        "jobHome"
+      ],
+      "SeniorManager": [
+        "documentCenter",
+        "jobHome"
+      ],
+      "OrganizeManager": [],
+      "ProductManager": [],
+      "SalesExecutive": [
+        "opportunityHome",
+        "orderHome",
+        "manufacturerHome"
+      ],
+      "SalesManager": [
+        "opportunityHome",
+        "orderHome",
+        "manufacturerHome"
+      ],
+      "SalesProduct": [
+        "opportunityHome",
+        "orderHome",
+        "manufacturerHome"
+      ],
+      "SalesPerson": [
+        "opportunityHome",
+        "orderHome",
+        "manufacturerHome"
+      ],
+      "Outsource": [
+        "manufacturerHome"
+      ],
+      "Supporter": [
+        "adminFeedbackHome"
+      ],
+      "Finance": [
+        "salaryHome"
+      ],
+      "HRSpecialist": [
+        "jobHome"
+      ],
+      "PositionManager": [
+        "positionHome"
+      ],
+      "Interviewer": [
+        "jobHome"
+      ]
+    },
+    "modulesInCommonUse": [
+      "contacts",
+      "downloadArea",
+      "guobiao",
+      "project",
+      "product",
+      "consult",
+      "room",
+      "jobHome",
+      "position",
+      "workRecord"
+    ],
+    "toolsDefaultInWorkbench": [
+      "task",
+      "schedule",
+      "myBookmarks",
+      "trash",
+      "activity",
+      "myDrafts",
+      "myBoosts",
+      "history"
+    ]
+  }
+}

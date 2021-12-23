@@ -1,0 +1,42 @@
+export default {
+  module: '日程安排',
+  title: '日程',
+  notes: '在共享日历上查看工作排程，添加工作事项提醒。',
+  field: {
+    label: {
+      title: '事项标题',
+      notes: '说明'
+    }
+  },
+  event: '日程',
+  allDay: '全天？',
+  startTime: '开始时间',
+  endTime: '截止时间',
+  Repeat: '重复周期',
+  repeatUntil: '重复截止到',
+  withs: '由谁负责',
+  addExtraDetailsOrAttachAFile: '添加额外的信息或上传文件...',
+  when: '时间',
+  addToMyCalendar: '添加到我的日历中...',
+  repeats: '重复',
+  participants: '人员',
+  newEvent: '新建事项',
+  backAMonth: '上月',
+  forwardAMonth: '下月',
+  today: '今天',
+  returnToToday: '回到今天',
+  showEverythingUpTo: '显示截止到{date}的所有内容',
+  NothingsOnTheSchedule: '没有安排事项',
+  addAnEvent: '新建事项',
+  thisEventRepeats: '有重复的日程...',
+  doYouWantToChangeAllFutureOccurrencesOfThisEventToo: '您是否也想{action}此后的所有重复日程？',
+  changingJustThisEvent: '不了，只{action}当前的日程',
+  changingAllFutureEvents: '是的，也{action}之后的日程',
+  neverMindDontSaveYet: '没关系，先不{action}',
+  archivedEvents: '归档区',
+  dontRepeat: '不重复',
+  everyDay: '每天',
+  everyWeek: '每周',
+  everyMonth: '每月',
+  everyQuarter: '每季度'
+}

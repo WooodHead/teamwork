@@ -1,0 +1,16 @@
+  <figure contenteditable="false" class="attachment">
+    <figcaption class="attachment__caption">
+      <a class="attachment__link" target="_blank" href="{{FileUrl}}">
+        {{FileTitle}}
+        <span class="attachment__attributes">
+          <span class="attachment__size">{{FileSize}}</span>
+          <span class="attachment__attribute">
+            <object>
+              <a class="decorated--matched" target="_blank" href="{{FileUrl}}">{{Download}}</a>
+            </object>
+          </span>
+        </span>
+      </a>
+    </figcaption>
+    <progress class="attachment__progress" value="{{FileProgress}}" max="100"></progress>
+  </figure>

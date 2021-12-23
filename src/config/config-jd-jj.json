@@ -1,0 +1,77 @@
+{
+  "version": "ent",
+  "name": "jd-jj",
+  "title": "精雕精机",
+  "extranet": false,
+  "imHeartBeatTime": 120000,
+  "dutyLevelProtection": 6,
+  "appUrl": {
+    "client": "http://192.168.181.100:8086",
+    "server": "http://192.168.181.100:8087"
+  },
+  "workflow": {
+    "appMark": "SP_PMS",
+    "clientUrl": "http://192.168.181.100:9092/"
+  },
+  "socket": {
+    "appMark": "jd-teamwork",
+    "serverUrl": "ws://192.168.181.100:9999/JDXANWebSocketPushService/PushServerLogin"
+  },
+  "file": {
+    "previewUrl": "http://192.168.181.100:8012"
+  },
+  "email": "teamwork@jingdiao.local",
+  "userDefined": {
+    "downloadArea": "/organize/100001/document",
+    "wikiHome": "/document/1"
+  },
+  "thirdpartyApp": {
+    "help": "http://192.168.181.100:10020"
+  },
+  "app": {
+    "menusOfExclusive": [
+      "downloadArea"
+    ],
+    "menusOfAllRole": [
+      "home",
+      "contactsHome",
+      "downloadArea",
+      "teamHome",
+      "projectHome",
+      "productDevHome",
+      "help"
+    ],
+    "menusProperOfRole": {
+      "User": [],
+      "SystemAdministrator": [
+        "documentCenter",
+        "settings"
+      ],
+      "SeniorManager": [
+        "documentCenter"
+      ],
+      "OrganizeManager": [],
+      "ProductManager": [],
+      "Supporter": [
+        "adminFeedbackHome"
+      ]
+    },
+    "modulesInCommonUse": [
+      "contacts",
+      "downloadArea",
+      "team",
+      "project",
+      "productDev"
+    ],
+    "toolsDefaultInWorkbench": [
+      "task",
+      "schedule",
+      "activity",
+      "myBookmarks",
+      "myDrafts",
+      "trash",
+      "myBoosts",
+      "history"
+    ]
+  }
+}

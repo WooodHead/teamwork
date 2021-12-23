@@ -1,0 +1,972 @@
+// app global css in SCSS form
+.g-margin-top20 {
+  margin-top: 20px;
+}
+
+.g-margin-bottom20 {
+  margin-bottom: 20px;
+}
+
+.g-padding-bottom20 {
+  padding-bottom: 20px;
+}
+
+//如果卡片操作取的按钮在表单中，覆盖掉.q-card__actions .q-btn__wrapper{padding: 0 8px;}
+.q-card__actions .q-btn__wrapper {
+  padding: 4px 16px;
+}
+
+.q-px-xxl {
+  padding-left: 80px;
+  padding-right: 80px;
+}
+
+.q-dialog .q-px-xxl {
+  padding: inherit;
+}
+
+.q-page {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+  align-items: center;
+  padding: 8px 8px;
+}
+
+@media (max-width: $breakpoint-sm-min) {
+  .q-px-xxl {
+    padding-left: 8px;
+    padding-right: 8px;
+  }
+
+  .q-page {
+    padding: 0px 0px;
+    width: 100%;
+  }
+
+  .sticky-top {
+    position: -webkit-sticky;
+    position: sticky;
+    top: 0;
+    z-index: 7000 !important;
+    background-color: white
+  }
+}
+
+.dot-line {
+  text-decoration: none;
+  outline: 0;
+  border-bottom: 1px dotted #1976d2;
+  vertical-align: center;
+  transition: opacity .2s;
+}
+
+// 适配Segoe UI Emoji字符图标
+@font-face {
+  font-family: 'Emoji';
+  src: url('./fonts/seguiemj.eot');
+  src: url('./fonts/seguiemj.eot?#iefix') format('embedded-opentype'), url('./fonts/seguiemj.ttf') format('truetype');
+}
+
+.emoji-font {
+  font-family: 'Emoji';
+}
+
+// PC端H4移动端h6
+.text-title {
+  font-size: 2.125rem;
+  font-weight: 400;
+  line-height: 2.5rem;
+  letter-spacing: 0.00735em;
+}
+
+@media (max-width: $breakpoint-sm-min) {
+  .text-title {
+    font-size: 1.25rem;
+    font-weight: 500;
+    line-height: 2rem;
+    letter-spacing: 0.0125em;
+  }
+}
+
+// 毛玻璃
+.ground-glass {
+  background-color: rgba(250, 250, 250, 0.95);
+  -webkit-backdrop-filter: blur(7px);
+  backdrop-filter: blur(7px);
+}
+
+.glossy-grey {
+  background-image: linear-gradient(to right, $grey-4, white) !important;
+}
+
+.fade-line {
+  background-image: linear-gradient(to right, $grey-4, white) !important;
+  height: 1px;
+  width: 50%;
+}
+
+/***************************工具卡片布局 start*********************************/
+
+@media (min-width: $breakpoint-xs-max) {
+  .widget-card {
+    width: 16rem !important;
+    display: block;
+  }
+}
+
+.widget-card {
+  width: 43%;
+  position: relative;
+  border-radius: 0.6rem;
+  box-shadow: 0 0 2px rgba(0, 0, 0, 0.35), 0 1px 3px rgba(0, 0, 0, 0.1);
+  background-repeat: no-repeat;
+  background-size: cover;
+  transform: translateZ(0);
+  overflow: hidden;
+}
+
+.widget-card:before {
+  content: "";
+  display: block;
+  padding-top: 110%;
+}
+
+.widget-card-section {
+  position: absolute;
+  top: 0;
+  width: -webkit-fill-available;
+  width: -moz-available;
+}
+
+/***************************工具卡片布局 end***********************************/
+
+
+/***************************系统基本卡片布局***********************************/
+.base-card {
+  position: static;
+  width: calc((100% - 31px) / 3) !important;
+  margin-right: 15px;
+  border-radius: 4px;
+  background-color: $primary5;
+  border: none;
+
+  &:nth-child(3n) {
+    margin-right: 0;
+  }
+}
+
+.base-card-section {
+  position: static;
+}
+
+.base-card:before {
+  content: "";
+  display: block;
+  padding-top: 0 !important;
+}
+
+@media (max-width: $breakpoint-sm-max) {
+  .base-card {
+    width: calc((100% - 16px) / 2) !important;
+
+    &:nth-child(3n) {
+      margin-right: 15px;
+    }
+
+    &:nth-child(2n) {
+      margin-right: 0;
+    }
+  }
+}
+
+@media (max-width: $breakpoint-xs-max) {
+  .base-card {
+    width: 100% !important;
+    margin-right: 0;
+
+    &:nth-child(3n) {
+      margin-right: 0;
+    }
+
+    &:nth-child(2n) {
+      margin-right: 0;
+    }
+  }
+}
+
+/***************************系统基本卡片布局 end***********************************/
+
+
+/* q-page页面级自增高卡片样式*/
+
+.card-grow-in-page {
+  width: 80vw;
+  flex-grow: 1;
+}
+
+@media screen and (max-width: $breakpoint-sm-max) {
+  .card-grow-in-page {
+    width: 100%;
+    flex-grow: 1;
+  }
+}
+
+.table-grow-in-page {
+  max-width: 100vw;
+  width: 100%;
+  flex-grow: 1;
+}
+
+.bread-width-with-table {
+  max-width: calc(100% - 80px) !important;
+}
+
+/* 为归档卡片添加归档戳 */
+
+.archived {
+
+  &::after {
+    content: '';
+    position: absolute;
+    right: 0;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    background: url("/icons/archived-stamp.png") center/6rem no-repeat;
+    opacity: 0.7;
+  }
+}
+
+.whole-card,
+.torn-card {
+  position: relative !important;
+  width: 14rem;
+  height: auto !important;
+  max-height: calc(14rem * 1.1) !important;
+  overflow: visible;
+}
+
+.torn-card {
+  border-radius: 0 !important;
+  box-shadow: 0 2px 10px #bfbfbf;
+}
+
+.whole-card>.q-card__section,
+.torn-card>.q-card__section {
+  max-height: inherit;
+  overflow: hidden;
+}
+
+/* 撕边卡片 */
+
+.torn-card:before,
+.torn-card:after {
+  content: '';
+  position: absolute;
+  top: -5px;
+  left: 0;
+  right: 0;
+  height: 8px;
+  background: url("/icons/torn-edges.png") -1em 0 repeat-x;
+}
+
+.torn-card:after {
+  bottom: -7px;
+  top: auto;
+  left: 0;
+  margin: 0;
+  background-position: 0 -9px;
+}
+
+/******************************TimeLines组件单个节点样式***************************************/
+
+// .q-timeline__entry .q-timeline__dot::after {
+//   content: '' !important;
+// }
+.q-timeline__heading-title {
+  padding: 10px 0px !important;
+}
+
+/******************************富文本编辑器表格、图片样式start***************************************/
+.editor {
+  max-width: 100% !important;
+  margin: unset !important;
+  border-bottom: 1px solid lightgray !important;
+}
+
+.tiptap-content {
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  word-break: break-word;
+
+  * {
+    caret-color: currentColor;
+  }
+
+  pre {
+    padding: 0.7rem 1rem;
+    border-radius: 5px;
+    font-size: 0.8rem;
+    overflow-x: auto;
+
+    code {
+      display: block;
+    }
+  }
+
+  p {
+    word-break: break-all;
+  }
+
+  p code {
+    padding: 0.2rem 0.4rem;
+    border-radius: 5px;
+    font-size: 0.8rem;
+    font-weight: bold;
+  }
+
+  ul,
+  ol {
+    padding-left: 1rem;
+  }
+
+  li>p,
+  li>ol,
+  li>ul {
+    margin: 0;
+  }
+
+  a {
+    color: #1976d2;
+    cursor: pointer;
+  }
+
+  blockquote {
+    padding-left: 0.8rem;
+    font-style: italic;
+
+    p {
+      margin: 0;
+    }
+  }
+
+  img {
+    max-width: 100%;
+    border-radius: 3px;
+  }
+
+  table {
+    border-collapse: collapse;
+    table-layout: fixed;
+    width: 100%;
+    margin: 0;
+    overflow: hidden;
+
+    td,
+    th {
+      min-width: 1em;
+      padding: 3px 5px;
+      vertical-align: top;
+      box-sizing: border-box;
+      position: relative;
+
+      >* {
+        margin-bottom: 0;
+      }
+    }
+
+    th {
+      font-weight: bold;
+      text-align: left;
+    }
+
+    .selectedCell:after {
+      z-index: 2;
+      position: absolute;
+      content: "";
+      left: 0;
+      right: 0;
+      top: 0;
+      bottom: 0;
+      background: rgba(200, 200, 255, 0.4);
+      pointer-events: none;
+    }
+
+    .column-resize-handle {
+      position: absolute;
+      right: -2px;
+      top: 0;
+      bottom: 0;
+      width: 4px;
+      z-index: 20;
+      background-color: #adf;
+      pointer-events: none;
+    }
+  }
+
+  .tableWrapper {
+    margin: 1em 0;
+    overflow-x: auto;
+  }
+
+  .resize-cursor {
+    cursor: ew-resize;
+    cursor: col-resize;
+  }
+}
+
+.editor__content h1,
+.tiptap-content h1 {
+  font-size: 3rem;
+  // letter-spacing: 0.03333em;
+  line-height: 1.3;
+  border-bottom: solid 1px #e8e8e8
+}
+
+.editor__content h2,
+.tiptap-content h2 {
+  font-size: 2.6rem;
+  line-height: 1.3;
+  border-bottom: solid 1px #e8e8e8
+}
+
+.editor__content h3,
+.tiptap-content h3 {
+  font-size: 2rem;
+  line-height: 1.3;
+  border-bottom: solid 1px #e8e8e8
+}
+
+.editor__content h4,
+.tiptap-content h4 {
+  font-size: 1.8rem;
+  line-height: 1.3;
+}
+
+.editor__content h5,
+.tiptap-content h5 {
+  font-size: 1.5rem;
+  line-height: 1.3;
+}
+
+.editor__content p,
+.tiptap-content p {
+  white-space: pre-wrap;
+  // font-size: 16px;
+  margin: 0 0 8px;
+  min-height: 21px
+}
+
+.tiptap-content .todo-content p {
+  margin: 0;
+}
+
+.editor__content table,
+.tiptap-content table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.editor__content table td,
+.editor__content table th,
+.tiptap-content table td,
+.tiptap-content table th {
+  min-width: 1em;
+  border: 1px solid #bdbdbd;
+  padding: 3px 5px;
+  vertical-align: top;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  position: relative;
+}
+
+.editor__content img,
+.tiptap-content img {
+  max-width: 100%;
+}
+
+// 设置tiptap的编辑器默认样式
+.editor__content blockquote,
+.tiptap-content blockquote {
+  border-left: 3px solid #000 !important;
+  color: rgba(0, 0, 0, 0.8);
+  padding: 0 0 0 0.8rem;
+  font-style: italic;
+  margin: 0;
+}
+
+.editor__content code,
+.tiptap-content code {
+  padding: 0.2rem 0.4rem;
+  border-radius: 5px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  background: rgba(0, 0, 0, 0.1);
+  color: rgba(0, 0, 0, 0.8);
+  word-wrap: break-word;
+  background: #f2c037 !important;
+}
+
+/******************************富文本编辑器表格、图片样式end***************************************/
+
+/******************************工具包设置网格背景样式 start***************************************/
+
+$color-grid-bg: rgba(243,
+  252,
+  254,
+  0.1);
+$color-grid-bg-thin: rgba(228,
+  242,
+  255,
+  0.6);
+$color-grid-bg-thick: #e5f0ff;
+
+.tw-bg-grid {
+  background-color: $color-grid-bg;
+  background-image: linear-gradient($color-grid-bg-thin 1px, transparent 1px), linear-gradient($color-grid-bg-thick 2px, transparent 2px), linear-gradient(to right, $color-grid-bg-thin 1px, transparent 1px), linear-gradient(to right, $color-grid-bg-thick 2px, transparent 2px);
+  background-size: 6px 6px, 60px 60px;
+}
+
+/******************************工具包设置网格背景样式   end***************************************/
+
+/******************************ECharts样式 start***************************************/
+.echarts {
+  width: 100% !important;
+  height: 100% !important;
+}
+
+/******************************ECharts样式  end***************************************/
+
+/******************************smartour导航样式 start*********************************/
+.smartour-slot {
+  position: relative;
+  background: #fff;
+  padding: 5px;
+  border-radius: 4px;
+  font-size: 1rem;
+}
+
+.smartour-slot_top {
+  -webkit-transform: translateY(-10px);
+  transform: translateY(-10px);
+}
+
+.smartour-slot_top:after {
+  content: "";
+  position: absolute;
+  bottom: -5px;
+  left: 50%;
+  -webkit-transform: translateX(-50%);
+  transform: translateX(-50%);
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-top: 5px solid #fff;
+}
+
+.smartour-slot_bottom {
+  -webkit-transform: translateY(10px);
+  transform: translateY(10px);
+}
+
+.smartour-slot_bottom:after {
+  content: "";
+  position: absolute;
+  top: -5px;
+  left: 50%;
+  -webkit-transform: translateX(-50%);
+  transform: translateX(-50%);
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-bottom: 5px solid #fff;
+}
+
+.smartour-slot_right {
+  -webkit-transform: translateX(10px);
+  transform: translateX(10px);
+}
+
+.smartour-slot_right:after {
+  content: "";
+  position: absolute;
+  left: -5px;
+  top: 50%;
+  -webkit-transform: translateY(-50%);
+  transform: translateY(-50%);
+  border-bottom: 5px solid transparent;
+  border-right: 5px solid #fff;
+  border-top: 5px solid transparent;
+}
+
+.smartour-slot_left {
+  -webkit-transform: translateX(-10px);
+  transform: translateX(-10px);
+}
+
+.smartour-slot_left:after {
+  content: "";
+  position: absolute;
+  right: -5px;
+  top: 50%;
+  -webkit-transform: translateY(-50%);
+  transform: translateY(-50%);
+  border-bottom: 5px solid transparent;
+  border-left: 5px solid #fff;
+  border-top: 5px solid transparent;
+}
+
+/***************************smartour导航样式 end************************************/
+
+.secrecy-content {
+  background: url("/icons/secrecy/secrecy.svg") no-repeat center;
+  background-size: contain;
+}
+
+/***************************quasar的tiptap富文本框************************************/
+.o-diagram {
+  position: relative;
+  cursor: crosshair;
+
+  .diagram {
+    width: 100%;
+
+    .preview {
+      text-align: center;
+    }
+  }
+}
+
+.editor__content .o-card-toolbar,
+.tiptap-content .o-card-toolbar {
+  visibility: hidden;
+  height: 0px !important;
+}
+
+.editor__content .ProseMirror .o-card-toolbar,
+.tiptap-content .ProseMirror .o-card-toolbar {
+  visibility: visible;
+  height: 40px !important;
+}
+
+.editor__content li[data-type="todo_item"],
+.tiptap-content li[data-type="todo_item"] {
+  display: flex;
+  flex-direction: row;
+}
+
+.editor__content .todo-content,
+.tiptap-content .todo-content {
+  padding-left: 6px;
+}
+
+.editor__content .q-item {
+  padding: 8px 0px !important;
+}
+
+.editor__content *[data-text-align="left"] {
+  text-align: left !important;
+}
+
+.editor__content *[data-text-align="center"] {
+  text-align: center !important;
+}
+
+.editor__content *[data-text-align="right"] {
+  text-align: right !important;
+}
+
+.editor__content *[data-text-align="justify"] {
+  text-align: justify !important;
+}
+
+.editor__content ul[data-type=todo_list] .o-todo-item[data-text-align=center] {
+  -webkit-box-pack: center !important;
+  justify-content: center !important;
+}
+
+.editor__content ul[data-type=todo_list] .o-todo-item[data-text-align=right] {
+  -webkit-box-pack: end !important;
+  -ms-flex-pack: end !important;
+  justify-content: flex-end !important;
+}
+
+// Indent
+.editor__content *[data-indent="1"] {
+  margin-left: 30px !important;
+}
+
+.editor__content *[data-indent="2"] {
+  margin-left: 60px !important;
+}
+
+.editor__content *[data-indent="3"] {
+  margin-left: 90px !important;
+}
+
+.editor__content *[data-indent="4"] {
+  margin-left: 120px !important;
+}
+
+.editor__content *[data-indent="5"] {
+  margin-left: 150px !important;
+}
+
+.editor__content *[data-indent="6"] {
+  margin-left: 180px !important;
+}
+
+.editor__content *[data-indent="7"] {
+  margin-left: 210px !important;
+}
+
+// Line Height
+.editor__content *[data-line-height="1"] {
+  line-height: 1 !important;
+}
+
+.editor__content *[data-line-height="1.15"] {
+  line-height: 1.15 !important;
+}
+
+.editor__content *[data-line-height="1.5"] {
+  line-height: 1.5 !important;
+}
+
+.editor__content *[data-line-height="2"] {
+  line-height: 2 !important;
+}
+
+.editor__content *[data-line-height="2.5"] {
+  line-height: 2.5 !important;
+}
+
+.editor__content *[data-line-height="3"] {
+  line-height: 3 !important;
+}
+
+/***************************quasar的tiptap富文本框************************************/
+
+/***************************系统颜色配置************************************/
+.text-menu1 {
+  color: $menu1;
+}
+
+.text-menu2 {
+  color: $menu2;
+}
+
+.text-menu3 {
+  color: $menu3;
+}
+
+.text-menu4 {
+  color: $menu4;
+}
+
+.text-menu5 {
+  color: $menu5;
+}
+
+.bg-menu1 {
+  background-color: $menu1;
+}
+
+.bg-menu2 {
+  background-color: $menu2;
+}
+
+.bg-menu3 {
+  background-color: $menu3;
+}
+
+.bg-menu4 {
+  background-color: $menu4;
+}
+
+.bg-menu5 {
+  background-color: $menu5;
+}
+
+.bg-auxiliary1 {
+  background-color: $auxiliary1;
+}
+
+.bg-auxiliary2 {
+  background-color: $auxiliary2;
+}
+
+.bg-auxiliary3 {
+  background-color: $auxiliary3;
+}
+
+.bg-auxiliary4 {
+  background-color: $auxiliary4;
+}
+
+.bg-auxiliary5 {
+  background-color: $auxiliary5;
+}
+
+.bg-auxiliary6 {
+  background-color: $auxiliary6;
+}
+
+.text-auxiliary1 {
+  color: $auxiliary1;
+}
+
+.text-auxiliary2 {
+  color: $auxiliary2;
+}
+
+.text-auxiliary3 {
+  color: $auxiliary3;
+}
+
+.text-auxiliary4 {
+  color: $auxiliary4;
+}
+
+.text-auxiliary5 {
+  color: $auxiliary5;
+}
+
+.text-auxiliary6 {
+  color: $auxiliary6;
+}
+
+.text-text1 {
+  color: $text1;
+}
+
+.text-text2 {
+  color: $text2;
+}
+
+.text-text3 {
+  color: $text3;
+}
+
+.text-text4 {
+  color: $text4;
+}
+
+.bg-primary1 {
+  background-color: $primary1;
+}
+
+.bg-primary2 {
+  background-color: $primary2;
+}
+
+.bg-primary3 {
+  background-color: $primary3;
+}
+
+.bg-primary4 {
+  background-color: $primary4;
+}
+
+.bg-primary5 {
+  background-color: $primary5;
+}
+
+.bg-primary6 {
+  background-color: $primary6;
+}
+
+.bg-primary7 {
+  background-color: $primary7;
+}
+
+.text-primary1 {
+  color: $primary1;
+}
+
+.text-primary2 {
+  color: $primary2;
+}
+
+.text-primary3 {
+  color: $primary3;
+}
+
+.text-primary4 {
+  color: $primary4;
+}
+
+.text-primary5 {
+  color: $primary5;
+}
+
+.text-primary6 {
+  color: $primary6;
+}
+
+.text-primary7 {
+  color: $primary7;
+}
+
+/***************************系统颜色配置 end************************************/
+
+/***************************系统字体及其大小配置************************************/
+.text-h1-g {
+  font-size: $textSize_h1;
+}
+
+.text-h2-g {
+  font-size: $textSize_h2;
+}
+
+.text-body-g {
+  font-size: $textSize_body;
+}
+
+.text-tip-g {
+  font-size: $textSize_tip;
+}
+
+/***************************系统字体大小配置 end************************************/
+.auth-border {
+  border: solid 1px lightgray;
+  border-radius: 4px;
+}
+
+/***************************渐进分割线 start************************************/
+.gradient-left-to-right {
+  background: linear-gradient(to right, $grey-4, white) !important;
+}
+
+.gradient-right-to-left {
+  background: linear-gradient(to left, $grey-4, white) !important;
+}
+
+/***************************渐进分割线 end************************************/
+
+/***************************浏览器不打印内容控制 start************************************/
+@media print {
+  .q-btn {
+    display: none;
+  }
+
+  .q-field {
+    display: none;
+  }
+
+  .card-grow-in-page {
+    width: 100%;
+    box-shadow: none;
+  }
+
+  .print-full-width {
+    width: 100%;
+    box-shadow: none;
+  }
+
+  .q-px-xxl {
+    padding-left: 48px;
+    padding-right: 48px;
+  }
+}
+
+/***************************浏览器不打印内容控制 start************************************/

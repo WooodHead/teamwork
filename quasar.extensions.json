@@ -1,0 +1,8 @@
+{
+  "@quasar/qzoom": {},
+  "vuelidate-rules": {},
+  "@quasar/qcalendar": {},
+  "@quasar/qribbon": {},
+  "@quasar/qpdfviewer": {},
+  "@quasar/qscroller": {}
+}

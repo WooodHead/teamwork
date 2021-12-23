@@ -1,0 +1,877 @@
+{
+  "id": "2405871",
+  "name": "TeamWork",
+  "font_family": "tw-icon",
+  "css_prefix_text": "tw-icon-",
+  "description": "",
+  "glyphs": [
+    {
+      "icon_id": "26236608",
+      "name": "视图-卡片",
+      "font_class": "view-card",
+      "unicode": "e67c",
+      "unicode_decimal": 59004
+    },
+    {
+      "icon_id": "26236609",
+      "name": "视图-表格",
+      "font_class": "view-table",
+      "unicode": "e680",
+      "unicode_decimal": 59008
+    },
+    {
+      "icon_id": "26236610",
+      "name": "视图-列表",
+      "font_class": "view-list",
+      "unicode": "e681",
+      "unicode_decimal": 59009
+    },
+    {
+      "icon_id": "26236644",
+      "name": "视图-思维导图",
+      "font_class": "view-mindmap",
+      "unicode": "e682",
+      "unicode_decimal": 59010
+    },
+    {
+      "icon_id": "26224966",
+      "name": "小图标-文件夹打开",
+      "font_class": "folder-open",
+      "unicode": "e67b",
+      "unicode_decimal": 59003
+    },
+    {
+      "icon_id": "26224945",
+      "name": "知识库菜单图标",
+      "font_class": "menu-wiki",
+      "unicode": "e67a",
+      "unicode_decimal": 59002
+    },
+    {
+      "icon_id": "26224932",
+      "name": "qr-code",
+      "font_class": "qr-code",
+      "unicode": "e679",
+      "unicode_decimal": 59001
+    },
+    {
+      "icon_id": "26224923",
+      "name": "match-color",
+      "font_class": "match-color",
+      "unicode": "e678",
+      "unicode_decimal": 59000
+    },
+    {
+      "icon_id": "26224423",
+      "name": "小图标-文件夹",
+      "font_class": "folder",
+      "unicode": "e676",
+      "unicode_decimal": 58998
+    },
+    {
+      "icon_id": "26224424",
+      "name": "小图标-文件",
+      "font_class": "file",
+      "unicode": "e677",
+      "unicode_decimal": 58999
+    },
+    {
+      "icon_id": "26224405",
+      "name": "国标-dark",
+      "font_class": "guobiao",
+      "unicode": "e675",
+      "unicode_decimal": 58997
+    },
+    {
+      "icon_id": "22723084",
+      "name": "日程安排",
+      "font_class": "schedule",
+      "unicode": "e621",
+      "unicode_decimal": 58913
+    },
+    {
+      "icon_id": "22723085",
+      "name": "草稿箱",
+      "font_class": "draft",
+      "unicode": "e622",
+      "unicode_decimal": 58914
+    },
+    {
+      "icon_id": "22723086",
+      "name": "鼓励点赞",
+      "font_class": "boost",
+      "unicode": "e623",
+      "unicode_decimal": 58915
+    },
+    {
+      "icon_id": "22723087",
+      "name": "工作台账",
+      "font_class": "work-record",
+      "unicode": "e624",
+      "unicode_decimal": 58916
+    },
+    {
+      "icon_id": "22723088",
+      "name": "收藏",
+      "font_class": "bookmark",
+      "unicode": "e625",
+      "unicode_decimal": 58917
+    },
+    {
+      "icon_id": "22723089",
+      "name": "废纸篓",
+      "font_class": "trash",
+      "unicode": "e626",
+      "unicode_decimal": 58918
+    },
+    {
+      "icon_id": "22723090",
+      "name": "最新动态",
+      "font_class": "activity",
+      "unicode": "e627",
+      "unicode_decimal": 58919
+    },
+    {
+      "icon_id": "22723091",
+      "name": "最近访问",
+      "font_class": "history",
+      "unicode": "e628",
+      "unicode_decimal": 58920
+    },
+    {
+      "icon_id": "22723092",
+      "name": "任务面板",
+      "font_class": "task",
+      "unicode": "e629",
+      "unicode_decimal": 58921
+    },
+    {
+      "icon_id": "22723093",
+      "name": "产品选型",
+      "font_class": "product-selection",
+      "unicode": "e62a",
+      "unicode_decimal": 58922
+    },
+    {
+      "icon_id": "22723107",
+      "name": "简历筛选",
+      "font_class": "resume",
+      "unicode": "e62b",
+      "unicode_decimal": 58923
+    },
+    {
+      "icon_id": "22723108",
+      "name": "推荐码管理",
+      "font_class": "recommend-code",
+      "unicode": "e62c",
+      "unicode_decimal": 58924
+    },
+    {
+      "icon_id": "22723109",
+      "name": "招聘计划",
+      "font_class": "recruit-plan",
+      "unicode": "e62d",
+      "unicode_decimal": 58925
+    },
+    {
+      "icon_id": "22723110",
+      "name": "面试官管理",
+      "font_class": "interviewer",
+      "unicode": "e62e",
+      "unicode_decimal": 58926
+    },
+    {
+      "icon_id": "22723111",
+      "name": "岗位管理",
+      "font_class": "job",
+      "unicode": "e62f",
+      "unicode_decimal": 58927
+    },
+    {
+      "icon_id": "22723118",
+      "name": "配置台账",
+      "font_class": "set-record",
+      "unicode": "e630",
+      "unicode_decimal": 58928
+    },
+    {
+      "icon_id": "22723119",
+      "name": "导出报表",
+      "font_class": "export-report",
+      "unicode": "e631",
+      "unicode_decimal": 58929
+    },
+    {
+      "icon_id": "22723120",
+      "name": "查看明细",
+      "font_class": "check-detail",
+      "unicode": "e632",
+      "unicode_decimal": 58930
+    },
+    {
+      "icon_id": "22723121",
+      "name": "电主轴",
+      "font_class": "spindle",
+      "unicode": "e633",
+      "unicode_decimal": 58931
+    },
+    {
+      "icon_id": "22723122",
+      "name": "机床",
+      "font_class": "machine",
+      "unicode": "e634",
+      "unicode_decimal": 58932
+    },
+    {
+      "icon_id": "22723123",
+      "name": "自动化",
+      "font_class": "automation",
+      "unicode": "e635",
+      "unicode_decimal": 58933
+    },
+    {
+      "icon_id": "22723124",
+      "name": "样品",
+      "font_class": "sample",
+      "unicode": "e636",
+      "unicode_decimal": 58934
+    },
+    {
+      "icon_id": "22723125",
+      "name": "刀库",
+      "font_class": "knife",
+      "unicode": "e637",
+      "unicode_decimal": 58935
+    },
+    {
+      "icon_id": "22723126",
+      "name": "附件辅件",
+      "font_class": "accessory",
+      "unicode": "e638",
+      "unicode_decimal": 58936
+    },
+    {
+      "icon_id": "22723127",
+      "name": "软件",
+      "font_class": "software",
+      "unicode": "e639",
+      "unicode_decimal": 58937
+    },
+    {
+      "icon_id": "22723128",
+      "name": "待办任务",
+      "font_class": "tool-task",
+      "unicode": "e63a",
+      "unicode_decimal": 58938
+    },
+    {
+      "icon_id": "22723129",
+      "name": "订单",
+      "font_class": "tool-order",
+      "unicode": "e63b",
+      "unicode_decimal": 58939
+    },
+    {
+      "icon_id": "22723130",
+      "name": "公告板",
+      "font_class": "tool-notice",
+      "unicode": "e63c",
+      "unicode_decimal": 58940
+    },
+    {
+      "icon_id": "22723131",
+      "name": "服务评价",
+      "font_class": "tool-evaluation",
+      "unicode": "e63d",
+      "unicode_decimal": 58941
+    },
+    {
+      "icon_id": "22723132",
+      "name": "废纸篓",
+      "font_class": "tool-trash",
+      "unicode": "e63e",
+      "unicode_decimal": 58942
+    },
+    {
+      "icon_id": "22723133",
+      "name": "关联团队",
+      "font_class": "tool-team",
+      "unicode": "e63f",
+      "unicode_decimal": 58943
+    },
+    {
+      "icon_id": "22723134",
+      "name": "聊天室",
+      "font_class": "tool-chat-room",
+      "unicode": "e640",
+      "unicode_decimal": 58944
+    },
+    {
+      "icon_id": "22723135",
+      "name": "人员工时",
+      "font_class": "tool-work-hours",
+      "unicode": "e641",
+      "unicode_decimal": 58945
+    },
+    {
+      "icon_id": "22723136",
+      "name": "关联产品",
+      "font_class": "tool-product",
+      "unicode": "e642",
+      "unicode_decimal": 58946
+    },
+    {
+      "icon_id": "22723137",
+      "name": "文档中心",
+      "font_class": "tool-document",
+      "unicode": "e643",
+      "unicode_decimal": 58947
+    },
+    {
+      "icon_id": "22723138",
+      "name": "客户地址信息",
+      "font_class": "tool-address",
+      "unicode": "e644",
+      "unicode_decimal": 58948
+    },
+    {
+      "icon_id": "22723139",
+      "name": "日程安排",
+      "font_class": "tool-schedule",
+      "unicode": "e645",
+      "unicode_decimal": 58949
+    },
+    {
+      "icon_id": "22723140",
+      "name": "问答推送",
+      "font_class": "tool-qa",
+      "unicode": "e646",
+      "unicode_decimal": 58950
+    },
+    {
+      "icon_id": "22723141",
+      "name": "最新动态",
+      "font_class": "tool-activity",
+      "unicode": "e647",
+      "unicode_decimal": 58951
+    },
+    {
+      "icon_id": "22723142",
+      "name": "物料清单",
+      "font_class": "tool-material",
+      "unicode": "e648",
+      "unicode_decimal": 58952
+    },
+    {
+      "icon_id": "22723143",
+      "name": "子项目",
+      "font_class": "tool-children",
+      "unicode": "e649",
+      "unicode_decimal": 58953
+    },
+    {
+      "icon_id": "22723144",
+      "name": "商机",
+      "font_class": "tool-opportunity",
+      "unicode": "e64a",
+      "unicode_decimal": 58954
+    },
+    {
+      "icon_id": "22723145",
+      "name": "编辑",
+      "font_class": "action-edit",
+      "unicode": "e64b",
+      "unicode_decimal": 58955
+    },
+    {
+      "icon_id": "22723146",
+      "name": "保密",
+      "font_class": "action-secret",
+      "unicode": "e64c",
+      "unicode_decimal": 58956
+    },
+    {
+      "icon_id": "22723147",
+      "name": "插入任务",
+      "font_class": "action-insert",
+      "unicode": "e64d",
+      "unicode_decimal": 58957
+    },
+    {
+      "icon_id": "22723148",
+      "name": "复制",
+      "font_class": "action-copy",
+      "unicode": "e64e",
+      "unicode_decimal": 58958
+    },
+    {
+      "icon_id": "22723149",
+      "name": "导出Excel",
+      "font_class": "action-export-excel",
+      "unicode": "e64f",
+      "unicode_decimal": 58959
+    },
+    {
+      "icon_id": "22723150",
+      "name": "挂起",
+      "font_class": "action-hang",
+      "unicode": "e650",
+      "unicode_decimal": 58960
+    },
+    {
+      "icon_id": "22723151",
+      "name": "归档",
+      "font_class": "action-archive",
+      "unicode": "e651",
+      "unicode_decimal": 58961
+    },
+    {
+      "icon_id": "22723152",
+      "name": "导出PDF",
+      "font_class": "action-export-pdf",
+      "unicode": "e652",
+      "unicode_decimal": 58962
+    },
+    {
+      "icon_id": "22723153",
+      "name": "历史记录",
+      "font_class": "action-history",
+      "unicode": "e653",
+      "unicode_decimal": 58963
+    },
+    {
+      "icon_id": "22723154",
+      "name": "结项",
+      "font_class": "action-end",
+      "unicode": "e654",
+      "unicode_decimal": 58964
+    },
+    {
+      "icon_id": "22723155",
+      "name": "删除",
+      "font_class": "action-delete",
+      "unicode": "e656",
+      "unicode_decimal": 58966
+    },
+    {
+      "icon_id": "22723156",
+      "name": "立项",
+      "font_class": "action-start",
+      "unicode": "e657",
+      "unicode_decimal": 58967
+    },
+    {
+      "icon_id": "22723157",
+      "name": "公开链接",
+      "font_class": "action-public",
+      "unicode": "e658",
+      "unicode_decimal": 58968
+    },
+    {
+      "icon_id": "22723158",
+      "name": "设置工具包",
+      "font_class": "action-setting",
+      "unicode": "e659",
+      "unicode_decimal": 58969
+    },
+    {
+      "icon_id": "22723159",
+      "name": "发送消息",
+      "font_class": "action-send",
+      "unicode": "e65a",
+      "unicode_decimal": 58970
+    },
+    {
+      "icon_id": "22723160",
+      "name": "取消收藏",
+      "font_class": "action-bookmarked",
+      "unicode": "e65b",
+      "unicode_decimal": 58971
+    },
+    {
+      "icon_id": "22723161",
+      "name": "收藏",
+      "font_class": "action-bookmark",
+      "unicode": "e65c",
+      "unicode_decimal": 58972
+    },
+    {
+      "icon_id": "22723162",
+      "name": "移动",
+      "font_class": "action-move",
+      "unicode": "e65d",
+      "unicode_decimal": 58973
+    },
+    {
+      "icon_id": "22723163",
+      "name": "转为清单",
+      "font_class": "action-tolist",
+      "unicode": "e65e",
+      "unicode_decimal": 58974
+    },
+    {
+      "icon_id": "22723164",
+      "name": "新建分组",
+      "font_class": "action-new-group",
+      "unicode": "e65f",
+      "unicode_decimal": 58975
+    },
+    {
+      "icon_id": "22723165",
+      "name": "激活",
+      "font_class": "action-activate",
+      "unicode": "e660",
+      "unicode_decimal": 58976
+    },
+    {
+      "icon_id": "22723166",
+      "name": "废纸篓",
+      "font_class": "action-trash",
+      "unicode": "e661",
+      "unicode_decimal": 58977
+    },
+    {
+      "icon_id": "22723167",
+      "name": "指派给",
+      "font_class": "action-assign",
+      "unicode": "e662",
+      "unicode_decimal": 58978
+    },
+    {
+      "icon_id": "22723169",
+      "name": "上传公告",
+      "font_class": "upload-notice",
+      "unicode": "e663",
+      "unicode_decimal": 58979
+    },
+    {
+      "icon_id": "22723170",
+      "name": "编写文档",
+      "font_class": "new-document",
+      "unicode": "e664",
+      "unicode_decimal": 58980
+    },
+    {
+      "icon_id": "22723171",
+      "name": "上传文件",
+      "font_class": "upload-file",
+      "unicode": "e665",
+      "unicode_decimal": 58981
+    },
+    {
+      "icon_id": "22723172",
+      "name": "新建公告",
+      "font_class": "new-notice",
+      "unicode": "e666",
+      "unicode_decimal": 58982
+    },
+    {
+      "icon_id": "22723173",
+      "name": "新建文件夹",
+      "font_class": "new-folder",
+      "unicode": "e667",
+      "unicode_decimal": 58983
+    },
+    {
+      "icon_id": "22723174",
+      "name": "新建链接",
+      "font_class": "new-link",
+      "unicode": "e668",
+      "unicode_decimal": 58984
+    },
+    {
+      "icon_id": "22723175",
+      "name": "新建思维导图",
+      "font_class": "new-mind",
+      "unicode": "e669",
+      "unicode_decimal": 58985
+    },
+    {
+      "icon_id": "22723176",
+      "name": "标签",
+      "font_class": "label",
+      "unicode": "e66a",
+      "unicode_decimal": 58986
+    },
+    {
+      "icon_id": "22723177",
+      "name": "里程碑",
+      "font_class": "milestone",
+      "unicode": "e66b",
+      "unicode_decimal": 58987
+    },
+    {
+      "icon_id": "22723178",
+      "name": "搜索",
+      "font_class": "search",
+      "unicode": "e66c",
+      "unicode_decimal": 58988
+    },
+    {
+      "icon_id": "22723179",
+      "name": "无匹配",
+      "font_class": "no-match",
+      "unicode": "e66d",
+      "unicode_decimal": 58989
+    },
+    {
+      "icon_id": "22723180",
+      "name": "缺陷",
+      "font_class": "error",
+      "unicode": "e66e",
+      "unicode_decimal": 58990
+    },
+    {
+      "icon_id": "22723181",
+      "name": "仪表盘",
+      "font_class": "dashboard",
+      "unicode": "e66f",
+      "unicode_decimal": 58991
+    },
+    {
+      "icon_id": "22723182",
+      "name": "消息",
+      "font_class": "message",
+      "unicode": "e670",
+      "unicode_decimal": 58992
+    },
+    {
+      "icon_id": "22723183",
+      "name": "联系电话",
+      "font_class": "phone",
+      "unicode": "e671",
+      "unicode_decimal": 58993
+    },
+    {
+      "icon_id": "22723184",
+      "name": "位置",
+      "font_class": "location",
+      "unicode": "e672",
+      "unicode_decimal": 58994
+    },
+    {
+      "icon_id": "22723185",
+      "name": "时间",
+      "font_class": "time",
+      "unicode": "e673",
+      "unicode_decimal": 58995
+    },
+    {
+      "icon_id": "22723186",
+      "name": "姓名",
+      "font_class": "name",
+      "unicode": "e674",
+      "unicode_decimal": 58996
+    },
+    {
+      "icon_id": "22718895",
+      "name": "设置",
+      "font_class": "setting",
+      "unicode": "e604",
+      "unicode_decimal": 58884
+    },
+    {
+      "icon_id": "22718896",
+      "name": "工程服务",
+      "font_class": "service",
+      "unicode": "e605",
+      "unicode_decimal": 58885
+    },
+    {
+      "icon_id": "22718897",
+      "name": "下载专区",
+      "font_class": "download",
+      "unicode": "e606",
+      "unicode_decimal": 58886
+    },
+    {
+      "icon_id": "22718898",
+      "name": "行政咨询",
+      "font_class": "consult",
+      "unicode": "e607",
+      "unicode_decimal": 58887
+    },
+    {
+      "icon_id": "22718899",
+      "name": "订单管理",
+      "font_class": "order-manage",
+      "unicode": "e608",
+      "unicode_decimal": 58888
+    },
+    {
+      "icon_id": "22718900",
+      "name": "文档中心",
+      "font_class": "document",
+      "unicode": "e609",
+      "unicode_decimal": 58889
+    },
+    {
+      "icon_id": "22718901",
+      "name": "精雕招聘",
+      "font_class": "recruitment",
+      "unicode": "e613",
+      "unicode_decimal": 58899
+    },
+    {
+      "icon_id": "22718902",
+      "name": "项目管理",
+      "font_class": "project-manage",
+      "unicode": "e614",
+      "unicode_decimal": 58900
+    },
+    {
+      "icon_id": "22718903",
+      "name": "产品管理",
+      "font_class": "product-dev-manage",
+      "unicode": "e615",
+      "unicode_decimal": 58901
+    },
+    {
+      "icon_id": "22718904",
+      "name": "台账管理",
+      "font_class": "work-record-manage",
+      "unicode": "e616",
+      "unicode_decimal": 58902
+    },
+    {
+      "icon_id": "22718905",
+      "name": "生产单位",
+      "font_class": "production",
+      "unicode": "e617",
+      "unicode_decimal": 58903
+    },
+    {
+      "icon_id": "22718906",
+      "name": "用户手册",
+      "font_class": "manual",
+      "unicode": "e618",
+      "unicode_decimal": 58904
+    },
+    {
+      "icon_id": "22718907",
+      "name": "团队管理",
+      "font_class": "team-manage",
+      "unicode": "e619",
+      "unicode_decimal": 58905
+    },
+    {
+      "icon_id": "22718908",
+      "name": "会议室预约",
+      "font_class": "meeting",
+      "unicode": "e61a",
+      "unicode_decimal": 58906
+    },
+    {
+      "icon_id": "22718909",
+      "name": "客户管理",
+      "font_class": "customer-manage",
+      "unicode": "e61b",
+      "unicode_decimal": 58907
+    },
+    {
+      "icon_id": "22718910",
+      "name": "商机管理",
+      "font_class": "opportunity-manage",
+      "unicode": "e61c",
+      "unicode_decimal": 58908
+    },
+    {
+      "icon_id": "22718911",
+      "name": "产品选型",
+      "font_class": "product",
+      "unicode": "e61d",
+      "unicode_decimal": 58909
+    },
+    {
+      "icon_id": "22718912",
+      "name": "通讯录",
+      "font_class": "contacts",
+      "unicode": "e61e",
+      "unicode_decimal": 58910
+    },
+    {
+      "icon_id": "22718913",
+      "name": "工作台",
+      "font_class": "work-plate",
+      "unicode": "e61f",
+      "unicode_decimal": 58911
+    },
+    {
+      "icon_id": "22718914",
+      "name": "应用中心",
+      "font_class": "store",
+      "unicode": "e620",
+      "unicode_decimal": 58912
+    },
+    {
+      "icon_id": "20869771",
+      "name": "product-dev",
+      "font_class": "product-dev-old",
+      "unicode": "e612",
+      "unicode_decimal": 58898
+    },
+    {
+      "icon_id": "20032689",
+      "name": "工时设置",
+      "font_class": "work-record-old",
+      "unicode": "e655",
+      "unicode_decimal": 58965
+    },
+    {
+      "icon_id": "20457082",
+      "name": "service",
+      "font_class": "service-old",
+      "unicode": "e610",
+      "unicode_decimal": 58896
+    },
+    {
+      "icon_id": "20457083",
+      "name": "product",
+      "font_class": "product-old",
+      "unicode": "e611",
+      "unicode_decimal": 58897
+    },
+    {
+      "icon_id": "20242178",
+      "name": "1",
+      "font_class": "recruitment-old",
+      "unicode": "e60a",
+      "unicode_decimal": 58890
+    },
+    {
+      "icon_id": "20242179",
+      "name": "6",
+      "font_class": "recommend-code-old",
+      "unicode": "e60b",
+      "unicode_decimal": 58891
+    },
+    {
+      "icon_id": "20242180",
+      "name": "3",
+      "font_class": "job-old",
+      "unicode": "e60c",
+      "unicode_decimal": 58892
+    },
+    {
+      "icon_id": "20242181",
+      "name": "5",
+      "font_class": "interviewer-old",
+      "unicode": "e60d",
+      "unicode_decimal": 58893
+    },
+    {
+      "icon_id": "20242182",
+      "name": "4",
+      "font_class": "recruit-plan-old",
+      "unicode": "e60e",
+      "unicode_decimal": 58894
+    },
+    {
+      "icon_id": "20242183",
+      "name": "2",
+      "font_class": "resume-old",
+      "unicode": "e60f",
+      "unicode_decimal": 58895
+    }
+  ]
+}

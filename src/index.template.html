@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>TeamWork</title>
+
+  <meta charset="utf-8">
+  <meta name="description" content="<% = htmlWebpackPlugin.options.productDescription %>">
+  <meta name="format-detection" content="telephone=no">
+  <meta name="msapplication-tap-highlight" content="no">
+  <meta name="viewport"
+    content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width<% if (ctx.mode.cordova || ctx.mode.capacitor) { %>, viewport-fit=cover<% } %>">
+  <link rel="icon" type="image/ico" href="icons/logo/favicon.ico">
+  <link rel="icon" type="image/png" sizes="128x128" href="icons/logo/favicon-128x128.png">
+  <link rel="icon" type="image/png" sizes="96x96" href="icons/logo/favicon-96x96.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="icons/logo/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="icons/logo/favicon-16x16.png">
+</head>
+
+<body>
+  <div id="incoming-info" style="position: fixed;left:0px;right:0px;top:30%;text-align: center;z-index:-1;">
+    <div style="font-size:1.3rem;font-weight:bold;line-height:4rem;letter-spacing: 0.2rem;color: #1565c0;">进入系统中...
+    </div>
+    <div style="font-size: 1rem;color: #616161;">首次进入可能需要些时间，请耐心等待^_^</div>
+    <!-- eruda开关（临时） -->
+    <!-- <button type="button" id="eruda-switch">调试</button> -->
+  </div>
+  <!-- DO NOT touch the following DIV -->
+  <div id="q-app"></div>
+
+  <!-- 移动端调试工具 -->
+  <!-- 路由加上“?eruda=true”启用调试工具-->
+  <script>
+    (function () {
+      if (new RegExp('eruda=true').test(window.location)) {
+        var src = "//cdn.bootcdn.net/ajax/libs/eruda/2.3.3/eruda.js";
+        var erudaLoaded = document.querySelector(`script[src="${src}"]`);
+        if (!erudaLoaded) {
+          document.write('<scr' + 'ipt src="' + src + '"></scr' + 'ipt>');
+          document.write('<scr' + 'ipt>eruda.init();</scr' + 'ipt>');
+        }
+      }
+
+      // // eruda开关（临时）
+      // const erudaSwitch = document.getElementById('eruda-switch')
+      // if (erudaSwitch) {
+      //   erudaSwitch.onclick = function () {
+      //     let curHref = window.location.href
+      //     if (curHref.indexOf('?eruda=true') > 0) {
+      //       window.location.href = curHref.replace('?eruda=true', '')
+      //     } else {
+      //       window.location.href += '?eruda=true'
+      //     }
+      //   }
+      // }
+    })();
+
+  </script>
+  <!-- 百度统计-->
+  <script>
+    if (window.location.href.indexOf('https://teamwork.jingdiao.com') > -1) {
+      var _hmt = _hmt || [];
+      (function () {
+        var hm = document.createElement("script");
+        hm.src = "https://hm.baidu.com/hm.js?32fcb725a2de88cbe1017bd4fdfeaec9";
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+      })();
+    }
+
+  </script>
+  <!-- 企业微信相关js引入 -->
+  <script src="https://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+  <script src="https://open.work.weixin.qq.com/wwopen/js/jwxwork-1.0.0.js"></script>
+  <!-- get public ip -->
+  <script src="https://pv.sohu.com/cityjson?ie=utf-8" async="async"></script>
+
+  <!-- 阿里云IMM文件预览 -->
+  <script src="https://g.alicdn.com/IMM/office-js/1.1.2/aliyun-web-office-sdk.min.js" async="async"></script>
+</body>
+
+</html>

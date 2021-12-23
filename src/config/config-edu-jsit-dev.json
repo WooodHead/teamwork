@@ -1,0 +1,113 @@
+{
+  "version":"edu",
+  "name":"edu-jsit",
+  "title":"苏信",
+  "extranet": true,
+  "imHeartBeatTime": 120000,
+  "dutyLevelProtection": 6,
+  "copyright":{
+    "owner":"江苏信息职业技术学院",
+    "beianCode":"苏ICP备11036003号-1",
+    "recordCode":"32020602000161",
+    "wangan":"苏公网安"
+  },
+  "appUrl": {
+    "client": "https://localhost:8081",
+    "server": "http://localhost:60179"
+  },
+  "wechat": {
+    "wx_appid": "ww12e6970054a2df7d",
+    "wx_agentid": "1000010",
+    "wx_approval_leave_templateId": "1970325122023546_1688850915300868_999587701_1499158576",
+    "wx_approval_overtime_templateId": "1970325122023546_1688850915300868_1289800174_1497833746"
+  },
+  "workflow": {
+    "appMark": "XA_PMS",
+    "clientUrl": "http://172.18.20.1:9093/"
+  },
+  "socket": {
+    "appMark": "edu-jsit",
+    "serverUrl": "ws://172.18.20.1:8080/JDXANWebSocketPushService/PushServerLogin"
+  },
+  "oss": {
+    "enable": true,
+    "baseDir": "teamwork-dev",
+    "options": {
+      "accesskeyId": "LTAI4G4SjSVDWErXo42WyyEU",
+      "accesskeySecret": "9rOpnXfjbo6TpmsDA9AMBlJl5iA0k8",
+      "secure": true,
+      "cname": true,
+      "region": "oss-cn-hangzhou",
+      "endpoint": "https://file.jingdiao.com",
+      "bucket": "jd-teamwork"
+    }
+  },
+  "file": {
+    "previewUrl": "http://127.0.0.1:8012"
+  },
+  "email": "teamwork@jingdiao.local",
+  "userDefined":{
+    "room":"/room/1/schedule",
+    "equipment":"/equipment/102/schedule"
+  },
+  "thirdpartyApp": {
+    "help":"http://172.18.20.1:10022"
+  },
+  "app": {
+    "menusOfExclusive": [
+      "wikiHome",
+      "approvalHome",
+      "room",
+      "equipment",
+      "consultHome",
+      "customerHome",
+      "opportunityHome",
+      "orderHome",
+      "manufacturerHome"
+    ],
+    "menusOfAllRole": [
+      "home",
+      "contactsHome",
+      "wikiHome",
+      "approvalHome",
+      "teamHome",
+      "projectHome",
+      "productDevHome",
+      "room",
+      "equipment",
+      "consultHome",
+      "help" 
+    ],
+    "menusProperOfRole": {
+      "User": [],
+      "SystemAdministrator": ["documentCenter", "settings"],
+      "SeniorManager": ["documentCenter"],
+      "OrganizeManager": [],
+      "Supporter": ["adminFeedbackHome"],
+      "SalesExecutive": ["customerHome","opportunityHome", "orderHome","manufacturerHome"],
+      "SalesManager": ["customerHome","opportunityHome", "orderHome","manufacturerHome"],
+      "SalesProduct": ["customerHome","opportunityHome", "orderHome","manufacturerHome"],
+      "SalesPerson": ["customerHome","opportunityHome", "orderHome","manufacturerHome"],
+      "Outsource": ["manufacturerHome"]
+    },
+    "modulesInCommonUse": [
+      "contacts",
+      "wiki",
+      "team",
+      "productDev",
+      "project",
+      "room",
+      "equipment"
+    ],
+    "toolsDefaultInWorkbench": [
+      "task",
+      "schedule",
+      "myBookmarks",
+      "trash",
+      "activity",
+      "myDrafts",
+      "myBoosts",
+      "history"
+    ]
+  }
+}

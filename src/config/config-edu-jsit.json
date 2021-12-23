@@ -1,0 +1,100 @@
+{
+  "version":"edu",
+  "name":"edu-jsit",
+  "title":"苏信",
+  "extranet": true,
+  "imHeartBeatTime": 120000,
+  "dutyLevelProtection": 6,
+  "copyright":{
+    "owner":"江苏信息职业技术学院",
+    "beianCode":"苏ICP备11036003号-1",
+    "recordCode":"32020602000161",
+    "wangan":"苏公网安"
+  },
+  "appUrl": {
+    "client": "https://teamwork.jsit.edu.cn",
+    "server": "https://teamwork.jsit.edu.cn/server"
+  },
+  "wechat": {
+    "wx_appid": "ww02d12ac419aea684",
+    "wx_agentid": "1000005",
+    "wx_approval_leave_templateId": "C4NwTVNWiHTMM6686VKhRbRY98TX4ci4k9eYWt6PZ",
+    "wx_approval_overtime_templateId": "3WK7SwTdBiLZhoTzLpemW8oLk5QgYD6MZgjKUeS3"
+  },
+  "workflow": {
+    "appMark": "teamwork-edu-jsit",
+    "clientUrl": "https://teamwork.jsit.edu.cn/workflow/"
+  },
+  "socket": {
+    "appMark": "teamwork-edu-jsit",
+    "serverUrl": "wss://messagepush.jsit.edu.cn/JDXANWebSocketPushService/PushServerLogin"
+  },
+  "file": {
+    "previewUrl": "https://file.jsit.edu.cn/"
+  },
+  "email": "sxjdjsit@163.com",
+  "userDefined":{
+    "room":"/room/1/schedule",
+    "equipment":"/equipment/100/schedule"
+  },
+  "thirdpartyApp": {
+    "help": "https://teamwork.jsit.edu.cn/help/"
+  },
+  "app": {
+    "menusOfExclusive": [
+      "consultHome",
+      "customerHome",
+      "opportunityHome",
+      "orderHome",
+      "manufacturerHome",
+      "wikiHome",
+      "room",
+      "equipment",
+      "approvalHome"
+    ],
+    "menusOfAllRole": [
+      "home",
+      "contactsHome",
+      "wikiHome",
+      "teamHome",
+      "projectHome",
+      "productDevHome",
+      "room",
+      "equipment",
+      "approvalHome",
+      "consultHome",
+      "help"
+    ],
+    "menusProperOfRole": {
+      "User": [],
+      "SystemAdministrator": ["documentCenter", "settings"],
+      "SeniorManager": ["documentCenter"],
+      "OrganizeManager": [],
+      "Supporter": ["adminFeedbackHome"],
+      "SalesExecutive": ["customerHome","opportunityHome", "orderHome", "manufacturerHome"],
+      "SalesManager": ["customerHome","opportunityHome", "orderHome", "manufacturerHome"],
+      "SalesProduct": ["customerHome","opportunityHome", "orderHome", "manufacturerHome"],
+      "SalesPerson": ["customerHome","opportunityHome", "orderHome", "manufacturerHome"],
+      "Outsource": ["manufacturerHome"]
+    },
+    "modulesInCommonUse": [
+      "contacts",
+      "wiki",
+      "team",
+      "productDev",
+      "project",
+      "room",
+      "equipment"
+    ],
+    "toolsDefaultInWorkbench": [
+      "task",
+      "schedule",
+      "myBookmarks",
+      "trash",
+      "activity",
+      "myDrafts",
+      "myBoosts",
+      "history"
+    ]
+  }
+}

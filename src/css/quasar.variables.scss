@@ -1,0 +1,70 @@
+// Quasar SCSS (& Sass) Variables
+// --------------------------------------------------
+// To customize the look and feel of this app, you can override
+// the Sass/SCSS variables found in Quasar's source Sass/SCSS files.
+
+// Check documentation for full list of Quasar variables
+
+// Your own variables (that are declared here) and Quasar's own
+// ones will be available out of the box in your .vue/.scss/.sass files
+
+// It's highly recommended to change the default ao
+// to match your app's branding.
+// Tip: Use the "Theme Builder" on Quasar's documentation website.
+
+$primary : #1976D2;
+$secondary : #26A69A;
+$accent : #9C27B0;
+
+$dark : #1D1D1D;
+
+$positive : #21BA45;
+$negative : #C10015;
+$info : #31CCEC;
+$warning : #F2C037;
+
+$female : #f7931e;
+$man : #3fa9f5;
+
+$friend :#725EAD;
+
+$primary1: #0486FE;
+$primary2: #0073CC;
+$primary3: #6BBBFA;
+$primary4: #BFE3FD;
+$primary5: #EEF7FE;
+$primary6: #F6F7F9;
+$primary7: #DCE5EC;
+
+$auxiliary1: #1CC889;
+$auxiliary2: #FD5451;
+$auxiliary3: #FEAE4D;
+$auxiliary4: #DCD63C;
+$auxiliary5: #178B60;
+$auxiliary6: #B6C4D1;
+
+$menu1: #363740;
+$menu2: #5F6274;
+$menu3: #A4A6B3;
+$menu4: #CFDAF0;
+$menu5: #DEE9FF;
+
+$text1: #21333F;
+$text2: #5F717D;
+$text3: #ACBFD0;
+$text4: #D6DEE6;
+
+/******************************字体大小*******************************/
+$textSize_h1: 20px;
+$textSize_h2: 16px;
+$textSize_body: 14px;
+$textSize_tip: 12px;
+
+@media screen and (max-width: 1024px) {
+  $textSize_h1: 18px;
+  $textSize_h2: 14px;
+  $textSize_body: 12px;
+  $textSize_tip: 10px;
+}
+/******************************字体大小  end*******************************/
+

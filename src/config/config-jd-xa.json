@@ -1,0 +1,86 @@
+{
+  "version": "ent",
+  "name": "jd-xa",
+  "title": "精雕西安研发中心",
+  "extranet": false,
+  "imHeartBeatTime": 120000,
+  "dutyLevelProtection": 6,
+  "appUrl": {
+    "client": "http://172.18.20.2:8086",
+    "server": "http://172.18.20.2:9090"
+  },
+  "workflow": {
+    "appMark": "XA_PMS",
+    "clientUrl": "http://172.18.20.2:8082/"
+  },
+  "socket": {
+    "appMark": "jd-teamwork",
+    "serverUrl": "ws://172.18.20.2:8080/JDXANWebSocketPushService/PushServerLogin"
+  },
+  "file": {
+    "previewUrl": "http://172.18.20.2:8012"
+  },
+  "email": "teamwork@jingdiao.local",
+  "userDefined": {
+    "downloadArea": "/organize/18/document/folder/6955",
+    "room": "/room/10/schedule"
+  },
+  "thirdpartyApp": {
+    "help": "http://172.18.20.2:8087"
+  },
+  "app": {
+    "menusOfExclusive": [
+      "wikiHome",
+      "downloadArea",
+      "room",
+      "customerHome",
+      "opportunityHome",
+      "orderHome"
+    ],
+    "menusOfAllRole": [
+      "home",
+      "contactsHome",
+      "wikiHome",
+      "downloadArea",
+      "teamHome",
+      "projectHome",
+      "productDevHome",
+      "room",
+      "help",
+      "customerHome"
+    ],
+    "menusProperOfRole": {
+      "User": [],
+      "SystemAdministrator": [
+        "documentCenter",
+        "settings"
+      ],
+      "SeniorManager": [
+        "documentCenter"
+      ],
+      "OrganizeManager": [],
+      "ProductManager": [],
+      "Supporter": [
+        "adminFeedbackHome"
+      ]
+    },
+    "modulesInCommonUse": [
+      "contacts",
+      "downloadArea",
+      "team",
+      "project",
+      "productDev",
+      "room"
+    ],
+    "toolsDefaultInWorkbench": [
+      "task",
+      "schedule",
+      "activity",
+      "myBookmarks",
+      "myDrafts",
+      "trash",
+      "myBoosts",
+      "history"
+    ]
+  }
+}

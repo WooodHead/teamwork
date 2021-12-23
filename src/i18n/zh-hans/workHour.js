@@ -1,0 +1,21 @@
+export default {
+  module: '工时管理',
+  title: '人员工时',
+  notes: '在这里记录每天或每周的工时，也可查看所有人的工时。',
+  prev: '上周',
+  next: '下周',
+  month: '月',
+  allHours: '累计工时',
+  workHours: '填报工时',
+  totalHours: '累计',
+  workHour: '工时',
+  totalWorkHours: '总工时',
+  onRoadHour: '路途',
+  todayTask: '当天被指派或完成的任务',
+  hint: '按期准确填报工时，安全充分享受政策，助力公司安享节税红利',
+  workHourInput: '请输入工作时长',
+  onRoadHourInput: '请输入路途用时',
+  resourcePsonName: '资源/人员名称',
+  sumHours: '累计工时(h)',
+  hoursStatics: ' 工时统计'
+}
