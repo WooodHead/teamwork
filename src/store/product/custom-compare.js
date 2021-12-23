@@ -1,13 +1,11 @@
 import ProductState from './state'
 
 // 排序字段数组、排序规则数组
-// let ORDERFIELDS = ['classification', 'level', 'orderNo', 'tplCode', 'specModel', 'title']
 let ORDERFIELDS = ['classification', 'level', 'orderNo', 'specModel', 'title']
 let ORDERS = []
 
 // 指定字段的排序规则数组
 const arrClassification = ProductState.arrClassification
-// const arrTplCode = ProductState.arrTplCode
 
 /**
  * 获取一个数符号
@@ -18,22 +16,6 @@ const arrClassification = ProductState.arrClassification
 function getNumSign (num) {
   return num === 0 ? 0 : num / Math.abs(num)
 }
-
-/**
- * get tplCode index of item
- *
- * @param {*} item
- * @returns
- */
-// function getTplCodeIndex (item) {
-//   if (item.tplCode === 'Default') {
-//     return 0
-//   } else if (item.tplCode === '') {
-//     return arrTplCode.findIndex(k => k === item.params['TplCode'])
-//   } else {
-//     return arrTplCode.findIndex(k => k === item.tplCode)
-//   }
-// }
 
 /**
  * 自定义排序（数值）
@@ -95,9 +77,6 @@ function customCompareItem (a, b) {
       if (field === 'classification') {
         aVal = arrClassification.findIndex(k => k === a[field]) || 0
         bVal = arrClassification.findIndex(k => k === b[field]) || 0
-      // } else if (field === 'tplCode') {
-      //   aVal = getTplCodeIndex(a)
-      //   bVal = getTplCodeIndex(b)
       } else if (field === 'specModel') {
         if (['machinetool', 'sample'].includes(a.classification)) continue
         else {
