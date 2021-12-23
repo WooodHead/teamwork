@@ -43,7 +43,6 @@ export default {
     document.getElementById('incoming-info') && document.getElementById('incoming-info').remove()
     // 能清除之前缓存的地图信息,否则容易把LocalStorage占满
     const amapKeys = Object.keys(LocalStorage.getAllKeys()).filter(key => key.match(/^_AMap_/))
-
     amapKeys.forEach(key => {
       // console.log(key)
       LocalStorage.remove(key)
