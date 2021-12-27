@@ -182,7 +182,7 @@ export default {
     haveLeftTree () {
       // 1、PC端从文档中心、知识库中进入有左侧树结构
       // 2、从各个资源模块进入文档中心无左侧树结构
-      return !this.$q.platform.is.mobile && (!(this.category && this.objectID && this.category !== 'wiki') || (this.$route.name === 'documentCenter'))
+      return !(this.$q.platform.is.mobile || this.$route.name === 'documentCenter')
     },
     hasWikiSettingAuth () {
       return this.category === 'wiki' && this.$store.getters['wiki/editWikiAuth'](+this.objectID)
@@ -425,7 +425,7 @@ export default {
         }
         // 文档面包屑：当文档edit,copy,move,send,// TODO publicLink,history时，加入文档面包屑
         const name = _.last(newRoute.path.split('/'))
-        if (document.classify !== 'folder' && ['edit', 'copy', 'move', 'send', 'history', 'versions'].includes(name)) {
+        if (document.classify !== 'folder' && ['edit', 'copy', 'move', 'send', 'history', 'versions', 'record'].includes(name)) {
           let params = { id: document.id }
           if (this.category) {
             Object.assign(params, { category: this.category, objectID: +this.objectID })
@@ -453,7 +453,7 @@ export default {
     LeftRightCardLayout: () => import('layouts/LeftRightCardLayout')
   },
   methods: {
-    ...mapActions('document', ['loadModel', 'loadFolders', 'loadResourceDocument', 'loadProductDocument', 'loadDocumentWithoutChildren', 'loadDocumentByQuery']),
+    ...mapActions('document', ['loadModel', 'loadFolders', 'loadResourceDocument', 'loadProductDocument', 'loadDocumentWithoutChildren', 'loadDocumentByQuery', 'loadFileByObjectTypeAndObjectId']),
     ...mapActions('breadcrumbs', ['setModuleBreadcrumbs']),
     ...mapActions('wiki', ['inMembers']),
     ...mapMutations('document', ['setListType']),
@@ -467,10 +467,15 @@ export default {
       this.setListType('card')
     },
     initRootId () {
-      if (this.category === 'wiki') {
+      if (['wiki', 'select-product-case'].includes(this.category)) {
         this.loadModel({ id: +this.id, fields: 'DocID,Path' })
           .then(res => {
             this.rootId = +res.path.split(',')[1]
+          })
+      } if (this.category && +this.objectID) {
+        this.loadFileByObjectTypeAndObjectId({ objectType: this.category, objectID: +this.objectID })
+          .then(res => {
+            this.rootId = +res.id
           })
       } else {
         this.rootId = 0

@@ -341,6 +341,24 @@ export default {
       return model
     }
   },
+  loadFileByObjectTypeAndObjectId ({ state, commit }, { objectType, objectID }) { 
+    // 获取当前的model
+    let model = _.find(state.documentList, {
+      objectType: objectType,
+      objectID: +objectID,
+      level: 2
+    })
+    if (!model && +objectID !== 0) {
+      return request
+        .get('documents/getresourcemodel', { objectType, objectID, level: 2 })
+        .then(res => {
+          model = Document.from(res.data)
+          return model
+        })
+    } else {
+      return model
+    }
+  },
   /**
    *通过标签获取文档
    *

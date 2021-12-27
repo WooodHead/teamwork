@@ -66,6 +66,20 @@ export default {
    */
   updatePage (state, page) {
     Object.assign(state.page, page)
+  },
+  visitUpdatePage (state, page) {
+    Object.assign(state.visitRecordPage, page)
+  },
+  downloadUpdatePage (state, page) {
+    Object.assign(state.downloadRecordPage, page)
+  },
+  visitPushFiles (state, files) {
+    let newFiles = _.differenceBy(files, state.visitRecords, 'id')
+    state.visitRecords.push(...newFiles)
+  },
+  downloadPushFiles (state, files) {
+    let newFiles = _.differenceBy(files, state.downloadRecords, 'id')
+    state.downloadRecords.push(...newFiles)
   }
 
 }

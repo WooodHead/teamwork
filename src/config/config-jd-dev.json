@@ -6,8 +6,8 @@
   "imHeartBeatTime": 120000,
   "dutyLevelProtection": 6,
   "appUrl": {
-    "client": "https://teamworktest.jingdiao.com",
-    "server": "https://teamworkservertest.jingdiao.com"
+    "client": "http://localhost:8081",
+    "server": "http://localhost:60179"
   },
   "wechat": {
     "wx_appid": "ww12e6970054a2df7d",
@@ -20,15 +20,15 @@
     "clientUrl": "https://testbpmsweb.jingdiao.com/"
   },
   "socket": {
-    "appMark": "jd-teamwork-test",
+    "appMark": "jd-teamwork-dev",
     "serverUrl": "wss://msgserver.jingdiao.com:8443/JDXANWebSocketPushService/PushServerLogin"
   },
   "oss": {
     "enable": true,
-    "baseDir": "teamwork-test",
+    "baseDir": "teamwork-dev",
     "options": {
-      "accesskeyId": "",
-      "accesskeySecret": "",
+      "accesskeyId": "LTAI4G4SjSVDWErXo42WyyEU",
+      "accesskeySecret": "9rOpnXfjbo6TpmsDA9AMBlJl5iA0k8",
       "secure": true,
       "cname": true,
       "region": "oss-cn-hangzhou",
