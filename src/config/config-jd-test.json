@@ -27,6 +27,8 @@
     "enable": true,
     "baseDir": "teamwork-test",
     "options": {
+      "accesskeyId": "",
+      "accesskeySecret": "",
       "secure": true,
       "cname": true,
       "region": "oss-cn-hangzhou",
