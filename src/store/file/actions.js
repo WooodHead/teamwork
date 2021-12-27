@@ -2,6 +2,7 @@ import { i18n } from '../../boot/i18n'
 import request from '@/boot/axios'
 import { showWarningMessage } from '@/utils/show-message'
 import File from '@/store/file/model'
+import Record from '@/store/file/recordModel'
 
 const url = {
   getList: 'files/getlist',
@@ -118,5 +119,32 @@ export default {
       showWarningMessage(i18n.t(`file.error.${error.userMessage}`))
       return false
     })
+  },
+  // 添加访问记录
+  loadRecords ({ state, commit, dispatch }, { query, type }) {
+    const condition = {
+      query: JSON.stringify(query),
+      search: '',
+      limit: state[`${type}RecordPage`].limit,
+      offset: state[`${type}RecordPage`].offset
+    }
+    return request
+      .get('files/loadrecords', condition)
+      .then(res => {
+        let records = Record.from(res.data)
+        res.data = records
+        commit(`${type}UpdatePage`,
+          {
+            offset: state[`${type}RecordPage`].offset + records.length,
+            limit: state[`${type}RecordPage`].limit,
+            nextPageToken: res.nextPageToken
+          })
+        commit(`${type}PushFiles`, records)
+        return res
+      })
+      .catch(error => {
+        error.userMessage && showWarningMessage(error.userMessage)
+        return []
+      })
   }
 }

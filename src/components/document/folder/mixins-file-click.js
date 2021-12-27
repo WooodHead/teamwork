@@ -1,4 +1,3 @@
-
 // 文件点击事件
 export default {
   methods: {

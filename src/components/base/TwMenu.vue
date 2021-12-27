@@ -505,6 +505,16 @@ export default {
           key: 'viewGroupMembers',
           label: this.$t('action.viewGroupMembers'),
           icon: 'group'
+        },
+        viewVisitRecord: {
+          key: 'viewVisitRecord',
+          label: this.$t('action.viewVisitRecord'),
+          icon: 'group'
+        },
+        viewDownloadRecord: {
+          key: 'viewDownloadRecord',
+          label: this.$t('action.viewDownloadRecord'),
+          icon: 'group'
         }
       }
     }

@@ -414,7 +414,7 @@ export default {
         }
         // 文档面包屑：当文档edit,copy,move,send,// TODO publicLink,history时，加入文档面包屑
         const name = _.last(newRoute.path.split('/'))
-        if (document.classify !== 'folder' && ['edit', 'copy', 'move', 'send', 'history', 'versions'].includes(name)) {
+        if (document.classify !== 'folder' && ['edit', 'copy', 'move', 'send', 'history', 'versions', 'record'].includes(name)) {
           let params = { id: document.id }
           if (this.category) {
             Object.assign(params, { category: this.category, objectID: +this.objectID })

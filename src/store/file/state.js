@@ -32,5 +32,17 @@ export default {
     { id: 'image', icon: 'camera_alt', accept: 'image/*', capture: 'camera' },
     { id: 'video', icon: 'videocam', accept: 'video/*', capture: 'camcorder' }
     // { id: 'audio', icon: 'perm_camera_mic', accept: 'audio/*', capture: 'microphone' }
-  ]
+  ],
+  visitRecordPage: {
+    offset: 0,
+    limit: 20,
+    nextPageToken: 0
+  },
+  downloadRecordPage: {
+    offset: 0,
+    limit: 20,
+    nextPageToken: 0
+  },
+  visitRecords: [],
+  downloadRecords: []
 }
