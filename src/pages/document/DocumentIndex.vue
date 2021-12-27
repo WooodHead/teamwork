@@ -51,6 +51,17 @@
             :rootId="rootId"
             class="q-pt-sm"
           />
+          <!-- 废纸篓 -->
+          <q-btn
+            class="q-pt-sm"
+            style="width:100%"
+            flat
+            align="left"
+            :label="$t('document.trash')"
+            icon="delete"
+            @click.stop="toTrash()"
+            color="primary"
+          />
           <!-- 管理 -->
           <q-btn
             class="q-pt-sm"
@@ -469,6 +480,16 @@ export default {
       this.$router.push({
         name: 'wikiManage',
         params: { id: +this.objectID }
+      })
+    },
+    toTrash () {
+      this.$router.push({
+        name: 'documentTrash',
+        params: { 
+          category: this.category,
+          objectID: +this.objectID,
+          id: +this.rootId
+        }
       })
     }
   }

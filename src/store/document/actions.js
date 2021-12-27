@@ -1045,6 +1045,26 @@ export default {
         return false
       })
   },
+  // 获取知识库的已删除
+  loadDocumentsInWikiTrash ({ state, commit }, { objectType, objectID } = {}) {
+    const query = [
+      { Key: 'ObjectType', Value: objectType, Oper: 'eq' },
+      'and',
+      { Key: 'ObjectID', Value: objectID, Oper: 'eq' }
+    ]
+    return request
+      .get('documents/getdeletedlist', { query: JSON.stringify(query) })
+      .then(res => {
+        let list = Document.from(res.data)
+        commit('addDocumentsInTrash', list)
+        return list
+      })
+      .catch(error => {
+        error.userMessage &&
+          showWarningMessage(i18n.t(`auth.error.${error.userMessage}`))
+        return false
+      })
+  },
   //* ************************删除相关方法 end */
   // 产品选型=========================================
   /**
