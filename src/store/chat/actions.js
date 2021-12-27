@@ -46,7 +46,12 @@ export default {
       }
       url = 'ims/getlist'
     }
-    if (offset === 0) state.isScrollBottom = true
+    if (offset === 0) {
+      commit('initPage')
+      state.messages = []
+      state.fileMessages = []
+      state.isScrollBottom = true
+    }
     return request.get(url, params).then(res => {
       let messages = Chat.from(res.data)
       if (byPage) {

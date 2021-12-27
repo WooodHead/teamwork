@@ -165,9 +165,6 @@ export default {
       if (this.category === 'feedback') {
         done(true)
       } else {
-        if (index === 1) {
-          this.$store.commit(`chat/initPage`)
-        }
         this.$store.dispatch(`chat/loadMessages`, { msgToId: this.objectID, roomType: this.category })
           .then(res => {
             setTimeout(() => {
