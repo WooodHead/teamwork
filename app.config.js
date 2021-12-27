@@ -1,7 +1,8 @@
 
 // 多版本多实例的配置文件
-const config = require('./src/config/config-jd-xa-dev.json')// 开发版
+// const config = require('./src/config/config-jd-xa-dev.json')// 开发版
 // const config = require('./src/config/config-jd-xa-test.json')// 西安研发测试版
+const config = require('./src/config/config-jd-dev.json')// 精雕集团开发版
 // const config = require('./src/config/config-jd-test.json')// 精雕集团测试版
 // const config = require('./src/config/config-jd.json')// 精雕集团正式版
 // const config = require('./src/config/config-jd-xa.json')// 西安研发正式版

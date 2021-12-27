@@ -180,12 +180,13 @@ export default {
           })
       }
     }
-
   },
   updated () {
     // 聊天定位到底部
-    let ele = document.getElementById('scroll')
-    ele.scrollTop = ele.scrollHeight - ele.clientHeight
+    if (this.$store.state.chat.isScrollBottom) {
+      let ele = document.getElementById('scroll')
+      ele.scrollTop = ele.scrollHeight - ele.clientHeight
+    }
   },
   watch: {
     objectIDAndCategory () {

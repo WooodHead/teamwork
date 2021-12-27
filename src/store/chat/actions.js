@@ -46,6 +46,7 @@ export default {
       }
       url = 'ims/getlist'
     }
+    if (offset === 0) state.isScrollBottom = true
     return request.get(url, params).then(res => {
       let messages = Chat.from(res.data)
       if (byPage) {
@@ -54,6 +55,7 @@ export default {
       } else {
         commit('setPage', { nextPageToken: -1 })
       }
+      state.isScrollBottom = false
       commit('addMessages', messages)
       return messages
     })
@@ -103,6 +105,7 @@ export default {
    * @param {Object} data 发送的消息对象
    */
   async sendMessage ({
+    state,
     commit,
     dispatch,
     rootState
@@ -117,6 +120,7 @@ export default {
     return request.post('ims/sendmessage', message).then(res => {
       if (res.data) {
         let model = Chat.from(res.data)
+        state.isScrollBottom = true
         commit('addMessage', model)
       }
       return res.data

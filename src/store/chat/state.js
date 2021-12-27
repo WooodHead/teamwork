@@ -19,5 +19,7 @@ export default {
     offset: 0,
     limit: 20,
     nextPageToken: 0
-  }
+  },
+  // 是否滚到最底部
+  isScrollBottom: false
 }
