@@ -159,7 +159,7 @@ export default {
           this.model = res
 
           let selectPersons = this.$store.state.person.selectPersons
-          let arr = JSON.parse(this.model.members).member          
+          let arr = JSON.parse(this.model.members).member
           const persons = _.map(arr, p => selectPersons[p])
           persons.forEach(item => {
             this.memModel.push({
@@ -171,46 +171,15 @@ export default {
           Object.keys(selectPersons).forEach(key => {
             if (this.model.customerContacter === +key) {
               this.clientModel = {
-                'id': this.model.customerContacter, 'name': selectPersons[+key].name 
+                'id': this.model.customerContacter, 'name': selectPersons[+key].name
               }
             }
-          }) 
+          })
         }
       })
     }
   },
-  computed: {
 
-    // options: {
-    //   get () {
-    //     let selectPersons = this.$store.state.person.selectPersons
-    //     const persons = _.map(this.customer.membersObject.member, p => selectPersons[p])
-    //     debugger
-    //     let arrNew = []
-    //     persons.forEach(item => {
-    //       arrNew.push({
-    //         id: item.id,
-    //         name: item.name
-    //       })
-    //     })
-    //     return arrNew
-    //   }
-    // },
-    // clients: {
-    //   get () {
-    //     let arr = []
-    //     this.options.forEach(item => {
-          
-    //     })
-    //     return arr
-    //   }
-    // }
-  },
-  mounted () {
-    // let selectPersons = this.$store.state.person.selectPersons
-    // let members = this.$store.getters[`followup/customer`](+this.id)
-    // const persons = _.map(members, p => selectPersons[p])
-  },
   methods: {
     ...mapActions('followup', [
       'loadFollowup',
@@ -251,7 +220,6 @@ export default {
     }
   },
   components: {
-    // TwSelectPerson: () => import('components/base/TwSelectPerson.vue'),
     QuasarEditor: () => import('components/base/q-editor/QuasarEditor'),
     TwForm: () => import('components/base/TwForm')
   }
