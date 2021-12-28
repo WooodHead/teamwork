@@ -1375,10 +1375,10 @@ export default {
         category: '',
         objectID: 0
       }
-      if (lists.length === 0 && group.length === 0) {
+      if (lists.length === 0 && groups.length === 0) {
         // 导出任务
         params.taskID = lists[0].TaskID
-      } else if (lists.length === 0 && group.length === 1) {
+      } else if (lists.length === 0 && groups.length === 1) {
         // 导出分组
         params.taskID = groups[0].TaskID
       } else if (lists.length === 1) {
