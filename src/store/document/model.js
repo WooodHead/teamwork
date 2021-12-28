@@ -35,6 +35,7 @@ function fromOne (end) {
     // 仅自己可编辑
     onlyICanEdit: end.OnlyICanEdit,
     onlyICanDownload: end.OnlyICanDownload,
+    tags: end.Tags ? JSON.parse(end.Tags) : [],
     ...(commomFields.from(end))
   }
 }
@@ -63,6 +64,7 @@ function toOne (front) {
     // 仅自己可编辑
     OnlyICanEdit: front.onlyICanEdit,
     OnlyICanDownload: front.onlyICanDownload ? 1 : 0,
+    Tags: front.tags ? JSON.stringify(front.tags) : [],
     ...(commomFields.to(front))
   }
 }
@@ -86,7 +88,8 @@ export default class Document {
       whiteList: '',
       // 仅自己可编辑
       onlyICanEdit: 0,
-      onlyICanDownload: 0
+      onlyICanDownload: 0,
+      tags: []
     }
     Object.assign(this, model)
   }
