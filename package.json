@@ -30,6 +30,7 @@
     "markdown-loader": "^6.0.0",
     "markmap-lib": "^0.9.1",
     "mermaid": "^8.9.2",
+    "node-sass": "^7.0.0",
     "prosemirror-utils": "^0.9.6",
     "push.js": "^1.0.12",
     "quagga": "^0.12.1",
