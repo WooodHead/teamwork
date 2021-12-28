@@ -115,11 +115,16 @@
       <export-excel
         v-if="exportExcel"
         moduleType="task"
-        :modelList="exportExcelList"
+        :toolbarTitle="$t('action.export', { type: 'Excel' })"
+        :modelList="filterExportExcelList"
         :fields="exportExcelFields(categoryModel.widgets)"
         :fileName="resource.title"
         :tableHeader="{name:resource.title,style:'color:white;font-weight:bold;font-size:35px;background-color:#1976D2;text-decoration:underline;'}"
-      ></export-excel>
+      >
+      <template #topExportExtra>
+         <task-filter/>
+      </template>
+      </export-excel>
     </q-dialog>
   </q-card>
 </template>
@@ -186,12 +191,13 @@ export default {
     TaskFormGroup: () => import('components/task/form/TaskFormGroup'),
     ExportPdf: () => import('components/export/ExportPDF'),
     ExportExcel: () => import('components/export/ExportExcel'),
-    TwSecrecyArea: () => import('components/base/TwSecrecyArea')
+    TwSecrecyArea: () => import('components/base/TwSecrecyArea'),
+    TaskFilter: () => import('components/export/export-task/TaskFilter')
   },
   computed: {
     ...mapState('breadcrumbs', ['resource']),
     ...mapState('task', ['tasks', 'archivedCount', 'detailView']),
-    ...mapGetters('task', ['exportExcelFields']),
+    ...mapGetters('task', ['exportExcelFields', 'filterExportExcel']),
     task () {
       return this.tasks.find(t => t.id === +this.id)
     },
@@ -292,6 +298,9 @@ export default {
       } else {
         return null
       }
+    },
+    filterExportExcelList () {
+      return this.filterExportExcel(this.exportExcelList)
     }
   },
   watch: {

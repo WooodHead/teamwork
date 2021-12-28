@@ -99,6 +99,7 @@ export default {
     list: '列表视图',
     mindMap: '思维导图视图'
   },
+  trash: '废纸篓',
   manage: '管理',
   version: '历史版本',
   versionTitle: '点击可以查看更多历史版本~',

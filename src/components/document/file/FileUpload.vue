@@ -21,6 +21,16 @@
       :isDeleteInitFileIfAddFile="showUploadDialog"
       :formAction.sync="formAction"
     />
+    <!-- 添加标签 -->
+    <tw-select-tag
+      filled
+      stack-label
+      multiple
+      v-model="model.tags"
+      :label="$t('task.item.tag')"
+      placeholder=""
+      emit-value
+    />
     <!-- <q-separator /> -->
     <!-- 权限和选择通知人员 -->
     <!-- 仅自己可编辑 -->
@@ -124,7 +134,8 @@ export default {
       secrecy: { acl: 0, whiteList: [] },
       goIntoAction: false,
       twFormParams: { primaryLabel: this.$t('action.submitEdit'), secondary: false },
-      tag: ''
+      tag: '',
+      tags: []
     }
   },
   mounted () {
@@ -158,6 +169,7 @@ export default {
         this.otherCannotDownload = this.submitModel.onlyICanDownload
       }
       this.tag = this.submitModel.tag
+      this.tags = this.submitModel.tags
     }
     if (+this.model.id !== +this.$route.params.id) {
       this.loadResource()
@@ -241,7 +253,8 @@ export default {
           path: this.model.path || '',
           orderNumber: this.openType === 'add' ? '' : this.model.orderNumber,
           onlyICanEdit: this.onlyICanEdit,
-          onlyICanDownload: this.otherCannotDownload
+          onlyICanDownload: this.otherCannotDownload,
+          tags: this.model.tags
         }
         let obj = Object.assign({}, newModel, fileModel, otherPropertyModel, oldAuthor)
         if (this.tag) {
@@ -320,7 +333,8 @@ export default {
     UploadFile: () => import('components/file/UploadFile'),
     TwSecrecyAcl: () => import('components/base/TwSecrecyAcl'),
     TwOnlyICanHandle: () => import('components/base/TwOnlyICanHandle'),
-    TwForm: () => import('components/base/TwForm')
+    TwForm: () => import('components/base/TwForm'),
+    TwSelectTag: () => import('components/base/TwSelectTag')
   }
 }
 </script>

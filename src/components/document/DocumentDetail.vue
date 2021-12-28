@@ -283,7 +283,7 @@ export default {
     haveLeftTree () {
       // 1、PC端从文档中心、知识库中进入有左侧树结构
       // 2、从各个资源模块进入文档中心无左侧树结构
-      return !this.$q.platform.is.mobile && (!(this.category && this.objectID && this.category !== 'wiki') || (this.$route.name === 'documentCenter'))
+      return !(this.$q.platform.is.mobile || this.$route.name === 'documentCenter')
     },
     elementStyle () {
       return ['q-mt-md', { 'col pageDetailWidth': this.$q.screen.gt.sm }]

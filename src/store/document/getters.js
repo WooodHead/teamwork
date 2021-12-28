@@ -80,6 +80,11 @@ export default {
     list = listToTree(list, 'id', 'parentId')
     return _.sortBy(list, ['deleteTime'], ['desc'])
   },
+  // 知识库的废纸篓
+  DocumentsInWikiTrash: (state) => (objectType, objectID) => {
+    let list = state.documentsInTrash.filter(item => item.objectType === objectType && +item.objectID === +objectID && item.deleteBy === my.name)
+    return _.sortBy(list, ['deleteTime'], ['desc'])
+  },
   // 资源废纸篓
   DocumentsInTrash: (state) => (objectType, objectID) => {
     let list = state.documentsInTrash.filter(item => item.objectType === objectType && item.objectID === +objectID)

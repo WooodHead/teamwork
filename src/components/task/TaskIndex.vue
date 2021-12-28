@@ -189,11 +189,16 @@
       <export-excel
         v-if="exportExcel"
         moduleType="task"
-        :modelList="exportExcelList"
+        :toolbarTitle="$t('action.export', { type: 'Excel' })"
+        :modelList="filterExportExcelList"
         :fields="exportExcelFields(categoryModel.widgets)"
         :fileName="resource.title"
         :tableHeader="{name:resource.title,style:'color:white;font-weight:bold;font-size:35px;background-color:#1976D2;text-decoration:underline;'}"
-      ></export-excel>
+      >
+      <template #topExportExtra>
+         <task-filter/>
+      </template>
+      </export-excel>
     </q-dialog>
   </q-card>
 
@@ -233,7 +238,8 @@ export default {
     TwArchivedCount: () => import('components/base/TwArchivedCount'),
     ImportIndex: () => import('components/import/ImportIndex'),
     ExportPdf: () => import('components/export/ExportPDF'),
-    ExportExcel: () => import('components/export/ExportExcel')
+    ExportExcel: () => import('components/export/ExportExcel'),
+    TaskFilter: () => import('components/export/export-task/TaskFilter') 
   },
   data () {
     return {
@@ -300,7 +306,7 @@ export default {
   computed: {
     ...mapState('task', ['view', 'archivedCount']),
     ...mapState('breadcrumbs', ['resource']),
-    ...mapGetters('task', ['overview', 'exportExcelFields']),
+    ...mapGetters('task', ['overview', 'exportExcelFields', 'filterExportExcel']),
     overallProgress () {
       const count = this.overview({
         objectID: +this.objectID,
@@ -342,6 +348,9 @@ export default {
     showArchive () {
       let aa = this.archivedCount[this.category + this.objectID + 'task' + 0]
       return aa && aa.itemCount > 0
+    },
+    filterExportExcelList () {
+      return this.filterExportExcel(this.exportExcelList)
     }
   },
   methods: {

@@ -341,6 +341,24 @@ export default {
       return model
     }
   },
+  loadFileByObjectTypeAndObjectId ({ state, commit }, { objectType, objectID }) { 
+    // 获取当前的model
+    let model = _.find(state.documentList, {
+      objectType: objectType,
+      objectID: +objectID,
+      level: 2
+    })
+    if (!model && +objectID !== 0) {
+      return request
+        .get('documents/getresourcemodel', { objectType, objectID, level: 2 })
+        .then(res => {
+          model = Document.from(res.data)
+          return model
+        })
+    } else {
+      return model
+    }
+  },
   /**
    *通过标签获取文档
    *
@@ -1031,6 +1049,26 @@ export default {
       ],
       'And',
       [{ Key: 'DeleteTime', Value: time, Oper: 'ge' }]
+    ]
+    return request
+      .get('documents/getdeletedlist', { query: JSON.stringify(query) })
+      .then(res => {
+        let list = Document.from(res.data)
+        commit('addDocumentsInTrash', list)
+        return list
+      })
+      .catch(error => {
+        error.userMessage &&
+          showWarningMessage(i18n.t(`auth.error.${error.userMessage}`))
+        return false
+      })
+  },
+  // 获取知识库的已删除
+  loadDocumentsInWikiTrash ({ state, commit }, { objectType, objectID } = {}) {
+    const query = [
+      { Key: 'ObjectType', Value: objectType, Oper: 'eq' },
+      'and',
+      { Key: 'ObjectID', Value: objectID, Oper: 'eq' }
     ]
     return request
       .get('documents/getdeletedlist', { query: JSON.stringify(query) })

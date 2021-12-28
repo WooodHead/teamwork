@@ -63,7 +63,16 @@
       :placeholder="$t('document.field.placeholder.notes')"
       class="q-mt-none q-px-none"
     ></quasar-editor>
-
+    <!-- 添加标签 -->
+    <tw-select-tag
+      filled
+      stack-label
+      multiple
+      v-model="submitModel.tags"
+      :label="$t('task.item.tag')"
+      placeholder=""
+      emit-value
+    />
     <!-- 仅自己可编辑 -->
     <tw-only-i-can-handle
       v-if="(submitModel.authorID === myself||$myinfo.auth.role.isSystemAdministrator||$myinfo.auth.role.isSeniorManager)&&moduleType === 'document'"
@@ -311,7 +320,8 @@ export default {
     TwSecrecyAcl: () => import('components/base/TwSecrecyAcl'),
     UploadFile: () => import('components/file/UploadFile'),
     TwOnlyICanHandle: () => import('components/base/TwOnlyICanHandle'),
-    TwForm: () => import('components/base/TwForm')
+    TwForm: () => import('components/base/TwForm'),
+    TwSelectTag: () => import('components/base/TwSelectTag')
   }
 }
 </script>

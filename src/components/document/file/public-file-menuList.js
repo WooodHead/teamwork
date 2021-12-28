@@ -95,6 +95,16 @@ function getFileDocumentMenuList (that) {
   ) {
     that.$set(menuList, menuList.length, 'secrecy')
   }
+  if (that.$myinfo.auth.role.isSystemAdministrator || that.detailModel.authorID === that.myself.id) {
+    let f = _.find(menuList, m => {
+      return _.isObject(m) && m.group.includes('history')
+    })
+    if (that.detailModel.classify === 'file') {
+      f.group = ['history', 'viewVisitRecord', 'viewDownloadRecord']
+    } else { 
+      f.group = ['history', 'viewVisitRecord']
+    }
+  }
   return menuList
 }
 function getFolderDocumentMenuList (that) {

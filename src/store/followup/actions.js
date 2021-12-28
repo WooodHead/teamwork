@@ -87,7 +87,6 @@ export default {
    * @param {*} payload
    */
   addFollowup ({ commit, dispatch }, payload) {
-    debugger
     let followup = Followup.to(payload)
     return request.post(url.add, followup).then(res => {
       let followup = Followup.from(res.data)
@@ -161,6 +160,6 @@ export default {
       error.userMessage && showWarningMessage(i18n.t(`followup.error.${error.userMessage}`))
       return false
     })
-  }  
+  }
 
 }

@@ -234,6 +234,20 @@ export default {
     }
     return exportFields
   },
+  // 导出excel按照完成人、完成时间过滤
+  filterExportExcel: (state) => (exportExcelList) => {
+    let list = _.cloneDeep(exportExcelList)
+    if (state.exportFinished) {
+      list = list.filter(r => r.type !== 'item' || (r.type === 'item' && r.finished))
+    }
+    if (state.person.id) {
+      list = list.filter(r => r.type !== 'item' || (r.type === 'item' && r.finished && r.finishedBy === state.person.id))
+    }
+    if (state.fromToDate) {
+      list = list.filter(r => r.type !== 'item' || (r.type === 'item' && r.finished && formatDate(r.finishedTime, 'YYYY-MM-DD') >= state.fromToDate.from && formatDate(r.finishedTime, 'YYYY-MM-DD') <= state.fromToDate.to))
+    }
+    return list
+  },
   /** ---------------我的任务相关接口 start--------------- */
   /** 获取所有指派给我的任务所在的清单 */
   taskListsOfAssignedToMe: (state) => (psonId = LocalStorage.getItem('myself').id) => {

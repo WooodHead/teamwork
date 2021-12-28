@@ -414,7 +414,9 @@ const index = {
     publish: '发布',
     dropPublish: '撤销发布',
     changeCover: '上传封面',
-    viewGroupMembers: '查看群组成员'
+    viewGroupMembers: '查看群组成员',
+    viewVisitRecord: '访问记录',
+    viewDownloadRecord: '下载记录'
   },
   base: {
     selectPerson: '选择人员',

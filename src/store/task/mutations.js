@@ -189,6 +189,10 @@ export default {
   setFilterType (state, value) {
     state.filterType = value
   },
+  // 设置excel导出已完成的任务
+  setExportFinished (state, value) {
+    state.exportFinished = value
+  },
   /** ----------------------start update overview---------------------- */
   setOverviewIncrease (state, task) {
     if (task.type === 'list') return

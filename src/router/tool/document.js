@@ -484,6 +484,68 @@ export default [
         },
         component: () => import('components/document/DocumentHistory')
       },
+      // 查看访问下载记录 
+      {
+        path: 'doc/:id/:type/record',
+        name: 'docRecord',
+        hideInMenu: true,
+        props: true,
+        meta: {
+          icon: 'help',
+          label: '文档访问下载记录',
+          group: group.get('rd'),
+          index: 80,
+          requiresAuth: true,
+          description: '文档访问下载记录'
+        },
+        component: () => import('components/document/DocumentOrNoticeRecord')
+      },
+      {
+        path: 'markmap/:id/:type/record',
+        name: 'markmapRecord',
+        hideInMenu: true,
+        props: true,
+        meta: {
+          icon: 'help',
+          label: '文档访问下载记录',
+          group: group.get('rd'),
+          index: 80,
+          requiresAuth: true,
+          description: '文档访问下载记录'
+        },
+        component: () => import('components/document/DocumentOrNoticeRecord')
+      },
+      {
+        path: 'file/:id/:type/record',
+        name: 'fileRecord',
+        hideInMenu: true,
+        props: true,
+        meta: {
+          icon: 'help',
+          label: '文档访问下载记录',
+          group: group.get('rd'),
+          index: 80,
+          requiresAuth: true,
+          description: '文档访问下载记录'
+        },
+        component: () => import('components/document/DocumentOrNoticeRecord')
+      },
+
+      {
+        path: 'link/:id/:type/record',
+        name: 'linkRecord',
+        hideInMenu: true,
+        props: true,
+        meta: {
+          icon: 'help',
+          label: '链接访问下载记录',
+          group: group.get('rd'),
+          index: 80,
+          requiresAuth: true,
+          description: '链接访问下载记录'
+        },
+        component: () => import('components/document/DocumentOrNoticeRecord')
+      },
       {
         path: 'file/:id/versions',
         name: 'fileVersion',
@@ -496,6 +558,20 @@ export default [
           label: '文档历史版本'
         },
         component: () => import(/* webpackChunkName: "document" */ 'components/document/file/FileVersion.vue')
+      },
+      {
+        path: 'folder/:id/trash',
+        name: 'documentTrash',
+        hideInMenu: true,
+        props: true,
+        meta: {
+          label: i18n.t('document.trash'),
+          group: group.get('rd'),
+          requiresAuth: true,
+          description: '文档废纸篓',
+          icon: 'app:tw-icon-document'
+        },
+        component: () => import(/* webpackChunkName: "document" */ 'components/document/TrashList.vue')
       }
     ]
   },
