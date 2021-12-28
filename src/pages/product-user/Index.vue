@@ -13,7 +13,7 @@
         :add="{
           label: '关联用户',
           click: addEvent,
-          disable:isShowPublic
+          disable:disableShowPublic
         }"
       >
       <template #right>
@@ -21,7 +21,7 @@
           color="positive"
           label="全员公开" 
           v-model="isShowPublic"
-          @input="showPublicEvent(isShowPublic)"
+          @input="showPublicEvent()"
         />
       </template>
       </tw-header-card>
@@ -120,7 +120,8 @@ export default {
       allRelatedPersons: [],
       showActionBtn: false,
       isShowPublic: false, // 是否全员公开
-      wikiFolderId: 0
+      wikiFolderId: 0,
+      disableShowPublic: false // 是否显示【全员公开】
     }
   },
   computed: {
@@ -227,22 +228,20 @@ export default {
       }     
       this.showSelectPerson = false
     },
-    showPublicEvent (showPublic) {
-      if (showPublic) {
+    showPublicEvent () {
+      if (this.isShowPublic) { // 选中【全员公开】
         if (window.confirm('设置全员公开后，就不用选择关联用户了。')) {
-        // 设置全员公开，当前文件夹的权限为【公开】
-          this.isShowPublic = true
           // 更新当前文件的权限
           let fields = {
             Acl: 0, // 设置为公开权限
             DocID: this.wikiFolderId
           }
           this.updateDocumentField(fields)
+        } else {
+          this.isShowPublic = false
         }
       } else {
         if (window.confirm('取消全员公开后，需要选择关联用户。')) {
-          // 更新当前知识空间文件夹的权限为【保密】
-          this.isShowPublic = false
           // 更新当前文件的权限
           let fields = {
             Acl: 2, // 设置为保密权限
@@ -251,6 +250,8 @@ export default {
           this.updateDocumentField(fields).then(() => {
             this.init()
           })
+        } else {
+          this.isShowPublic = true
         }
       }
     }

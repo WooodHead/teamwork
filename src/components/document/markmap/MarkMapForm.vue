@@ -41,6 +41,17 @@
             />
           </template>
         </q-splitter>
+        <!-- 添加标签 -->
+        <tw-select-tag
+          class="q-pt-md"
+          filled
+          stack-label
+          multiple
+          v-model="submitModel.tags"
+          :label="$t('task.item.tag')"
+          placeholder=""
+          emit-value
+        />
         <!-- 仅自己可编辑 -->
         <tw-only-i-can-handle
           v-if="submitModel.authorID === myself||!!$myinfo.auth.role.isSystemAdministrator||!!$myinfo.auth.role.isSeniorManager"
@@ -127,7 +138,8 @@ export default {
     FormAction: () => import('components/base/TwFormAction'),
     TwSecrecyAcl: () => import('components/base/TwSecrecyAcl'),
     // 仅自己可编辑
-    TwOnlyICanHandle: () => import('components/base/TwOnlyICanHandle')
+    TwOnlyICanHandle: () => import('components/base/TwOnlyICanHandle'),
+    TwSelectTag: () => import('components/base/TwSelectTag')
   },
   data () {
     return {

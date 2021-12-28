@@ -39,7 +39,16 @@
       :placeholder="$t('document.field.placeholder.notes')"
       class="q-mt-none"
     ></quasar-editor>
-
+     <!-- 添加标签 -->
+    <tw-select-tag
+      filled
+      stack-label
+      multiple
+      v-model="submitModel.tags"
+      :label="$t('task.item.tag')"
+      placeholder=""
+      emit-value
+    />
     <!-- 仅自己可编辑 -->
     <!-- <q-field
       color="grey-8"
@@ -161,7 +170,8 @@ export default {
     TwSecrecyAcl: () => import('components/base/TwSecrecyAcl'),
     // 仅自己可编辑
     TwOnlyICanHandle: () => import('components/base/TwOnlyICanHandle'),
-    TwForm: () => import('components/base/TwForm')
+    TwForm: () => import('components/base/TwForm'),
+    TwSelectTag: () => import('components/base/TwSelectTag')
   },
   methods: {
     ...mapActions('document', ['addDocument', 'loadDocument', 'updateDocument']),
