@@ -3,121 +3,93 @@
     flat
     bordered
     class="followup-card"
-    :class="{'archived':model.archived}"
-    style="overflow:hidden"
+    :class="{ archived: model.archived }"
+    style="overflow: hidden"
     @click="!expanded"
   >
     <q-item>
-      <q-item-section>
-        <div class="row q-gutter-xs">
-          <q-icon
-            :name="iconName"
-            :color="iconColor"
-            size="sm"
-          />
-          <span class="text-subtitle2">{{model.contactForm}}跟进</span>
-        </div>
+      <div>
+        <q-item-section>
+          <div class="row q-gutter-xs q-pl-sm">
+            <!-- 标题 -->
+            <span title="标题" v-text="model.title" class="text-h6"></span>
+          </div>
+        </q-item-section>
 
-      </q-item-section>
+        <!--跟进方式-->
+        <q-item-section>
+          <div class="row q-gutter-xs">
+            <q-icon :name="iconName" :color="iconColor" size="sm" />
+            <span class="text-subtitle2">{{ model.contactForm }}跟进</span>
+          </div>
+        </q-item-section>
+      </div>
+
       <q-space />
       <q-item-section side>
         <q-item-label caption>
-          {{timeAgo({ dateTime: model.modifyTime})}}
+          {{ timeAgo({ dateTime: model.modifyTime }) }}
         </q-item-label>
       </q-item-section>
-      <q-item-section
-        top
-        side
-        v-if="isEditable"
-      >
-        <q-btn
-          v-if="!isEditComment"
-          round
-          icon="more_horiz"
-          flat
-          dense
-        >
-          <q-menu
-            auto-close
-            cover
-          >
+      <q-item-section top side v-if="isEditable">
+        <q-btn v-if="!isEditComment" round icon="more_horiz" flat dense>
+          <q-menu auto-close cover>
             <q-list v-ripple>
-              <q-item
-                clickable
-                @click="promptToEdit()"
-              >
+              <q-item clickable @click="promptToEdit()">
                 <q-item-section>
                   <div class="row my-icon-word">
-                    <q-icon
-                      class="q-mr-xs"
-                      size="xs"
-                      name="edit"
-                    />
-                    {{$t('followup.edit')}}
+                    <q-icon class="q-mr-xs" size="xs" name="edit" />
+                    {{ $t('followup.edit') }}
                   </div>
                 </q-item-section>
               </q-item>
 
-              <q-item
-                clickable
-                @click="promptToDelete(model.id)"
-              >
+              <q-item clickable @click="promptToDelete(model.id)">
                 <q-item-section>
                   <div class="row my-icon-word">
-                    <q-icon
-                      class="q-mr-xs"
-                      size="xs"
-                      name="delete"
-                    />
-                    {{$t('followup.delete')}}
+                    <q-icon class="q-mr-xs" size="xs" name="delete" />
+                    {{ $t('followup.delete') }}
                   </div>
                 </q-item-section>
               </q-item>
             </q-list>
           </q-menu>
         </q-btn>
-        <q-btn
-          v-else
-          round
-          icon="close"
-          flat
-          dense
-          @click="onCancel"
-        />
+        <q-btn v-else round icon="close" flat dense @click="onCancel" />
       </q-item-section>
     </q-item>
-    <q-card-section
-      class="content"
-      v-if="isEditComment"
-    >
-      <followup-edit
-        :category="model.objectType"
-        :objectID="+model.objectID"
-        openType="edit"
-        :id="+model.id"
-        @ok="onOk"
-        @cancel="onCancel"
-      />
+
+    <q-card-section class="content" v-if="isEditComment">
+      <q-dialog v-model="isEditComment">
+        <followup-edit
+          :category="model.objectType"
+          :objectID="+model.objectID"
+          openType="edit"
+          :id="+model.id"
+          @ok="onOk"
+          @cancel="onCancel"
+          class="q-pa-sm"
+        />
+      </q-dialog>
     </q-card-section>
-    <q-card-section
-      class="q-py-none"
-      v-if="!isEditComment"
-    >
-      <div class="text-caption">
+    <q-card-section class="q-py-none" v-if="!isEditComment">
+      <div class="text-caption q-pl-sm">
         <!-- 跟进内容 -->
         <span title="跟进内容" v-html="model.content"></span>
       </div>
     </q-card-section>
     <!-- 跟进人 -->
-    <q-card-section class="row q-py-none no-wrap q-gutter-xs">
-      <template>
-        <tw-avatar
-          :key="`followup_${model.id}_${model.follower}`"
-          :id="model&&model.follower"
-          size="sm"
-        />
-      </template>
-    </q-card-section>
+    <div class="q-pl-sm">
+      <q-card-section class="row q-py-none no-wrap q-gutter-xs">
+        <template>
+          <tw-avatar
+            :key="`followup_${model.id}_${model.leaderID}`"
+            :id="model && model.leaderID"
+            size="sm"
+          />
+        </template>
+      </q-card-section>
+    </div>
   </q-card>
 </template>
 

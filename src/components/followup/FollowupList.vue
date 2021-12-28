@@ -1,8 +1,9 @@
 <template>
-  <q-list class="full-width">
+  <q-list class="full-width row q-col-gutter-sm">
     <div
         v-for="followup in followupList"
         :key="followup.id"
+        :class="followupList.length>1?'col-6':'col-12'"
       >
         <followup-card
           class="q-mt-sm"
