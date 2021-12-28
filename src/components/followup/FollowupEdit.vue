@@ -149,7 +149,6 @@ export default {
           name: item.name
         })
       })
-      debugger
     })
 
     if (this.openType === 'edit') {
