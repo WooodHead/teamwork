@@ -22,28 +22,24 @@
             class="column q-gutter-y-sm text-center "
             :style="$q.platform.is.desktop&&'margin-top:-40px;'"
           >
-            <div
-              style="font-size:12px;"
-              :class="{'emoji-font':$q.platform.is.win}"
-            >{{currentcurrentModel.contactForm}}
-            </div>
             <div class="text-h5">
-              <span class="text-weight-bold">{{currentcurrentModel.title}}</span>
+              <span class="text-weight-bold">{{currentModel.title}}</span>
             </div>
             <div class="text-caption text-grey-9 ">
-                {{$t('document.modify.postedBy',{modifyBy:currentcurrentModel.modifyBy})}}
-              <q-badge
-                v-if="currentcurrentModel.leaderID === $myinfo.id || currentcurrentModel.createByID === $myinfo.id"
-                color="grey-7"
-                outline
-                :label="$t('document.meEdit')"
-              /> •
-              {{timeAgo({ dateTime :currentcurrentModel.modifyTime})}}
+              {{$t('document.modify.postedBy',{modifyBy:currentModel.modifyBy})}}•
+              {{timeAgo({ dateTime :currentModel.modifyTime})}}
+              <q-icon
+                :name="iconName"
+                :color="iconColor"
+                size="sm"
+              />
+              <span class="text-caption text-grey-9">{{currentModel.contactForm}}跟进</span>
             </div>
           </div>
           <!-- 跟进具体内容 -->
-          <div class="editor__content tiptap"
-            v-html="currentcurrentModel.content"
+          <div
+            class="editor__content tiptap"
+            v-html="currentModel.content"
           >
           </div>
         </q-card-section>
@@ -58,11 +54,11 @@
         />
       </q-card-section>
       <!-- 讨论区 -->
-      <q-card-section v-if="model">
+      <q-card-section v-if="currentModel">
         <discuss-board
           :objectID="+id"
           :objectType="type"
-          type='followup'
+          type='discuss'
           :objectTitle="title"
           @submitFinished="addAssessFinished($event)"
         />
@@ -143,7 +139,7 @@ export default {
     onEdit () {
       // 跳转到产品详情页
       this.$router.push({
-        name: 'assessEdit',
+        name: 'followupEdit',
         params: {
           openType: 'edit',
           category: this.category,
@@ -156,7 +152,7 @@ export default {
     onDelete () {
       let that = this
       showConfirm(that.$t('message.reallyDelete'), () => {
-        that.$store.dispatch('assess/deleteAssess', +that.id)
+        that.$store.dispatch('followup/deleteFollowup', +that.id)
       })
     },
     /**

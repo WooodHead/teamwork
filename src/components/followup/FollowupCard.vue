@@ -100,8 +100,9 @@
       />
     </q-card-section>
     <q-card-section
-      class="q-py-none"
+      class="q-py-none cursor-pointer"
       v-if="!isEditComment"
+      @click="openFollowupDetail"
     >
       <div class="text-caption">
         <!-- 跟进内容 -->
@@ -192,6 +193,16 @@ export default {
     },
     onCancel () {
       this.isEditComment = false
+    },
+    openFollowupDetail () {
+      this.$router.push({
+        name: 'followupDetail',
+        params: {
+          category: this.model.objectType,
+          objectID: +this.model.objectID,
+          id: +this.model.id
+        }
+      })
     }
   },
   components: {
