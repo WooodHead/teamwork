@@ -4,6 +4,9 @@
       :flat="flat"
       :size="size"
       :menus="menuListFilter"
+      :bgColor="bgColor"
+      :anchor="anchor"
+      :self="self"
       @rename="showRenameDialog = true"
       @move="moveItem()"
       @delete="deleteItem()"
@@ -104,6 +107,21 @@ export default {
       type: String,
       required: false,
       default: 'md'
+    },
+    bgColor: {
+      type: String,
+      required: false,
+      default: 'bg-blue-1'
+    },
+    anchor: {
+      type: String,
+      required: false,
+      default: 'top left'
+    },
+    self: {
+      type: String,
+      required: false,
+      default: 'top right'
     }
   },
   data () {

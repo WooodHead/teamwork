@@ -49,6 +49,7 @@
             :category="category"
             :objectID="objectID"
             :rootId="rootId"
+            :wikiAuth="hasWikiSettingAuth"
             class="q-pt-sm"
           />
           <!-- 废纸篓 -->

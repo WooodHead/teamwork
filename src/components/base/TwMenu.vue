@@ -16,14 +16,14 @@
       auto-close
       transition-show="jump-down"
       transition-hide="jump-up"
-      anchor="top left"
-      self="top right"
+      :anchor="anchor"
+      :self="self"
       :offset="[0, 0]"
       class="z-max"
     >
       <q-list
         style="min-width:120px"
-        class="bg-blue-1"
+        :class="bgColor"
       >
         <div
           v-for="(menu, index) in menus"
@@ -126,6 +126,21 @@ export default {
       type: Boolean,
       required: false,
       default: false
+    },
+    bgColor: {
+      type: String,
+      required: false,
+      default: 'bg-blue-1'
+    },
+    anchor: {
+      type: String,
+      required: false,
+      default: 'top left'
+    },
+    self: {
+      type: String,
+      required: false,
+      default: 'top right'
     }
   },
   data () {
