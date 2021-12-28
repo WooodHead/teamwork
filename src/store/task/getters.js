@@ -237,6 +237,9 @@ export default {
   // 导出excel按照完成人、完成时间过滤
   filterExportExcel: (state) => (exportExcelList) => {
     let list = _.cloneDeep(exportExcelList)
+    if (state.exportFinished) {
+      list = list.filter(r => r.type !== 'item' || (r.type === 'item' && r.finished))
+    }
     if (state.person.id) {
       list = list.filter(r => r.type !== 'item' || (r.type === 'item' && r.finished && r.finishedBy === state.person.id))
     }

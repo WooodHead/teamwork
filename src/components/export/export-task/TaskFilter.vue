@@ -9,7 +9,7 @@
       outlined
       rounded
       dense
-      label="请选择任务完成人"
+      :placeholder="$t('task.selectTaskFinishBy')"
     >
     </tw-select-person>
     <q-input
@@ -18,7 +18,7 @@
       rounded
       dense
       class="col"
-      placeholder="请选择任务完成起止日期"
+      :placeholder="$t('task.selectTaskFinishDate')"
       @click="showDate"
     >
       <template v-slot:append>
@@ -46,9 +46,13 @@
       </template>
     </q-input>
   </div>
-
-  <div class="text-bold q-mt-md" style="margin-left: 35px;">
-      {{$t('exportFile.exportResource')}}
+  <div class="row justify-between  items-center q-mt-md" style="margin-left: 35px;">
+    <span class="text-bold">{{$t('exportFile.exportResource')}}</span>
+    <!-- 只导出已完成的任务 -->
+    <q-checkbox
+      v-model="exportFinished"
+      :label="$t('task.onlyExportFinishedTask')"
+     />
   </div>
   </div>
 </template>
@@ -103,14 +107,23 @@ export default {
         }
         this.setFromToDate(date)
       }
+    },
+    exportFinished: {
+      get () {
+        return this.$store.state.task.exportFinished 
+      },
+      set (value) {
+        this.setExportFinished(value)
+      }
     }
   },
   mounted () {
     this.resetPerson()
     this.resetFromToDate()
+    this.setExportFinished(false)
   },
   methods: {
-    ...mapMutations('task', ['setFromToDate', 'setPerson']),
+    ...mapMutations('task', ['setFromToDate', 'setPerson', 'setExportFinished']),
     resetPerson () {
       let person = {
         id: null,

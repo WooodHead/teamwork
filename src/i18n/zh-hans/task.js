@@ -193,5 +193,8 @@ export default {
   },
   error: {
     tooMuchData: '导出数据超过10000行，请您缩小查询范围，以减少数据量。'
-  }
+  },
+  onlyExportFinishedTask: '仅导出已完成的任务',
+  selectTaskFinishDate: '请选择任务完成起止日期',
+  selectTaskFinishBy: '请选择任务完成人'
 }
