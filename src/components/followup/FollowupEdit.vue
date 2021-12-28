@@ -30,9 +30,9 @@
             <q-date
               :value="model.followupDate"
               @input="
-                val => {
-                  model.followupDate = val;
-                  $refs.qDateProxy.hide();
+                (val) => {
+                  model.followupDate = val
+                  $refs.qDateProxy.hide()
                 }
               "
               minimal
@@ -42,7 +42,7 @@
       </template>
     </q-input>
     <!-- 客户联系人 -->
-     <q-select
+    <q-select
       filled
       :options="clientOptions"
       v-model="clientModel"
@@ -73,8 +73,8 @@
       :folder="category"
       :applied="goIntoAction"
       @input="
-        val => {
-          model.content = val;
+        (val) => {
+          model.content = val
         }
       "
       class="col-12"
@@ -124,7 +124,7 @@ export default {
       customer: new Customer(),
       clientModel: null, // 客户联系人下拉框v-model属性用
       clientOptions: [], // 客户联系人下拉框数据源
-      memModel: null, // 参与人下拉框v-model属性用
+      memModel: [], // 参与人下拉框v-model属性用
       memberOptions: []// 参与人下拉框数据源
     }
   },
@@ -156,7 +156,7 @@ export default {
         if (res) {
           this.oldContent = res.content
           this.model = res
-
+          // 参与人
           let selectPersons = this.$store.state.person.selectPersons
           let arr = JSON.parse(this.model.members).member
           const persons = _.map(arr, p => selectPersons[p])
@@ -166,11 +166,12 @@ export default {
               name: item.name
             })
           })
-
+          // 客户联系人
           Object.keys(selectPersons).forEach(key => {
             if (this.model.customerContacter === +key) {
               this.clientModel = {
-                'id': this.model.customerContacter, 'name': selectPersons[+key].name
+                id: this.model.customerContacter,
+                name: selectPersons[+key].name
               }
             }
           })
@@ -178,7 +179,6 @@ export default {
       })
     }
   },
-
   methods: {
     ...mapActions('followup', [
       'loadFollowup',
@@ -194,10 +194,12 @@ export default {
       }
       this.model.objectType = this.$router.history.current.params.category
       this.model.objectID = this.$router.history.current.params.objectID
+      this.model.customerContacter = this.clientModel.id
       let arrNew = []
       this.memModel.forEach(item => {
         arrNew.push(item.id)
       })
+      debugger
       this.model.members = arrNew
       if (this.openType === 'add') {
         this.addFollowup(this.model)
