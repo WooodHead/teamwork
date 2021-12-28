@@ -32,15 +32,15 @@
           :img="user.img"
         />
       </q-item-section>
-      <q-item-section>
-        <q-item-label class="text-left">{{ user.name }}        
+      <q-item-section class="text-left">
+        <q-item-label>{{ user.name }}        
         </q-item-label>
         <q-item-label
           lines="1"
           caption
         >
           <span v-if="user.dutyName&&user.orgShortName">
-            {{ user.dutyName?user.dutyName:''}} • {{ user.orgShortName?user.orgShortName:''}}
+            {{ user.dutyName}} • {{ user.orgShortName}}
           </span>
           <span v-else>
             {{ user.dutyName?user.dutyName:''}} {{ user.orgShortName?user.orgShortName:''}}
