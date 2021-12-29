@@ -1,7 +1,12 @@
 <template>
   <tw-form @primary="onSubmit">
     <div>
-      <q-input filled v-model="model.title" label="标题"> </q-input>
+      <q-input
+      filled
+      v-model="model.title"
+       label="标题"
+       :rules="[ val => val && val.length > 0 ]"
+       > </q-input>
     </div>
     <div class="q-gutter-sm">
       <q-radio
@@ -53,6 +58,7 @@
       stack-label
       :label="$t('followup.customerContacter')"
     />
+      <!-- :rules="[ val => val && val.length > 0 || $t('followup.customerContacter')]" -->
     <!-- 参与人 -->
     <q-select
       filled
