@@ -18,11 +18,52 @@
       :selected.sync="selected"
       ref="tree"
       @after-show="afterShow"
-      @update:selected="nodeSelected"
-    />
+    >
+      <template v-slot:default-header="prop">
+        <div class="fit row items-center tree-parent">
+          <div class="col cursor-pointer" @click.stop="selectEvent(prop)">
+            <q-icon :name="prop.node.icon" />
+            {{ prop.node.title }}
+          </div>
+          <div v-if="wikiAuth" class="row items-center tree-menu">
+            <folder-add-menu
+              v-if="prop.node.classify === 'folder'"
+              label=""
+              dense
+              flat
+              textColor="grey-7"
+              :category="category"
+              :objectID="objectID"
+              :id="prop.node.id"
+            />
+            <div @click.stop="clickMenuEvent(prop)">
+              <folder-menu
+                v-if="prop.node.classify === 'folder'"
+                flat
+                bgColor="bg-white"
+                anchor="top left"
+                self="bottom left"
+                :model="model"
+                :category="category"
+                :objectID="objectID"
+              />
+              <file-menu
+                v-else
+                flat
+                bgColor="bg-white"
+                anchor="top left"
+                self="bottom left"
+                :detailModel="model"
+                :category="category"
+                :objectID="objectID"
+              />
+            </div>
+          </div>
+        </div>
+      </template>
+    </q-tree>
     <div v-else>正在获取数据请稍等...</div>
   </div>
-
 </template>
 
 <script>
@@ -50,6 +91,12 @@ export default {
       default: 0,
       required: false,
       description: '根组件的ID'
+    },
+    wikiAuth: {
+      type: Boolean,
+      required: false,
+      default: false,
+      description: '知识空间是否有操作权限'
     }
   },
   data () {
@@ -60,7 +107,8 @@ export default {
         limit: 20,
         nextPageToken: 0
       },
-      moreLabel: '查看更多...'
+      moreLabel: '查看更多...',
+      model: {}
     }
   },
   watch: {
@@ -199,17 +247,35 @@ export default {
         let parent = this.$refs.tree.getNodeByKey(+node.parentId)
         this.loadAllByPage(+node.parentId, parent ? parent.children.length : 0, node.nextPageToken)
       }
+    },
+    selectEvent (prop) {
+      this.model = prop.node
+      this.nodeSelected(+prop.node.id)
+    },
+    clickMenuEvent (prop) {
+      this.model = prop.node
     }
   },
   components: {
+    FolderMenu: () => import('components/document/folder/FolderMenu'),
+    FileMenu: () => import('components/document/file/FileMenu'),
+    FolderAddMenu: () => import('components/document/folder/FolderAddMenu')
   }
 }
 </script>
 
 <style scoped lang="scss">
-  /deep/ .q-tree__icon,
-  .q-tree__node-header-content .q-icon,
-  .q-tree__spinner {
-    font-size: 14px;
-  }
+/deep/ .q-tree__icon,
+.q-tree__node-header-content .q-icon,
+.q-tree__spinner {
+  font-size: 14px;
+}
+.tree-menu {
+  opacity: 0;
+  transform: translateY(100%);
+}
+.tree-parent:hover .tree-menu {
+  opacity: 1;
+  transform: translateY(0);
+}
 </style>

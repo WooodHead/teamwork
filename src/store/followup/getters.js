@@ -1,4 +1,7 @@
 export default {
+  currentModel: (state, getters) => (id) => {
+    return _.find(state.followups, { 'id': +id }) || {}
+  },
   /**
    * 跟进列表（
    */

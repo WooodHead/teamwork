@@ -558,6 +558,20 @@ export default [
           label: '文档历史版本'
         },
         component: () => import(/* webpackChunkName: "document" */ 'components/document/file/FileVersion.vue')
+      },
+      {
+        path: 'folder/:id/trash',
+        name: 'documentTrash',
+        hideInMenu: true,
+        props: true,
+        meta: {
+          label: i18n.t('document.trash'),
+          group: group.get('rd'),
+          requiresAuth: true,
+          description: '文档废纸篓',
+          icon: 'app:tw-icon-document'
+        },
+        component: () => import(/* webpackChunkName: "document" */ 'components/document/TrashList.vue')
       }
     ]
   },

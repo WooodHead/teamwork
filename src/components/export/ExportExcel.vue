@@ -12,7 +12,7 @@
   >
     <q-toolbar>
       <q-toolbar-title>
-        {{$t('exportFile.exportResource')}}
+        {{toolbarTitle||$t('exportFile.exportResource')}}
       </q-toolbar-title>
       <q-btn
         flat
@@ -22,7 +22,10 @@
         icon="close"
       />
     </q-toolbar>
-    <q-separator color="grey-3 q-mb-md q-mt-sm" />
+    <q-separator color="grey-3 q-mb-md" />  
+    <!-- 预留空间 -->
+    <slot name="topExportExtra"></slot>
+
     <!-- 复选框，可选择导出列 -->
     <!-- <div class="q-gutter-y-md q-gutter-x-xl"> -->
     <draggable
@@ -53,7 +56,7 @@
       </div>
     </draggable>
     <!-- 预留空间 -->
-    <slot name="exportExtra"></slot>
+    <slot name="bottomExportExtra"></slot>
     <!-- 导出按钮 -->
     <div class="row no-wrap">
       <span class="text-grey-7 q-mr-xs">
@@ -164,6 +167,12 @@ export default {
       default: () => { return {} },
       required: false,
       description: '自己可定义传递的参数'
+    },
+    toolbarTitle: {
+      type: String,
+      default: '',
+      required: false,
+      description: '导出dialog的title'
     }
   },
   data () {

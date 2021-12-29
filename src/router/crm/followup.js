@@ -25,6 +25,42 @@ export default [
           description: '跟进列表'
         },
         component: () => import(/* webpackChunkName: "followup" */ 'components/followup/FollowupIndex.vue')
+      },
+      {
+        path: ':id(\\d+)',
+        name: 'followupDetail',
+        props: route => ({
+          type: 'followup',
+          id: route.params.id,
+          category: route.params.category,
+          objectID: route.params.objectID
+        }),
+        hideInMenu: true,
+        meta: {
+          group: group.get('crm'),
+          description: '跟进列表'
+        },
+        component: () =>
+          import(
+            /* webpackChunkName: "followup" */ 'src/components/followup/FollowupDetail.vue'
+          )
+      },
+      {
+        path: ':id(\\d+)/edit',
+        name: 'followupEdit',
+        props: route => ({
+          openType: 'edit',
+          id: route.params.id,
+          category: route.params.category,
+          objectID: route.params.objectID,
+          showUploadDialog: route.params.showUploadDialog
+        }),
+        hideInMenu: true,
+        meta: {
+          group: group.get('crm'),
+          description: '编辑跟进'
+        },
+        component: () => import(/* webpackChunkName: "followup" */ 'components/followup/FollowupEdit.vue')
       }
     ]
   }
