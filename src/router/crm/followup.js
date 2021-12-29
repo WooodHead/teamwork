@@ -52,8 +52,7 @@ export default [
           openType: 'edit',
           id: route.params.id,
           category: route.params.category,
-          objectID: route.params.objectID,
-          showUploadDialog: route.params.showUploadDialog
+          objectID: route.params.objectID
         }),
         hideInMenu: true,
         meta: {
