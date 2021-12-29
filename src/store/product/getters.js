@@ -99,7 +99,8 @@ export default {
           { id: 28, name: 'C轴定位抱闸', value: paramsPrettier.Turntable.CAxis.PositionBrake },
           { id: 29, name: '使用条件', isHeader: true },
           { id: 30, name: '电源电压', value: paramsPrettier.EnergyConsume.Voltage },
-          { id: 31, name: '气压源', value: `≥${paramsPrettier.EnergyConsume.AirSourcePressure} Mpa` },
+          // 气压源如果是数字，就组装成"≥xx"，否则直接显示
+          { id: 31, name: '气压源', value: `${isNaN(paramsPrettier.EnergyConsume.AirSourcePressure) ? '' : '≥'}${paramsPrettier.EnergyConsume.AirSourcePressure} Mpa` },
           // { id: 32, name: '油箱容积', value: `${paramsPrettier.EnergyConsume.FuelTankCapacity} L` },
           { id: 33, name: '总电源容量', value: `${paramsPrettier.EnergyConsume.TotalPower} kVA` }
         ]
@@ -127,7 +128,8 @@ export default {
           { id: 18, name: '切削速度X/Y/Z', value: `${paramsPrettier.FeedSpeed.CuttingSpeed.XAxis}/${paramsPrettier.FeedSpeed.CuttingSpeed.YAxis}/${paramsPrettier.FeedSpeed.CuttingSpeed.ZAxis} m/min` },
           { id: 19, name: '使用条件', isHeader: true },
           { id: 20, name: '电源电压', value: paramsPrettier.EnergyConsume.Voltage },
-          { id: 21, name: '气压源', value: `≥${paramsPrettier.EnergyConsume.AirSourcePressure} Mpa` },
+          // 气压源如果是数字，就组装成"≥xx"，否则直接显示
+          { id: 21, name: '气压源', value: `${isNaN(paramsPrettier.EnergyConsume.AirSourcePressure) ? '' : '≥'}${paramsPrettier.EnergyConsume.AirSourcePressure} Mpa` },
           // { id: 22, name: '油箱容积', value: `${paramsPrettier.EnergyConsume.FuelTankCapacity} L` },
           { id: 23, name: '总电源容量', value: `${paramsPrettier.EnergyConsume.TotalPower} kVA` }
         ]
