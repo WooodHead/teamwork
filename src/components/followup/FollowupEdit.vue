@@ -139,27 +139,26 @@ export default {
     }
   },
   mounted  () {
-    debugger
     // 给客户联系人下拉框绑定数据源
+    let cateType = this.category.charAt(0).toUpperCase() + this.category.substring(1, this.category.length)
     this.category &&
       this.objectID &&
       this.$store
-        .dispatch('member/loadMembers', {
-          category: this.category,
-          objectID: +this.objectID,
-          types: 'client'
-        })
-        .then((ids) => {
-          if (ids.length) {
+        .dispatch(`${this.category}/load${cateType}`, +this.objectID)
+        .then((res) => {
+          this.loadCustomer(+res.customerID).then(res => {
+            this.customer = res
+            // 给客户联系人下拉框绑定数据源
+            let clientPson = res.membersObject.client
             let selectPersons = this.$store.state.person.selectPersons
-            const persons = _.map(ids, (p) => selectPersons[p])
-            persons.forEach((item) => {
+            const persons = _.map(clientPson, p => selectPersons[p])
+            persons.forEach(item => {
               this.clientOptions.push({
                 id: item.id,
                 name: item.name
               })
             })
-          }
+          })
         })
 
     // 给参与人下拉框绑定数据源
@@ -169,7 +168,7 @@ export default {
         .dispatch('member/loadMembers', {
           category: this.category,
           objectID: +this.objectID,
-          types: 'member'
+          types: 'leader,member,visitor'
         })
         .then((ids) => {
           if (ids.length) {
@@ -255,7 +254,6 @@ export default {
       this.memModel.forEach((item) => {
         arrNew.push(item.id)
       })
-      debugger
       this.model.members = arrNew
       if (this.openType === 'add') {
         this.addFollowup(this.model)
