@@ -7,7 +7,7 @@
       <!-- 标题 -->
       <tw-header-card
         :title="$t('manufacturer.title')"
-        :actions="['add', 'select', 'menu']"
+        :actions="actions"
         :add="{
           label: $t('manufacturer.add'),
           click: addingEvent
@@ -63,6 +63,11 @@ export default {
     ...mapState('dictionary', ['dictionary']),
     ...mapState('manufacturer', ['sort', 'listPageType', 'listStyle']),
     ...mapGetters('manufacturer', ['currentCondition']),
+    actions () {
+      return this.$myinfo.auth.role.isSystemAdministrator
+        ? ['add', 'select', 'menu']
+        : ['select', 'menu']
+    },
     queryList: {
       get () {
         let levelList = this.dictionary['manufacturer'] ? this.dictionary['manufacturer']['manufacturerLevel'] : []
