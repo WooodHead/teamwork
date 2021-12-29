@@ -19,8 +19,7 @@
     @secrecy="updateSecrecy()"
     @preview="previewItem()"
     @download="downloadItem()"
-    @viewVisitRecord="viewRecordItem('visit')"
-    @viewDownloadRecord="viewRecordItem('download')"
+    @viewDocumentCount="viewDocumentCount()"
   />
 </template>
 
@@ -251,12 +250,12 @@ export default {
     downloadItem () {
       download(this.detailModel.filePath)
     },
-    viewRecordItem (type) {
-      let params = { id: +this.detailModel.id, type }
+    viewDocumentCount () {
+      let params = { id: +this.detailModel.id }
       if (this.category) {
         Object.assign(params, { category: this.category, objectID: this.objectID })
       }
-      this.$router.push({ name: `${this.type === 'notice' ? 'notice' : this.detailModel.classify}Record`, params })
+      this.$router.push({ name: `${this.type === 'notice' ? 'notice' : this.detailModel.classify}Count`, params })
     }
   },
   components: {

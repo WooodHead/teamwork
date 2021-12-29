@@ -486,8 +486,8 @@ export default [
       },
       // 查看访问下载记录 
       {
-        path: 'doc/:id/:type/record',
-        name: 'docRecord',
+        path: 'doc/:id/count',
+        name: 'docCount',
         hideInMenu: true,
         props: true,
         meta: {
@@ -498,11 +498,11 @@ export default [
           requiresAuth: true,
           description: '文档访问下载记录'
         },
-        component: () => import('components/document/DocumentOrNoticeRecord')
+        component: () => import('components/document/DocumentOrNoticeCount')
       },
       {
-        path: 'markmap/:id/:type/record',
-        name: 'markmapRecord',
+        path: 'markmap/:id/count',
+        name: 'markmapCount',
         hideInMenu: true,
         props: true,
         meta: {
@@ -513,11 +513,11 @@ export default [
           requiresAuth: true,
           description: '文档访问下载记录'
         },
-        component: () => import('components/document/DocumentOrNoticeRecord')
+        component: () => import('components/document/DocumentOrNoticeCount')
       },
       {
-        path: 'file/:id/:type/record',
-        name: 'fileRecord',
+        path: 'file/:id/count',
+        name: 'fileCount',
         hideInMenu: true,
         props: true,
         meta: {
@@ -528,12 +528,12 @@ export default [
           requiresAuth: true,
           description: '文档访问下载记录'
         },
-        component: () => import('components/document/DocumentOrNoticeRecord')
+        component: () => import('components/document/DocumentOrNoticeCount')
       },
 
       {
-        path: 'link/:id/:type/record',
-        name: 'linkRecord',
+        path: 'link/:id/count',
+        name: 'linkCount',
         hideInMenu: true,
         props: true,
         meta: {
@@ -544,7 +544,7 @@ export default [
           requiresAuth: true,
           description: '链接访问下载记录'
         },
-        component: () => import('components/document/DocumentOrNoticeRecord')
+        component: () => import('components/document/DocumentOrNoticeCount')
       },
       {
         path: 'file/:id/versions',

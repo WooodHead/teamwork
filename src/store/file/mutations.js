@@ -67,11 +67,20 @@ export default {
   updatePage (state, page) {
     Object.assign(state.page, page)
   },
+  visitorUpdatePage (state, page) {
+    Object.assign(state.visitorRecordPage, page)
+  },
   visitUpdatePage (state, page) {
     Object.assign(state.visitRecordPage, page)
   },
   downloadUpdatePage (state, page) {
     Object.assign(state.downloadRecordPage, page)
+  },
+  visitorPushFiles (state, files) {
+    let newFiles = _.differenceBy(files, state.visitorRecords, (item) => {
+      return `${item.objectType}-${item.objectId}-${item.type}-${item.psonID}-${item.fileId}`
+    })
+    state.visitorRecords.push(...newFiles)
   },
   visitPushFiles (state, files) {
     let newFiles = _.differenceBy(files, state.visitRecords, 'id')

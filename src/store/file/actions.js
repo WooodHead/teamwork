@@ -1,150 +1,593 @@
 import { i18n } from '../../boot/i18n'
-import request from '@/boot/axios'
-import { showWarningMessage } from '@/utils/show-message'
-import File from '@/store/file/model'
-import Record from '@/store/file/recordModel'
+import sort from '../sort'
+import group from '../group'
 
-const url = {
-  getList: 'files/getlist',
-  getPageList: 'files/getpagelist',
-  getModel: 'files/getmodel',
-  add: 'files/add',
-  batchAdd: 'files/batchadd',
-  update: 'files/update',
-  delete: 'files/delete'
-}
+export default [
+  {
+    path: '/document',
+    meta: {
+      label: i18n.t('document.center'),
+      index: sort.documentCenter,
+      group: group.get('oa'),
+      requiresAuth: true,
+      description: '文档中心',
+      icon: 'app:tw-icon-document'
+    },
+    component: () => import(/* webpackChunkName: "document" */ 'pages/document/DocumentIndex.vue'),
+    children: [
+      {
+        path: '/document',
+        name: 'documentCenter',
+        meta: {
+          label: i18n.t('document.center'),
+          group: group.get('oa'),
+          requiresAuth: true,
+          description: '文件夹详情页',
+          icon: 'app:tw-icon-document'
+        },
+        component: () => import(/* webpackChunkName: "document" */ 'components/document/folder/FolderIndex.vue')
+      }
+    ]
+  },
+  {
+    path: '/:category?/:objectID?/document',
+    props: true,
+    hideInMenu: true,
+    meta: {
+      group: group.get('tool'),
+      icon: 'description',
+      label: i18n.t('document.center')
+    },
+    component: () => import(/* webpackChunkName: "document" */ 'pages/document/DocumentIndex.vue'),
+    children: [
+      {
+        path: '',
+        name: 'document',
+        hideInMenu: true,
+        props: true,
+        meta: {
+          label: i18n.t('document.folder'),
+          group: group.get('rd'),
+          requiresAuth: true,
+          description: '文件夹详情页',
+          icon: 'app:tw-icon-document'
+        },
+        component: () => import(/* webpackChunkName: "document" */ 'components/document/folder/FolderIndex.vue')
+      },
+      {
+        path: 'folder/:id',
+        name: 'folder',
+        hideInMenu: true,
+        props: true,
+        meta: {
+          label: i18n.t('document.folder'),
+          group: group.get('rd'),
+          requiresAuth: true,
+          description: '文件夹详情页',
+          icon: 'app:tw-icon-document'
+        },
+        component: () => import(/* webpackChunkName: "document" */ 'components/document/folder/FolderIndex.vue')
+      },
+      {
+        path: 'folder/:id/copy',
+        name: 'folderCopy',
+        hideInMenu: true,
+        props: route => ({
+          action: 'copy',
+          id: route.params.id,
+          category: route.params.category,
+          objectID: route.params.objectID
+        }),
+        meta: {
+          icon: 'content_copy',
+          label: i18n.t('document.routerNotes.folderCopy'),
+          group: group.get('rd'),
+          description: '文件夹复制'
+        },
+        component: () => import(/* webpackChunkName: "document" */ 'components/document/DocumentMoveCopy.vue')
+      },
+      {
+        path: 'folder/:id/move',
+        name: 'folderMove',
+        hideInMenu: true,
+        props: route => ({
+          action: 'move',
+          id: route.params.id,
+          category: route.params.category,
+          objectID: route.params.objectID
+        }),
+        meta: {
+          icon: 'redo',
+          label: i18n.t('document.routerNotes.move'),
+          group: group.get('rd'),
+          description: '文件夹移动'
+        },
+        component: () => import(/* webpackChunkName: "document" */ 'components/document/DocumentMoveCopy.vue')
+      },
+      {
+        path: 'folder/:id/draft',
+        name: 'draftDocuments',
+        hideInMenu: true,
+        props: true,
+        meta: {
+          icon: 'drafts',
+          label: i18n.t('document.routerNotes.draftDocuments'),
+          group: group.get('rd'),
+          description: '草稿文件列表'
+        },
+        component: () => import(/* webpackChunkName: "document" */ 'components/document/draft/DraftDocuments.vue')
+      },
+      {
+        path: 'folder/:id/archived',
+        name: 'archivedDocuments',
+        hideInMenu: true,
+        props: true,
+        meta: {
+          icon: 'archive',
+          label: i18n.t('document.routerNotes.archivedDocuments'),
+          group: group.get('rd'),
+          description: '归档文件列表'
+        },
+        component: () => import(/* webpackChunkName: "document" */ 'components/document/ArchivedDocuments.vue')
+      },
+      {
+        path: 'folder/:id/add',
+        name: 'docAdd',
+        props: true,
+        hideInMenu: true,
+        meta: {
+          icon: 'add',
+          label: i18n.t('document.routerNotes.addDoc'),
+          group: group.get('rd'),
+          description: '新建文档'
+        },
+        component: () => import(/* webpackChunkName: "document" */ 'components/document/doc/DocForm.vue')
+      },
+      {
+        path: 'folder/:id/add/markmap',
+        name: 'markmapAdd',
+        props: true,
+        hideInMenu: true,
+        meta: {
+          icon: 'add',
+          label: i18n.t('document.routerNotes.addMarkMap'),
+          group: group.get('rd'),
+          description: '新建思维导图'
+        },
+        component: () => import(/* webpackChunkName: "document" */ 'components/document/markmap/MarkMapForm.vue')
+      },
+      {
+        path: 'folder/:id/upload/:fileTag?',
+        name: 'fileUpload',
+        props: true,
+        hideInMenu: true,
+        meta: {
+          icon: 'file_upload',
+          label: i18n.t('document.action.upload'),
+          description: '上传文档'
+        },
+        component: () => import(/* webpackChunkName: "document" */ 'components/document/file/FileUpload.vue')
+      },
+      {
+        path: 'folder/:id/link',
+        name: 'linkAdd',
+        props: true,
+        hideInMenu: true,
+        meta: {
+          icon: 'add',
+          label: i18n.t('document.routerNotes.addLink'),
+          group: group.get('rd'),
+          description: '创建链接文档'
+        },
+        component: () => import(/* webpackChunkName: "document" */ 'components/document/link/LinkForm.vue')
+      },
+      {
+        path: 'doc/:id',
+        name: 'docDetail',
+        hideInMenu: true,
+        props: true,
+        meta: {
+          icon: 'insert_drive_file',
+          label: i18n.t('document.routerNotes.detail'),
+          group: group.get('rd'),
+          description: '文档详情页(在线编辑文档)'
+        },
+        component: () => import(/* webpackChunkName: "document" */ 'components/document/DocumentDetail.vue')
+      },
+      {
+        path: 'file/:id',
+        name: 'fileDetail',
+        hideInMenu: true,
+        props: route => ({
+          id: route.params.id,
+          category: route.params.category === 'select-product-case' ? 'productCase' : route.params.category,
+          objectID: route.params.objectID
+        }),
+        meta: {
+          icon: 'insert_drive_file',
+          label: i18n.t('document.routerNotes.fileDetail'),
+          index: 10,
+          group: group.get('rd'),
+          description: '文档详情页(上传的文档)'
+        },
+        component: () => import(/* webpackChunkName: "document" */ 'components/document/file/FileDetail.vue')
+      },
+      {
+        path: 'link/:id',
+        name: 'linkDetail',
+        hideInMenu: true,
+        props: true,
+        meta: {
+          icon: 'link',
+          label: i18n.t('document.routerNotes.fileDetail'),
+          index: 10,
+          group: group.get('rd'),
+          description: '链接文档详情页'
+        },
+        component: () => import(/* webpackChunkName: "document" */ 'components/document/link/LinkDetail.vue')
+      },
+      {
+        path: 'doc/:id/edit',
+        name: 'docEdit',
+        props: route => ({
+          openType: 'edit',
+          id: route.params.id,
+          category: route.params.category,
+          objectID: route.params.objectID
+        }),
+        hideInMenu: true,
+        meta: {
+          icon: 'insert_drive_file',
+          label: i18n.t('document.routerNotes.edit'),
+          group: group.get('rd'),
+          description: '编辑文档'
+        },
+        component: () => import(/* webpackChunkName: "document" */ 'components/document/doc/DocForm.vue')
+      },
+      {
+        path: 'doc/:id/edit/markmap',
+        name: 'markmapEdit',
+        props: route => ({
+          id: route.params.id,
+          category: route.params.category,
+          objectID: route.params.objectID
+        }),
+        hideInMenu: true,
+        meta: {
+          icon: 'add',
+          label: i18n.t('document.routerNotes.editMarkMap'),
+          group: group.get('rd'),
+          description: '编辑思维导图'
+        },
+        component: () => import(/* webpackChunkName: "document" */ 'components/document/markmap/MarkMapForm.vue')
+      },
+      {
+        path: 'file/:id/edit',
+        name: 'fileEdit',
+        props: route => ({
+          openType: 'edit',
+          id: route.params.id,
+          category: route.params.category === 'select-product-case' ? 'productCase' : route.params.category,
+          objectID: +route.params.objectID,
+          showUploadDialog: route.params.showUploadDialog
+        }),
+        hideInMenu: true,
+        meta: {
+          group: group.get('rd'),
+          description: '编辑上传文档',
+          icon: 'insert_drive_file',
+          label: i18n.t('document.routerNotes.edit')
+        },
+        component: () => import(/* webpackChunkName: "document" */ 'components/document/file/FileUpload.vue')
+      },
+      {
+        path: 'link/:id/edit',
+        name: 'linkEdit',
+        props: route => ({
+          openType: 'edit',
+          id: route.params.id,
+          category: route.params.category,
+          objectID: +route.params.objectID
+        }),
+        hideInMenu: true,
+        meta: {
+          icon: 'link',
+          label: i18n.t('document.routerNotes.editLink'),
+          group: group.get('rd'),
+          description: '编辑链接文档'
+        },
+        component: () => import(/* webpackChunkName: "document" */ 'components/document/link/LinkForm.vue')
+      },
+      {
+        path: 'doc/:id/copy',
+        name: 'docCopy',
+        hideInMenu: true,
+        props: route => ({
+          action: 'copy',
+          id: route.params.id,
+          category: route.params.category,
+          objectID: route.params.objectID
+        }),
+        meta: {
+          icon: 'content_copy',
+          label: i18n.t('document.routerNotes.copy'),
+          group: group.get('rd'),
+          description: '文档复制(在线填写文档)'
+        },
+        component: () => import(/* webpackChunkName: "document" */ 'components/document/DocumentMoveCopy.vue')
+      },
+      {
+        path: 'file/:id/copy',
+        name: 'fileCopy',
+        hideInMenu: true,
+        props: route => ({
+          action: 'copy',
+          id: route.params.id,
+          category: route.params.category,
+          objectID: +route.params.objectID
+        }),
+        meta: {
+          group: group.get('rd'),
+          description: '文档复制(上传的文档)',
+          icon: 'content_copy',
+          label: i18n.t('document.routerNotes.fileCopy')
+        },
+        component: () => import(/* webpackChunkName: "document" */ 'components/document/DocumentMoveCopy.vue')
+      },
+      {
+        path: 'link/:id/copy',
+        name: 'linkCopy',
+        hideInMenu: true,
+        props: route => ({
+          action: 'copy',
+          id: route.params.id,
+          category: route.params.category,
+          objectID: +route.params.objectID
+        }),
+        meta: {
+          icon: 'content_copy',
+          label: i18n.t('document.routerNotes.copy'),
+          group: group.get('rd'),
+          description: '链接文档复制'
+        },
+        component: () => import(/* webpackChunkName: "document" */ 'components/document/DocumentMoveCopy.vue')
+      },
+      {
+        path: 'doc/:id/move',
+        name: 'docMove',
+        hideInMenu: true,
+        props: route => ({
+          action: 'move',
+          id: route.params.id,
+          category: route.params.category,
+          objectID: +route.params.objectID
+        }),
+        meta: {
+          icon: 'redo',
+          label: i18n.t('document.routerNotes.move'),
+          group: group.get('rd'),
+          description: '文档移动(在线的文档)'
+        },
+        component: () => import(/* webpackChunkName: "document" */ 'components/document/DocumentMoveCopy.vue')
+      },
+      {
+        path: 'file/:id/move',
+        name: 'fileMove',
+        hideInMenu: true,
+        props: route => ({
+          action: 'move',
+          id: route.params.id,
+          category: route.params.category,
+          objectID: +route.params.objectID
+        }),
+        meta: {
+          group: group.get('rd'),
+          description: '文档移动(上传的文档)',
+          icon: 'redo',
+          label: i18n.t('document.routerNotes.move')
+        },
+        component: () => import(/* webpackChunkName: "document" */ 'components/document/DocumentMoveCopy.vue')
+      },
+      {
+        path: 'link/:id/move',
+        name: 'linkMove',
+        hideInMenu: true,
+        props: route => ({
+          action: 'move',
+          id: route.params.id,
+          category: route.params.category,
+          objectID: +route.params.objectID
+        }),
+        meta: {
+          icon: 'redo',
+          label: i18n.t('document.routerNotes.move'),
+          group: group.get('rd'),
+          description: '链接文档移动'
+        },
+        component: () => import(/* webpackChunkName: "document" */ 'components/document/DocumentMoveCopy.vue')
+      },
+      {
+        path: ':classify(file|link|doc)/:id(\\d+)/send',
+        name: 'documentSend',
+        hideInMenu: true,
+        props: route => ({
+          id: route.params.id,
+          type: 'document',
+          category: route.params.category,
+          objectID: route.params.objectID
+        }),
+        meta: {
+          icon: 'person_add',
+          label: i18n.t('document.routerNotes.send'),
+          requiresAuth: true,
+          group: group.get('rd')
+        },
+        component: () => import(/* webpackChunkName: "document" */ 'components/resource/ResourceSend.vue')
+      },
+      {
+        path: 'doc/:id/history',
+        name: 'docHistory',
+        hideInMenu: true,
+        props: true,
+        meta: {
+          icon: 'help',
+          label: '文档历史记录',
+          group: group.get('rd'),
+          index: 80,
+          requiresAuth: true,
+          description: '文档历史记录'
+        },
+        component: () => import('components/document/DocumentHistory')
+      },
+      {
+        path: 'markmap/:id/history',
+        name: 'markmapHistory',
+        hideInMenu: true,
+        props: true,
+        meta: {
+          icon: 'help',
+          label: '文档历史记录',
+          group: group.get('rd'),
+          index: 80,
+          requiresAuth: true,
+          description: '文档历史记录'
+        },
+        component: () => import('components/document/DocumentHistory')
+      },
+      {
+        path: 'file/:id/history',
+        name: 'fileHistory',
+        hideInMenu: true,
+        props: true,
+        meta: {
+          icon: 'help',
+          label: '文档历史记录',
+          group: group.get('rd'),
+          index: 80,
+          requiresAuth: true,
+          description: '文档历史记录'
+        },
+        component: () => import('components/document/DocumentHistory')
+      },
+      {
+        path: 'link/:id/history',
+        name: 'linkHistory',
+        hideInMenu: true,
+        props: true,
+        meta: {
+          icon: 'help',
+          label: '链接历史记录',
+          group: group.get('rd'),
+          index: 80,
+          requiresAuth: true,
+          description: '链接历史记录'
+        },
+        component: () => import('components/document/DocumentHistory')
+      },
+      // 查看访问下载记录 
+      {
+        path: 'doc/:id/count',
+        name: 'docCount',
+        hideInMenu: true,
+        props: true,
+        meta: {
+          icon: 'help',
+          label: '文档访问下载记录',
+          group: group.get('rd'),
+          index: 80,
+          requiresAuth: true,
+          description: '文档访问下载记录'
+        },
+        component: () => import('components/document/DocumentOrNoticeCount')
+      },
+      {
+        path: 'markmap/:id/count',
+        name: 'markmapCount',
+        hideInMenu: true,
+        props: true,
+        meta: {
+          icon: 'help',
+          label: '文档访问下载记录',
+          group: group.get('rd'),
+          index: 80,
+          requiresAuth: true,
+          description: '文档访问下载记录'
+        },
+        component: () => import('components/document/DocumentOrNoticeCount')
+      },
+      {
+        path: 'file/:id/count',
+        name: 'fileCount',
+        hideInMenu: true,
+        props: true,
+        meta: {
+          icon: 'help',
+          label: '文档访问下载记录',
+          group: group.get('rd'),
+          index: 80,
+          requiresAuth: true,
+          description: '文档访问下载记录'
+        },
+        component: () => import('components/document/DocumentOrNoticeCount')
+      },
 
-export default {
-  /**
-   * load files
-   * @param {Object} param0 --
-   */
-  loadFiles ({ state, commit }, { query, byPage = false }) {
-    return request.get(byPage ? url.getPageList : url.getList, {
-      query: JSON.stringify(query),
-      limit: state.page.limit,
-      offset: state.page.offset,
-      sort: ''
-    }).then(res => {
-      let files = File.from(res.data)
-      commit('pushFiles', files)
-      commit('updatePage',
-        {
-          offset: state.page.offset + files.length,
-          limit: state.page.limit
-        })
-      return files
-    }, error => {
-      showWarningMessage(i18n.t(`file.error.${error.userMessage}`))
-      return true
-    })
+      {
+        path: 'link/:id/count',
+        name: 'linkCount',
+        hideInMenu: true,
+        props: true,
+        meta: {
+          icon: 'help',
+          label: '链接访问下载记录',
+          group: group.get('rd'),
+          index: 80,
+          requiresAuth: true,
+          description: '链接访问下载记录'
+        },
+        component: () => import('components/document/DocumentOrNoticeCount')
+      },
+      {
+        path: 'file/:id/versions',
+        name: 'fileVersion',
+        hideInMenu: true,
+        props: true,
+        meta: {
+          group: group.get('rd'),
+          description: '文档历史版本',
+          icon: 'insert_drive_file',
+          label: '文档历史版本'
+        },
+        component: () => import(/* webpackChunkName: "document" */ 'components/document/file/FileVersion.vue')
+      },
+      {
+        path: 'folder/:id/trash',
+        name: 'documentTrash',
+        hideInMenu: true,
+        props: true,
+        meta: {
+          label: i18n.t('document.trash'),
+          group: group.get('rd'),
+          requiresAuth: true,
+          description: '文档废纸篓',
+          icon: 'app:tw-icon-document'
+        },
+        component: () => import(/* webpackChunkName: "document" */ 'components/document/TrashList.vue')
+      }
+    ]
   },
-  /**
-   * 获取文件对象
-   * @param {Object} param0 --
-   * @param {Number} id 文件id
-   */
-  loadFile ({ state, commit }, id) {
-    // 先从前台列表缓存获取
-    let file = _.find(state.files, { id })
-    if (file) {
-      return file
-    } else {
-      // 否则从后台数据库获取,并放入列表缓存
-      return request.get(url.getModel, { id }).then(res => {
-        let frontFile = File.from(res.data)
-        commit('pushFiles', [frontFile])
-        return frontFile
-      }, error => {
-        showWarningMessage(i18n.t(`file.error.${error.userMessage}`))
-        return {}
-      })
-    }
-  },
-  /**
-   * 新建文件
-   * @param {Object} param0 --
-   * @param {Object} file 新建的文件对象
-   */
-  addFile ({ state, commit }, file) {
-    let endFile = File.to(new File(file))
-    return request.post(url.add, endFile).then(res => {
-      let frontFile = File.from(res.data)
-      // 更新缓存列表
-      commit('pushFiles', [frontFile])
-      return frontFile
-    }, error => {
-      showWarningMessage(i18n.t(`file.error.${error.userMessage}`))
-      return {}
-    })
-  },
-  batchAddFiles ({ state, commit }, files) {
-    let endFiles = File.to(files)
-    return request.post(url.batchAdd, endFiles).then(res => {
-      let frontFiles = File.from(res.data)
-      // 更新缓存列表
-      commit('pushFiles', frontFiles)
-      return frontFiles
-    }, error => {
-      showWarningMessage(i18n.t(`file.error.${error.userMessage}`))
-      return {}
-    })
-  },
-  /**
-   * 编辑文件
-   * @param {Object} param0 --
-   * @param {Object} file 编辑后的文件对象
-   */
-  updateFile ({ state, commit }, file) {
-    let endFile = File.to(file)
-    return request.put(url.update, endFile).then(res => {
-      let frontFile = File.from(res.data)
-      commit('updateFile', frontFile)
-      return frontFile
-    }, error => {
-      showWarningMessage(i18n.t(`file.error.${error.userMessage}`))
-      return {}
-    })
-  },
-  /**
-   * 删除一个文件
-   * @param {Object} param0 --
-   * @param {Number} id 文件id
-   */
-  deleteFile ({ state, commit }, id) {
-    return request.delete(url.delete, { id }).then(res => {
-      commit('deleteFile', id)
-      return true
-    }, error => {
-      showWarningMessage(i18n.t(`file.error.${error.userMessage}`))
-      return false
-    })
-  },
-  // 添加访问记录
-  loadRecords ({ state, commit, dispatch }, { query, type }) {
-    const condition = {
-      query: JSON.stringify(query),
-      search: '',
-      limit: state[`${type}RecordPage`].limit,
-      offset: state[`${type}RecordPage`].offset
-    }
-    return request
-      .get('files/loadrecords', condition)
-      .then(res => {
-        let records = Record.from(res.data)
-        res.data = records
-        commit(`${type}UpdatePage`,
-          {
-            offset: state[`${type}RecordPage`].offset + records.length,
-            limit: state[`${type}RecordPage`].limit,
-            nextPageToken: res.nextPageToken
-          })
-        commit(`${type}PushFiles`, records)
-        return res
-      })
-      .catch(error => {
-        error.userMessage && showWarningMessage(error.userMessage)
-        return []
-      })
+  {
+    path: '/download',
+    name: 'download',
+    hideInMenu: true,
+    meta: {
+      icon: 'file_download',
+      label: i18n.t('document.download'),
+      index: 0,
+      requiresAuth: false,
+      group: group.get('index')
+    },
+    component: () =>
+      import(/* webpackChunkName: "file" */'pages/PageDownload.vue'),
+    props: (route) => ({ file: route.query.file, size: route.query.size })
   }
-}
+]
