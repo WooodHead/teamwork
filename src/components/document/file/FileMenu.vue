@@ -3,6 +3,9 @@
     :flat="flat"
     :size="size"
     :menus="menuList"
+    :bgColor="bgColor"
+    :anchor="anchor"
+    :self="self"
     @edit="editItem()"
     @move="moveOrCopyItem('Move')"
     @copy="moveOrCopyItem('Copy')"
@@ -61,6 +64,21 @@ export default {
       type: String,
       required: false,
       default: 'md'
+    },
+    bgColor: {
+      type: String,
+      required: false,
+      default: 'bg-blue-1'
+    },
+    anchor: {
+      type: String,
+      required: false,
+      default: 'top left'
+    },
+    self: {
+      type: String,
+      required: false,
+      default: 'top right'
     }
   },
   data () {
