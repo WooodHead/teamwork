@@ -25,5 +25,8 @@ export default {
       followups = state.followups
     }
     return followups
+  },
+  search: state => {
+    return state.search
   }
 }

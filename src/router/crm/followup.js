@@ -44,6 +44,20 @@ export default [
           import(
             /* webpackChunkName: "followup" */ 'src/components/followup/FollowupDetail.vue'
           )
+      }, {
+        path: 'add',
+        name: 'followupAdd',
+        props: route => ({
+          openType: 'add',
+          category: route.params.category,
+          objectID: route.params.objectID
+        }),
+        hideInMenu: true,
+        meta: {
+          group: group.get('crm'),
+          description: '新建跟进'
+        },
+        component: () => import(/* webpackChunkName: "followup" */ 'components/followup/FollowupEdit.vue')
       },
       {
         path: ':id(\\d+)/edit',

@@ -8,7 +8,7 @@
     <tw-header-card
       :title="$t(`followup.title`)"
       :actions="actions"
-      :add="{label:$t(`followup.addLabel`),click:()=>{addingEvent=true}}"
+      :add="{label:$t(`followup.addLabel`),click:()=>addFollowup()}"
     >
       <template v-slot:titleAppend>
         <!-- 跟进数量 -->
@@ -32,17 +32,14 @@
         </div>
       </div>
     </q-card-section>
-    <!-- 新建跟进Form -->
     <q-card-section
-      v-if="addingEvent"
-      class="q-pa-none"
+      class="tw-resume-header bg-white"
+      :class="$q.screen.gt.xs ? 'q-px-xl' : 'q-px-md'"
     >
-      <followup-edit
-        :category="category"
-        :objectID="+objectID"
-        :id="+id"
-        @ok="onOk"
-        @cancel="onCancel"
+      <!-- 搜索组件 -->
+      <tw-search-panel
+        :search.sync="search"
+        :showPanelBtn="false"
       />
     </q-card-section>
     <!-- 跟进记录 -->
@@ -79,10 +76,10 @@ export default {
     }
   },
   components: {
-    'followup-edit': () => import('components/followup/FollowupEdit'),
     // 'tw-menu': ()=> import('components/base/TwMenu'),
     'tw-header-card': () => import('components/base/TwHeaderCard'),
-    FollowupList: () => import('components/followup/FollowupList')
+    FollowupList: () => import('components/followup/FollowupList'),
+    TwSearchPanel: () => import('components/base/TwSearchPanel')
   },
   data () {
     return {
@@ -105,6 +102,16 @@ export default {
     // 切换卡片和列表
     sortUpdate (value) {
       this.setView(value)
+    },
+    addFollowup () {
+      this.$router.push({
+        name: 'followupAdd',
+        params: {
+          category: this.category,
+          objectID: +this.objectID,
+          id: 0
+        }
+      })
     },
     // 编辑确认按钮
     onOk () {
@@ -135,12 +142,15 @@ export default {
     menuLists () {
       return [{ group: ['exportPDF', 'exportExcel'] }]
     },
-    addingEvent: {
+    // 搜索框搜索条件
+    search: {
       get () {
-        return this.$store.state.followup.addingEvent
+        return this.$store.getters['followup/search']
       },
-      set (value) {
-        this.setAddingEvent(value)
+      set (val) {
+        val
+          ? this.$store.commit('followup/setSearch', val)
+          : this.$store.commit('followup/setSearch', '')
       }
     },
     filterType: {
