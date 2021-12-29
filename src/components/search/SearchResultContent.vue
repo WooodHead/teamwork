@@ -27,12 +27,6 @@
           </tw-avatar>
         </div>
         <div class="col">
-          <q-item-label
-            caption
-            lines="0"
-            v-if="!['project','productDev','team'].includes(result.modules)"
-          >{{result.resource}} {{timeAgo({ dateTime: result.modifyTime||result.createTime })}}
-          </q-item-label>
           <q-item-label lines="5">
             <task-result
               v-if="result.modules==='task'"
@@ -74,6 +68,12 @@
               v-if="result.modules==='team'"
               :team="result"
             />
+          </q-item-label>
+          <q-item-label
+            caption
+            lines="0"
+            v-if="!['project','productDev','team'].includes(result.modules)"
+          >{{result.resource}} {{timeAgo({ dateTime: result.modifyTime||result.createTime })}}
           </q-item-label>
         </div>
       </div>

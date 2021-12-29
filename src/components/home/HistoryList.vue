@@ -1,7 +1,7 @@
 <template>
   <q-card
     flat
-    bordered
+    :bordered="showBorder"
     class="q-pa-md"
     :style="{'width': '35vw', 'max-height': $q.screen.lt.sm ? '60vh' : '80vh'}"
   >
@@ -119,6 +119,13 @@ import { format, LocalStorage } from 'quasar'
 const { capitalize } = format
 export default {
   name: 'HistoryList',
+  props: {
+    showBorder: {
+      type: Boolean,
+      default: true,
+      description: '是否显示边界'
+    }
+  },
   data () {
     return {
       myself: LocalStorage.getItem('myself')

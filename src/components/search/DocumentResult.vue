@@ -8,17 +8,26 @@
 -->
 
 <template>
-  <div>
-    <a
-      class="text-primary text-weight-bold "
+  <div class=" cursor-pointer">
+    <div
+      class="text-primary text-weight-bold"
       href="javascript:void(0);"
       @click="toDetail(document)"
-    >{{title}}</a>
+    >
+      <q-icon
+        :name="
+          document.classify == 'folder'
+            ? 'app:tw-icon-folder'
+            : 'app:tw-icon-file'"
+        color="amber"
+        style="font-size: 14px; margin-top: -3px;"
+      />
+      {{ document.title }}
+    </div>
     <div
       v-html="document.content"
       class="q-mt-sm bg-grey-1 tiptap-content editor__content"
-    >
-    </div>
+    ></div>
   </div>
 </template>
 
@@ -41,14 +50,13 @@ export default {
   computed: {
     title () {
       if (this.document.classify === 'folder') {
-        return '文件夹: "' + this.document.title + '"'
+        return '文件夹: " + this.document.title + "'
       } else {
         return '文档: "' + this.document.title + '"'
       }
     }
   },
-  components: {
-  },
+  components: {},
   methods: {
     toDetail (model) {
       let name = ''
@@ -69,10 +77,8 @@ export default {
       })
     }
   },
-  mounted () {
-  }
+  mounted () {}
 }
-
 </script>
 
-<style lang='stylus' scoped></style>
+<style lang="stylus" scoped></style>

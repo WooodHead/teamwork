@@ -12,7 +12,8 @@
     {organize:$t('organize.title'),
      productDev:$t('productDev.title'),
      project:$t('project.title'),
-     team:$t('team.title')
+     team:$t('team.title'),
+     wiki:$t('wiki.title')
     })"
     use-input
     fill-input

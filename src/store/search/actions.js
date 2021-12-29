@@ -174,7 +174,7 @@ export default {
         offset: page.offset + list.length,
         nextPageToken: res.nextPageToken
       })
-      return list.filter(a => a.resource)
+      return list
     })
       .catch(error => {
         error.userMessage &&

@@ -24,6 +24,12 @@ export default {
   setSearch (state, value) {
     state.search = value
   },
+  setList (state, value) {
+    state.recordLeaveList = value
+  },
+  setCount (state, value) {
+    state.recordLeaveCount = value
+  },
   // 设置搜索条件
   setModules (state, value) {
     state.modules = value
