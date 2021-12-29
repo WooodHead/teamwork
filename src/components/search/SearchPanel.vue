@@ -1,6 +1,15 @@
-
 <template>
   <q-card-section>
+    <!-- 快捷搜索(当前页面内搜索和查看上一次搜索) -->
+    <div 
+    class="q-pb-sm cursor-pointer" 
+    @click="searchCurrentPage"
+    :class="showCurrentPage?'text-primary':'text-grey'"
+    >
+      <span class="q-mr-lg">{{ $t("search.searchCurrentPage") }}</span>
+    </div>
+
+    <!-- 顶部自定义搜索 -->
     <q-input
       v-model="search"
       :placeholder="$t('search.searchFor')"
@@ -15,26 +24,21 @@
           flat
           size="sm"
           icon="local_offer"
-          @click.stop="dialog=true"
+          @click.stop="dialog = true"
         >
-          <q-tooltip>{{$t('base.selectTags')}} </q-tooltip>
+          <q-tooltip>{{ $t("base.selectTags") }} </q-tooltip>
         </q-btn>
-        <div
-          v-if="search"
-          class="cursor-pointer"
-          @click="Reset"
-        >
-          <q-icon
-            name="close"
-            size="xs"
-          ></q-icon>
+        <div v-if="search" class="cursor-pointer" @click="Reset">
+          <q-icon name="close" size="xs"></q-icon>
         </div>
       </template>
     </q-input>
+
+    <!-- 所有模块 -->
     <div
       class=" q-pt-sm q-gutter-sm"
       style="font-size:14px"
-      :class="$q.screen.lt.sm?'':'row'"
+      :class="$q.screen.lt.sm ? '' : 'row'"
     >
       <q-select
         class="col-md-2"
@@ -49,17 +53,15 @@
         dense
       >
         <template v-slot:option="scope">
-          <q-separator v-if="scope.opt.value==='all'" />
-          <q-item
-            v-bind="scope.itemProps"
-            v-on="scope.itemEvents"
-          >
+          <q-separator v-if="scope.opt.value === 'all'" />
+          <q-item v-bind="scope.itemProps" v-on="scope.itemEvents">
             <q-item-section>
               <q-item-label v-html="scope.opt.label" />
             </q-item-section>
           </q-item>
         </template>
       </q-select>
+      <!-- 搜索人 -->
       <tw-select-person
         class="col-md-2"
         v-model="person"
@@ -71,6 +73,7 @@
         :label="$t('base.selectPerson')"
       >
       </tw-select-person>
+      <!-- 日期选择 -->
       <q-input
         v-model="searchDateTitle"
         outlined
@@ -93,20 +96,13 @@
             class="cursor-pointer text-dark"
             title="选择日期"
           >
-            <q-popup-proxy
-              transition-show="scale"
-              transition-hide="scale"
-            >
-              <q-date
-                v-model="searchDate"
-                mask="YYYY-MM-DD"
-                minimal
-                range
-              />
+            <q-popup-proxy transition-show="scale" transition-hide="scale">
+              <q-date v-model="searchDate" mask="YYYY-MM-DD" minimal range />
             </q-popup-proxy>
           </q-icon>
         </template>
       </q-input>
+      <!-- 部门选择 -->
       <tw-select-organize
         v-if="selectOrganize"
         class="col"
@@ -116,6 +112,7 @@
         rounded
         dense
       />
+      <!-- 资源选择 -->
       <tw-select-resource
         v-else
         class="col-md"
@@ -126,24 +123,32 @@
         dense
       />
     </div>
+    <!-- 搜索结果 -->
     <div
       class="q-gutter-sm q-mt-md"
-      :class="{'q-px-sm':$q.platform.is.mobile}"
+      :class="{ 'q-px-sm': $q.platform.is.mobile }"
     >
+      <!-- 最近访问 -->
+      <history-list
+       ref="historyList"
+        v-if="showRecentVisit"
+        :showBorder="false"
+        style="padding-top:0 !important;"
+      />
       <search-result
+        ref="searchResult"
+        v-else
         :modules="modules"
         :object="object"
         :person="person"
         :search="search"
         :searchDate="searchDate"
         :organize="organize"
-      >
-      </search-result>
+      />
     </div>
-    <q-dialog
-      v-model="dialog"
-      position="top"
-    >
+
+    <!-- 弹出标签选择 -->
+    <q-dialog v-model="dialog" position="top">
       <q-card
         style="width: 600px; max-width: 150vw; max-height:150vh"
         class="q-gutter-sm q-pa-md"
@@ -156,8 +161,8 @@
           <q-chip
             class="cursor-pointer"
             rounded
-            :color="tag.selected?'primary':''"
-            :text-color="tag.selected?'white':'black'"
+            :color="tag.selected ? 'primary' : ''"
+            :text-color="tag.selected ? 'white' : 'black'"
             :label="tag.title"
             no-caps
           />
@@ -171,23 +176,34 @@ import { LocalStorage } from 'quasar'
 import { mapState, mapActions, mapMutations } from 'vuex'
 import Vue from 'vue'
 export default {
-  name: 'SearchPanel',
+  name: 'SearchPa',
   data () {
     return {
       dialog: false,
       myinfo: LocalStorage.getItem('myself'),
-      tags: []
+      tags: [],
+      showCurrentPage: false
     }
   },
   components: {
     'search-result': () => import('components/search/SearchResult'),
     'tw-select-person': () => import('components/base/TwSelectPerson'),
     'tw-select-resource': () => import('components/base/TwSelectResource'),
-    'tw-select-organize': () => import('components/base/TwSelectOrganize')
+    'tw-select-organize': () => import('components/base/TwSelectOrganize'),
+    HistoryList: () => import('components/home/HistoryList')
   },
   computed: {
     ...mapState('breadcrumbs', ['resource']),
     ...mapState('search', ['moduleOptions']),
+    showRecentVisit () {
+      return (
+        !this.search &&
+        this.modules.value === 'all' &&
+        !this.person.id &&
+        !this.organize.id &&
+        this.object.value === 'all'
+      )
+    },
     searchDateTitle () {
       if (this.searchDate) {
         return this.searchDate.from + '~' + this.searchDate.to
@@ -231,11 +247,13 @@ export default {
     // 搜索人员
     person: {
       get () {
-        return this.$store.state.search.person || {
-          id: null,
-          name: '',
-          type: 'all'
-        }
+        return (
+          this.$store.state.search.person || {
+            id: null,
+            name: '',
+            type: 'all'
+          }
+        )
       },
       set (value) {
         this.setPerson(value)
@@ -273,43 +291,48 @@ export default {
     }
   },
   watch: {
-    'search': {
+    search: {
       deep: true,
       handler (newVal, oldVal) {
+        debugger
         this.tags.forEach(item => {
           // 判断一个数组是否包含另一个数组
-          if (_.union(newVal.split(','), item.title.split(',')).length === newVal.split(',').length) {
+          if (
+            _.union(newVal.split(','), item.title.split(',')).length ===
+            newVal.split(',').length
+          ) {
             item.selected = true
           } else {
             item.selected = false
           }
         })
       }
-    },
-    $route: {
-      immediate: true,
-      deep: true,
-      handler (newVal, oldVal) {
-        if ('projectDetail,productDevDetail,teamDetail'.includes(newVal.name)) {
-          this.object = {
-            label: this.resource.title,
-            value: this.resource.id,
-            type: this.resource.category
-          }
-          this.setModules(this.moduleOptions.find(a => a.type === 'all'))
-        } else {
-          let route = this.findModuleInRoute(newVal.path)
-          this.setModules(this.moduleOptions.find(a => a.type === route))
-          if (this.resource.id) {
-            this.object = {
-              label: this.resource.title,
-              value: this.resource.id,
-              type: this.resource.category
-            }
-          }
-        }
-      }
     }
+    // $route: {
+    //   immediate: true,
+    //   deep: true,
+    //   handler (newVal, oldVal) {
+    //     debugger
+    //     if ('projectDetail,productDevDetail,teamDetail'.includes(newVal.name)) {
+    //       this.object = {
+    //         label: this.resource.title,
+    //         value: this.resource.id,
+    //         type: this.resource.category
+    //       }
+    //       this.setModules(this.moduleOptions.find(a => a.type === 'all'))
+    //     } else {
+    //       let route = this.findModuleInRoute(newVal.path)
+    //       this.setModules(this.moduleOptions.find(a => a.type === route))
+    //       if (this.resource.id) {
+    //         this.object = {
+    //           label: this.resource.title,
+    //           value: this.resource.id,
+    //           type: this.resource.category
+    //         }
+    //       }
+    //     }
+    //   }
+    // }
   },
   mounted () {
     this.loadTags().then(res => {
@@ -318,7 +341,10 @@ export default {
         this.tags = _.uniqBy(res, 'title')
         this.tags.forEach(item => {
           // 判断一个数组是否包含另一个数组
-          if (_.union(this.search.split(','), item.title.split(',')).length === this.search.split(',').length) {
+          if (
+            _.union(this.search.split(','), item.title.split(',')).length ===
+            this.search.split(',').length
+          ) {
             item.selected = true
           } else {
             item.selected = false
@@ -329,7 +355,37 @@ export default {
   },
   methods: {
     ...mapActions('tag', ['loadTags']),
-    ...mapMutations('search', ['setSearch', 'setObject', 'setPerson', 'setModules', 'setSearchDate', 'setOrganize']),
+    ...mapMutations('search', [
+      'setSearch',
+      'setObject',
+      'setPerson',
+      'setModules',
+      'setSearchDate',
+      'setOrganize'
+    ]),
+    searchCurrentPage () {
+      debugger
+      this.showCurrentPage = true
+      let newVal = this.$route
+      if ('projectDetail,productDevDetail,teamDetail'.includes(newVal.name)) {
+        this.object = {
+          label: this.resource.title,
+          value: this.resource.id,
+          type: this.resource.category
+        }
+        this.setModules(this.moduleOptions.find(a => a.type === 'all'))
+      } else {
+        let route = this.findModuleInRoute(newVal.path)
+        this.setModules(this.moduleOptions.find(a => a.type === route))
+        if (this.resource.id) {
+          this.object = {
+            label: this.resource.title,
+            value: this.resource.id,
+            type: this.resource.category
+          }
+        }
+      }
+    },
     Reset () {
       let search = ''
       this.setSearch(search)
@@ -364,14 +420,20 @@ export default {
     selectCondition (value) {
       let a = []
       if (this.search !== '') {
-        a = this.search.replace(/^,+/, '').replace(/,+$/, '').split(',')
+        a = this.search
+          .replace(/^,+/, '')
+          .replace(/,+$/, '')
+          .split(',')
       }
       let index = this.tags.findIndex(item => item.id === value)
       this.tags[index].selected = !this.tags[index].selected
       if (this.tags[index].selected) {
         a.push(this.tags[index].title)
       } else {
-        Vue.delete(a, a.findIndex(a => a === this.tags[index].title))
+        Vue.delete(
+          a,
+          a.findIndex(a => a === this.tags[index].title)
+        )
       }
       this.setSearch(a.join(','))
     },
@@ -379,7 +441,19 @@ export default {
       let list = _.reverse(route.split('/'))
       let moduleItem = 'all'
       for (let i = 0; i < list.length; i++) {
-        if (list[i] !== '' && ['project', 'productDev', 'team', 'task', 'notice', 'document', 'schedule', 'checkins'].includes(list[i])) {
+        if (
+          list[i] !== '' &&
+          [
+            'project',
+            'productDev',
+            'team',
+            'task',
+            'notice',
+            'document',
+            'schedule',
+            'checkins'
+          ].includes(list[i])
+        ) {
           moduleItem = list[i]
           break
         }
@@ -389,7 +463,7 @@ export default {
   }
 }
 </script>
-<style lang='scss' scoped>
+<style lang="scss" scoped>
 .my-card {
   max-width: 860px;
   min-width: 50vw;

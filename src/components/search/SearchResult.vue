@@ -20,6 +20,7 @@
         >查看更多</a>
       </template>
     </q-banner>
+
     <div>
       <div
         v-if="loading"
@@ -106,7 +107,7 @@ export default {
     }
   },
   computed: {
-    ...mapState('search', ['moduleOptions', 'page']),
+    ...mapState('search', ['moduleOptions', 'page', 'recordLeaveList', 'recordLeaveCount']),
     SearchResultsTitle () {
       if (this.count > 0) {
         return this.$t('search.searchResults', {
@@ -213,6 +214,7 @@ export default {
       })
     },
     init () {
+      debugger
       this.list = []
       this.count = 0
       this.loading = true
@@ -229,7 +231,6 @@ export default {
         }).then(res => {
           this.loading = false
           this.list = res
-          // this.list = _.orderBy(res, ['modifyTime'], ['desc'])
         })
         this.loadCount({
           person: this.person,
@@ -262,11 +263,8 @@ export default {
                 this.loading = false
                 if (res.length >= 0) {
                   let newlist = _.differenceBy(res, this.list, ['id', 'modules'])
-                  newlist.forEach(item => {
-                    this.list.push(item)
-                  })
+                  this.list.push(...newlist)
                 }
-                // this.list = _.orderBy(this.list, ['modifyTime'], ['desc'])
               })
               this.loadCount({
                 object: this.object,
@@ -293,7 +291,6 @@ export default {
           }).then(res => {
             this.loading = false
             this.list = res
-            // this.list = _.orderBy(res, ['modifyTime'], ['desc'])
           })
           this.loadCount({
             object: this.object,
@@ -310,7 +307,15 @@ export default {
     }
   },
   mounted () {
-    this.init()
+    if (!this.recordLeaveList.length) {
+      this.init()
+    } else {
+      this.list = this.recordLeaveList
+      this.count = this.recordLeaveCount
+      this.loading = false
+    }
+
+    // this.init()
   }
 }
 </script>

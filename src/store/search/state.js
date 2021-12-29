@@ -3,7 +3,9 @@ export default {
   results: [],
   resources: [],
   organizes: [],
-  count: 0,
+  list: [],
+  recordLeaveList: [],
+  recordLeaveCount: 0,
   sort: 'createTime',
   order: 'desc',
   // 搜索组件初始值
