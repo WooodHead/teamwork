@@ -1,3 +1,4 @@
+import date from '@/utils/get-date.js'
 export default function () {
   return {
     // 跟进列表
@@ -9,8 +10,6 @@ export default function () {
       limit: 3,
       nextPageToken: 0
     },
-    // 模糊查询
-    search: '',
     ObjectType: 'customer',
     ObjectID: 0,
     addingEvent: false,
@@ -23,6 +22,32 @@ export default function () {
       { label: '面谈', val: '面谈', iconName: 'supervisor_account', iconColor: 'accent' },
       { label: '视频会议', val: '视频会议', iconName: 'videoMeeting', iconColor: 'primary' },
       { label: '其他', val: '其他', iconName: 'call_missed_outgoing', iconColor: 'secondary' }
+    ],
+    // 模糊查询
+    search: '',
+    query: [],
+    queryList: [
+      {
+        label: '跟进时间',
+        value: [
+          { label: '本周', value: date.getCurrWeekDays(), name: 'createTime' },
+          { label: '上周', value: date.getLastWeekDays(), name: 'createTime' },
+          { label: '本月', value: date.getCurrMonthDays(), name: 'createTime' },
+          { label: '上月', value: date.getLastMonthDays(), name: 'createTime' },
+          { label: '本年度', value: date.getCurrYearDays(), name: 'createTime' },
+          { label: '自定义', value: { from: '', to: '' }, name: 'createTime', labelPrefix: '创建时间:', custom: true }
+        ]
+      },
+      {
+        label: '跟进方式',
+        value: [
+          { label: '电话', value: 1, name: 'contactForm' },
+          { label: '邮件', value: 2, name: 'contactForm' },
+          { label: '面谈', value: 3, name: 'contactForm' },
+          { label: '视频会议', value: 4, name: 'contactForm' },
+          { label: '其他', value: 5, name: 'contactForm' }
+        ]
+      }
     ]
   }
 }

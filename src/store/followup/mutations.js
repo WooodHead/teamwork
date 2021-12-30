@@ -29,6 +29,15 @@ export default {
     Vue.delete(state.followups, index)
   },
   /**
+   * 检索设定
+   *
+   * @param {*} state
+   * @param {*} payload
+   */
+  setQuery (state, payload) {
+    state.query = payload
+  },
+  /**
    * 设置是否分页
    * @param {*} state
    * @param {*} value

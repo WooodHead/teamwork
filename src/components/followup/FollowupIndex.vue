@@ -38,15 +38,18 @@
     >
       <!-- 搜索组件 -->
       <tw-search-panel
+        :queryList="queryList"
         :search.sync="search"
-        :showPanelBtn="false"
+        :query.sync="query"
+        label="搜索标题/客户联系人/参与人/内容"
       />
     </q-card-section>
     <!-- 跟进记录 -->
-    <q-card-section class="q-px-xxl q-pt-none">
+    <q-card-section class="q-px-xl q-pt-none">
       <followup-list
         :category="category"
         :objectID="+objectID"
+        :condition="listPageType.selectCondition"
       />
     </q-card-section>
   </q-card>
@@ -73,6 +76,13 @@ export default {
       default: () => {
         return LocalStorage.getItem('myself').id
       }
+    },
+    condition: {
+      type: Object,
+      default: () => {
+        return { isArchive: false }
+      },
+      description: '获取跟进列表的条件，后面有了后台可以传递，params，query等条件'
     }
   },
   components: {
@@ -138,9 +148,22 @@ export default {
   },
   computed: {
     ...mapState('followup', ['search', 'view', 'followups']),
-    ...mapGetters('followup', ['followups']),
+    ...mapGetters('followup', ['followups', 'listStyle', 'listPageType']),
     menuLists () {
       return [{ group: ['exportPDF', 'exportExcel'] }]
+    },
+    queryList: {
+      get () { return this.$store.getters[`followup/queryList`] }
+    },
+    query: {
+      get () {
+        return this.$store.getters['followup/query']
+      },
+      set (val) {
+        val
+          ? this.$store.commit('followup/setQuery', val)
+          : this.$store.commit('followup/setQuery', '')
+      }
     },
     // 搜索框搜索条件
     search: {
@@ -161,7 +184,7 @@ export default {
         this.setFilterType(value)
       }
     },
-    condition () {
+    condition2 () {
       return {
         query: [
           { Key: 'ObjectType', Value: this.category, Oper: 'eq' },

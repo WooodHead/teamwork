@@ -1,10 +1,10 @@
 <template>
   <q-card-section>
     <!-- 快捷搜索(当前页面内搜索和查看上一次搜索) -->
-    <div 
-    class="q-pb-sm cursor-pointer" 
-    @click="searchCurrentPage"
-    :class="showCurrentPage?'text-primary':'text-grey'"
+    <div
+      class="q-pb-sm cursor-pointer"
+      @click="searchCurrentPage"
+      :class="showCurrentPage?'text-primary':'text-grey'"
     >
       <span class="q-mr-lg">{{ $t("search.searchCurrentPage") }}</span>
     </div>
@@ -28,8 +28,15 @@
         >
           <q-tooltip>{{ $t("base.selectTags") }} </q-tooltip>
         </q-btn>
-        <div v-if="search" class="cursor-pointer" @click="Reset">
-          <q-icon name="close" size="xs"></q-icon>
+        <div
+          v-if="search"
+          class="cursor-pointer"
+          @click="Reset"
+        >
+          <q-icon
+            name="close"
+            size="xs"
+          ></q-icon>
         </div>
       </template>
     </q-input>
@@ -54,7 +61,10 @@
       >
         <template v-slot:option="scope">
           <q-separator v-if="scope.opt.value === 'all'" />
-          <q-item v-bind="scope.itemProps" v-on="scope.itemEvents">
+          <q-item
+            v-bind="scope.itemProps"
+            v-on="scope.itemEvents"
+          >
             <q-item-section>
               <q-item-label v-html="scope.opt.label" />
             </q-item-section>
@@ -96,8 +106,16 @@
             class="cursor-pointer text-dark"
             title="选择日期"
           >
-            <q-popup-proxy transition-show="scale" transition-hide="scale">
-              <q-date v-model="searchDate" mask="YYYY-MM-DD" minimal range />
+            <q-popup-proxy
+              transition-show="scale"
+              transition-hide="scale"
+            >
+              <q-date
+                v-model="searchDate"
+                mask="YYYY-MM-DD"
+                minimal
+                range
+              />
             </q-popup-proxy>
           </q-icon>
         </template>
@@ -130,7 +148,7 @@
     >
       <!-- 最近访问 -->
       <history-list
-       ref="historyList"
+        ref="historyList"
         v-if="showRecentVisit"
         :showBorder="false"
         style="padding-top:0 !important;"
@@ -148,7 +166,10 @@
     </div>
 
     <!-- 弹出标签选择 -->
-    <q-dialog v-model="dialog" position="top">
+    <q-dialog
+      v-model="dialog"
+      position="top"
+    >
       <q-card
         style="width: 600px; max-width: 150vw; max-height:150vh"
         class="q-gutter-sm q-pa-md"
@@ -294,7 +315,6 @@ export default {
     search: {
       deep: true,
       handler (newVal, oldVal) {
-        debugger
         this.tags.forEach(item => {
           // 判断一个数组是否包含另一个数组
           if (
@@ -364,7 +384,6 @@ export default {
       'setOrganize'
     ]),
     searchCurrentPage () {
-      debugger
       this.showCurrentPage = true
       let newVal = this.$route
       if ('projectDetail,productDevDetail,teamDetail'.includes(newVal.name)) {

@@ -123,7 +123,7 @@ export default {
       default: 'add'
     }
   },
-  data   () {
+  data () {
     return {
       date: '',
       goIntoAction: false,
@@ -138,7 +138,8 @@ export default {
       memberOptions: [] // 参与人下拉框数据源
     }
   },
-  mounted  () {
+  mounted () {
+    debugger
     // 给客户联系人下拉框绑定数据源
     let cateType = this.category.charAt(0).toUpperCase() + this.category.substring(1, this.category.length)
     this.category &&
@@ -242,7 +243,7 @@ export default {
     ...mapActions('customer', ['loadCustomer']),
     ...mapActions('member', ['loadMembers']),
     /** 保存 */
-    onSubmit    () {
+    onSubmit () {
       if (!this.model.content && this.model.content.length === 0) {
         showWarningMessage(this.$t('followup.addContent'))
         return
@@ -264,13 +265,13 @@ export default {
       this.$emit('ok')
     },
     /** 取消 */
-    onCancel    () {
+    onCancel () {
       this.$nextTick(() => {
         this.$emit('cancel')
       })
     },
     // 清除日期
-    CleanDate    () {
+    CleanDate () {
       this.date = ''
     }
   },

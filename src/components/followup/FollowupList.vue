@@ -1,15 +1,15 @@
 <template>
-  <q-list class="full-width row q-col-gutter-sm">
+  <q-list class="full-width row q-col-gutter-x-md">
     <div
-        v-for="followup in followupList"
-        :key="followup.id"
-        :class="followupList.length>1?'col-6':'col-12'"
-      >
-        <followup-card
-          class="q-mt-sm"
-          :model="followup"
-        ></followup-card>
-      </div>
+      v-for="followup in followupList"
+      :key="followup.id"
+      :class="followupList.length>1?'col-6':'col-12'"
+    >
+      <followup-card
+        class="q-mt-sm"
+        :model="followup"
+      ></followup-card>
+    </div>
   </q-list>
 </template>
 
