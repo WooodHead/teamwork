@@ -15,7 +15,7 @@
         filled
         v-model="model.title"
         label="标题"
-        :rules="[(val) => val && val.length > 0]"
+        :rules="[val => val.length >0 || '请输入标题']"
       >
       </q-input>
     </div>
@@ -95,8 +95,9 @@
 <script>
 import { showWarningMessage } from '@/utils/show-message'
 import { mapActions } from 'vuex'
+import { debounce } from 'quasar'
 import Followup from '@/store/followup/model'
-import Customer from 'src/store/customer/model'
+// import Customer from 'src/store/customer/model'
 export default {
   name: 'FollowupEdit',
   props: {
@@ -131,7 +132,7 @@ export default {
       classify: '电话',
       classifys: this.$store.state.followup.contactForm,
       model: new Followup(),
-      customer: new Customer(),
+      //  customer: new Customer(),
       clientModel: null, // 客户联系人下拉框v-model属性用
       clientOptions: [], // 客户联系人下拉框数据源
       memModel: [], // 参与人下拉框v-model属性用
@@ -143,7 +144,7 @@ export default {
     let cateType = this.category.charAt(0).toUpperCase() + this.category.substring(1, this.category.length)
     if (this.category === 'customer') {
       this.loadCustomer(+this.objectID).then(res => {
-        this.customer = res
+        // this.customer = res
         // 给客户联系人下拉框绑定数据源
         let clientPson = res.membersObject.client
         this.clientOptions = this.getPersons(clientPson)
@@ -155,7 +156,7 @@ export default {
         .dispatch(`${this.category}/load${cateType}`, +this.objectID)
         .then((res) => {
           this.loadCustomer(+res.customerID).then(res => {
-            this.customer = res
+            // this.customer = res
             // 给客户联系人下拉框绑定数据源
             let clientPson = res.membersObject.client
             this.clientOptions = this.getPersons(clientPson)
@@ -209,7 +210,10 @@ export default {
     ...mapActions('customer', ['loadCustomer']),
     ...mapActions('member', ['loadMembers']),
     /** 保存 */
-    onSubmit    () {
+    onSubmit: debounce(function () {
+      this.submit()
+    }, 3000, true),
+    submit () {
       if (!this.model.content && this.model.content.length === 0) {
         showWarningMessage(this.$t('followup.addContent'))
         return
@@ -229,6 +233,10 @@ export default {
         this.updateFollowup(this.model)
       }
       this.$emit('ok')
+      // 跳转到列表页面
+      this.$router.push({
+        path: `/${this.category}/${this.objectID}/followup`
+      })
     },
     /** 取消 */
     onCancel    () {

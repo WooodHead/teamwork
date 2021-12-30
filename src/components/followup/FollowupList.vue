@@ -5,10 +5,11 @@
       :key="followup.id"
       :class="followupList.length>1?'col-6':'col-12'"
     >
-      <followup-card
-        class="q-mt-sm"
-        :model="followup"
-      ></followup-card>
+          <followup-card
+            class="q-mt-sm"
+            :model="followup"
+          ></followup-card>
+
     </div>
   </q-list>
 </template>
@@ -36,7 +37,7 @@ export default {
     }
   },
   components: {
-    'FollowupCard': () => import('components/followup/FollowupCard')
+    FollowupCard: () => import('components/followup/FollowupCard')
   },
   data () {
     return {
@@ -46,7 +47,12 @@ export default {
   computed: {
     ...mapGetters('followup', ['followups']),
     followupList () {
-      return this.followups({ objectID: this.objectID, objectType: this.category }) || []
+      return (
+        this.followups({
+          objectID: this.objectID,
+          objectType: this.category
+        }) || []
+      )
     },
     condition () {
       return {
@@ -65,8 +71,7 @@ export default {
   methods: {
     ...mapActions('followup', ['loadFollowups']),
     init () {
-      this.loadFollowups(this.condition).then(data => {
-        console.log(data)
+      this.loadFollowups(this.condition).then((data) => {
       })
     }
   }
