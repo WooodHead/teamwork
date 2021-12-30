@@ -1,14 +1,5 @@
 <template>
   <tw-form @primary="onSubmit">
-    <div>
-      <q-input
-        filled
-        v-model="model.title"
-        label="标题"
-        :rules="[(val) => val && val.length > 0]"
-      >
-      </q-input>
-    </div>
     <div class="q-gutter-sm">
       <q-radio
         v-model="model.contactForm"
@@ -18,6 +9,15 @@
         :val="cy.val"
         :label="cy.label"
       />
+    </div>
+    <div class="q-gutter-sm">
+      <q-input
+        filled
+        v-model="model.title"
+        label="标题"
+        :rules="[(val) => val && val.length > 0]"
+      >
+      </q-input>
     </div>
     <!-- 跟进日期 -->
     <q-input
@@ -123,7 +123,7 @@ export default {
       default: 'add'
     }
   },
-  data () {
+  data   () {
     return {
       date: '',
       goIntoAction: false,
@@ -138,11 +138,18 @@ export default {
       memberOptions: [] // 参与人下拉框数据源
     }
   },
-  mounted () {
-    debugger
+  created  () {
     // 给客户联系人下拉框绑定数据源
     let cateType = this.category.charAt(0).toUpperCase() + this.category.substring(1, this.category.length)
-    this.category &&
+    if (this.category === 'customer') {
+      this.loadCustomer(+this.objectID).then(res => {
+        this.customer = res
+        // 给客户联系人下拉框绑定数据源
+        let clientPson = res.membersObject.client
+        this.clientOptions = this.getPersons(clientPson)
+      })
+    } else {
+      this.category &&
       this.objectID &&
       this.$store
         .dispatch(`${this.category}/load${cateType}`, +this.objectID)
@@ -151,16 +158,10 @@ export default {
             this.customer = res
             // 给客户联系人下拉框绑定数据源
             let clientPson = res.membersObject.client
-            let selectPersons = this.$store.state.person.selectPersons
-            const persons = _.map(clientPson, p => selectPersons[p])
-            persons.forEach(item => {
-              this.clientOptions.push({
-                id: item.id,
-                name: item.name
-              })
-            })
+            this.clientOptions = this.getPersons(clientPson)
           })
         })
+    }
 
     // 给参与人下拉框绑定数据源
     this.category &&
@@ -173,38 +174,9 @@ export default {
         })
         .then((ids) => {
           if (ids.length) {
-            let selectPersons = this.$store.state.person.selectPersons
-            const persons = _.map(ids, (p) => selectPersons[p])
-            persons.forEach((item) => {
-              this.memberOptions.push({
-                id: item.id,
-                name: item.name
-              })
-            })
+            this.memberOptions = this.getPersons(ids)
           }
         })
-
-    // this.loadCustomer(+this.objectID).then(res => {
-    //   this.customer = res
-    //   // 给客户联系人下拉框绑定数据源
-    //   let clientPson = res.membersObject.client
-    //   let selectPersons = this.$store.state.person.selectPersons
-    //   const persons = _.map(clientPson, p => selectPersons[p])
-    //   persons.forEach(item => {
-    //     this.clientOptions.push({
-    //       id: item.id,
-    //       name: item.name
-    //     })
-    //   })
-    //   // 给参与人下拉框绑定数据源
-    //   const psons = _.map(this.customer.membersObject.member, p => selectPersons[p])
-    //   psons.forEach(item => {
-    //     this.memberOptions.push({
-    //       id: item.id,
-    //       name: item.name
-    //     })
-    //   })
-    // })
 
     if (this.openType === 'edit') {
       this.loadFollowup(this.id).then((res) => {
@@ -212,15 +184,9 @@ export default {
           this.oldContent = res.content
           this.model = res
           // 参与人
-          let selectPersons = this.$store.state.person.selectPersons
           let arr = JSON.parse(this.model.members).member
-          const persons = _.map(arr, (p) => selectPersons[p])
-          persons.forEach((item) => {
-            this.memModel.push({
-              id: item.id,
-              name: item.name
-            })
-          })
+          this.memModel = this.getPersons(arr)
+
           // 客户联系人
           Object.keys(selectPersons).forEach((key) => {
             if (this.model.customerContacter === +key) {
@@ -243,7 +209,7 @@ export default {
     ...mapActions('customer', ['loadCustomer']),
     ...mapActions('member', ['loadMembers']),
     /** 保存 */
-    onSubmit () {
+    onSubmit    () {
       if (!this.model.content && this.model.content.length === 0) {
         showWarningMessage(this.$t('followup.addContent'))
         return
@@ -265,14 +231,26 @@ export default {
       this.$emit('ok')
     },
     /** 取消 */
-    onCancel () {
+    onCancel    () {
       this.$nextTick(() => {
         this.$emit('cancel')
       })
     },
     // 清除日期
-    CleanDate () {
+    CleanDate    () {
       this.date = ''
+    },
+    getPersons (clientPson) {
+      let arr = []
+      let selectPersons = this.$store.state.person.selectPersons
+      const persons = _.map(clientPson, p => selectPersons[p])
+      persons.forEach(item => {
+        arr.push({
+          id: item.id,
+          name: item.name
+        })
+      })
+      return arr
     }
   },
   components: {
