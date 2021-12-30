@@ -71,8 +71,7 @@ export default {
   methods: {
     ...mapActions('followup', ['loadFollowups']),
     init () {
-      this.loadFollowups(this.condition).then((data) => {
-      })
+      this.loadFollowups(this.condition)
     }
   }
 }
