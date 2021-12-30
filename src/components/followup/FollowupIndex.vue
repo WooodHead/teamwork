@@ -8,7 +8,7 @@
     <tw-header-card
       :title="$t(`followup.title`)"
       :actions="actions"
-      :add="{label:$t(`followup.addLabel`),click:()=>{addingEvent=true}}"
+      :add="{label:$t(`followup.addLabel`),click:()=>addFollowup()}"
     >
       <template v-slot:titleAppend>
         <!-- 跟进数量 -->
@@ -32,24 +32,24 @@
         </div>
       </div>
     </q-card-section>
-    <!-- 新建跟进Form -->
     <q-card-section
-      v-if="addingEvent"
-      class="q-pa-none"
+      class="tw-resume-header bg-white"
+      :class="$q.screen.gt.xs ? 'q-px-xl' : 'q-px-md'"
     >
-      <followup-edit
-        :category="category"
-        :objectID="+objectID"
-        :id="+id"
-        @ok="onOk"
-        @cancel="onCancel"
+      <!-- 搜索组件 -->
+      <tw-search-panel
+        :queryList="queryList"
+        :search.sync="search"
+        :query.sync="query"
+        label="搜索标题/客户联系人/参与人/内容"
       />
     </q-card-section>
     <!-- 跟进记录 -->
-    <q-card-section class="q-px-xxl q-pt-none">
+    <q-card-section class="q-px-xl q-pt-none">
       <followup-list
         :category="category"
         :objectID="+objectID"
+        :condition="listPageType.selectCondition"
       />
     </q-card-section>
   </q-card>
@@ -76,13 +76,20 @@ export default {
       default: () => {
         return LocalStorage.getItem('myself').id
       }
+    },
+    condition: {
+      type: Object,
+      default: () => {
+        return { isArchive: false }
+      },
+      description: '获取跟进列表的条件，后面有了后台可以传递，params，query等条件'
     }
   },
   components: {
-    'followup-edit': () => import('components/followup/FollowupEdit'),
     // 'tw-menu': ()=> import('components/base/TwMenu'),
     'tw-header-card': () => import('components/base/TwHeaderCard'),
-    FollowupList: () => import('components/followup/FollowupList')
+    FollowupList: () => import('components/followup/FollowupList'),
+    TwSearchPanel: () => import('components/base/TwSearchPanel')
   },
   data () {
     return {
@@ -105,6 +112,16 @@ export default {
     // 切换卡片和列表
     sortUpdate (value) {
       this.setView(value)
+    },
+    addFollowup () {
+      this.$router.push({
+        name: 'followupAdd',
+        params: {
+          category: this.category,
+          objectID: +this.objectID,
+          id: 0
+        }
+      })
     },
     // 编辑确认按钮
     onOk () {
@@ -131,16 +148,32 @@ export default {
   },
   computed: {
     ...mapState('followup', ['search', 'view', 'followups']),
-    ...mapGetters('followup', ['followups']),
+    ...mapGetters('followup', ['followups', 'listStyle', 'listPageType']),
     menuLists () {
       return [{ group: ['exportPDF', 'exportExcel'] }]
     },
-    addingEvent: {
+    queryList: {
+      get () { return this.$store.getters[`followup/queryList`] }
+    },
+    query: {
       get () {
-        return this.$store.state.followup.addingEvent
+        return this.$store.getters['followup/query']
       },
-      set (value) {
-        this.setAddingEvent(value)
+      set (val) {
+        val
+          ? this.$store.commit('followup/setQuery', val)
+          : this.$store.commit('followup/setQuery', '')
+      }
+    },
+    // 搜索框搜索条件
+    search: {
+      get () {
+        return this.$store.getters['followup/search']
+      },
+      set (val) {
+        val
+          ? this.$store.commit('followup/setSearch', val)
+          : this.$store.commit('followup/setSearch', '')
       }
     },
     filterType: {
@@ -151,7 +184,7 @@ export default {
         this.setFilterType(value)
       }
     },
-    condition () {
+    condition2 () {
       return {
         query: [
           { Key: 'ObjectType', Value: this.category, Oper: 'eq' },

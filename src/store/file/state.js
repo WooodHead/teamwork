@@ -33,6 +33,11 @@ export default {
     { id: 'video', icon: 'videocam', accept: 'video/*', capture: 'camcorder' }
     // { id: 'audio', icon: 'perm_camera_mic', accept: 'audio/*', capture: 'microphone' }
   ],
+  visitorRecordPage: {
+    offset: 0,
+    limit: 20,
+    nextPageToken: 0
+  },
   visitRecordPage: {
     offset: 0,
     limit: 20,
@@ -43,6 +48,7 @@ export default {
     limit: 20,
     nextPageToken: 0
   },
+  visitorRecords: [],
   visitRecords: [],
   downloadRecords: []
 }

@@ -2,84 +2,48 @@
   <q-card
     flat
     bordered
-    class="followup-card"
-    :class="{ archived: model.archived }"
+    class="followup-card cursor-pointer"
     style="overflow: hidden"
-    @click="!expanded"
+    @click="openFollowupDetail"
   >
     <q-item>
       <div>
         <q-item-section>
           <div class="row q-gutter-xs q-pl-sm">
             <!-- 标题 -->
-            <span title="标题" v-text="model.title" class="text-h6"></span>
+            <span
+              title="标题"
+              v-text="model.title"
+              class="text-h6"
+            ></span>
           </div>
         </q-item-section>
-
         <!--跟进方式-->
         <q-item-section>
           <div class="row q-gutter-xs">
-            <q-icon :name="iconName" :color="iconColor" size="sm" />
+            <q-icon
+              :name="iconName"
+              :color="iconColor"
+              size="sm"
+            />
             <span class="text-subtitle2">{{ model.contactForm }}跟进</span>
           </div>
         </q-item-section>
       </div>
-
       <q-space />
       <q-item-section side>
         <q-item-label caption>
           {{ timeAgo({ dateTime: model.modifyTime }) }}
         </q-item-label>
       </q-item-section>
-      <q-item-section top side v-if="isEditable">
-        <q-btn v-if="!isEditComment" round icon="more_horiz" flat dense>
-          <q-menu auto-close cover>
-            <q-list v-ripple>
-              <q-item clickable @click="promptToEdit()">
-                <q-item-section>
-                  <div class="row my-icon-word">
-                    <q-icon class="q-mr-xs" size="xs" name="edit" />
-                    {{ $t('followup.edit') }}
-                  </div>
-                </q-item-section>
-              </q-item>
-
-              <q-item clickable @click="promptToDelete(model.id)">
-                <q-item-section>
-                  <div class="row my-icon-word">
-                    <q-icon class="q-mr-xs" size="xs" name="delete" />
-                    {{ $t('followup.delete') }}
-                  </div>
-                </q-item-section>
-              </q-item>
-            </q-list>
-          </q-menu>
-        </q-btn>
-        <q-btn v-else round icon="close" flat dense @click="onCancel" />
-      </q-item-section>
     </q-item>
-
-    <q-card-section class="content" v-if="isEditComment">
-      <q-dialog v-model="isEditComment">
-        <followup-edit
-          :category="model.objectType"
-          :objectID="+model.objectID"
-          openType="edit"
-          :id="+model.id"
-          @ok="onOk"
-          @cancel="onCancel"
-          class="q-pa-sm"
-        />
-      </q-dialog>
-    </q-card-section>
-    <q-card-section
-      class="q-py-none cursor-pointer"
-      v-if="!isEditComment"
-      @click="openFollowupDetail"
-    >
-      <div class="text-caption">
-        <!-- 跟进内容 -->
-        <span title="跟进内容" v-html="model.content"></span>
+    <q-card-section class="q-py-none">
+      <!-- 跟进内容 -->
+      <div
+        class="text-caption ellipsis-2-lines"
+        v-html="htmlToText(model &&model.content)"
+        :title="htmlToText(model &&model.content)"
+      >
       </div>
     </q-card-section>
     <!-- 跟进人 -->
@@ -99,7 +63,7 @@
 
 <script>
 import { mapGetters, mapActions } from 'vuex'
-import { date, LocalStorage } from 'quasar'
+import { date } from 'quasar'
 import Followup from '@/store/followup/model'
 import htmlToText from '@/utils/html-to-text'
 import timeAgo from '@/utils/time-ago'
@@ -115,9 +79,7 @@ export default {
   },
   data () {
     return {
-      expanded: false,
-      isEditComment: false,
-      myself: LocalStorage.getItem('myself')
+
     }
   },
   computed: {
@@ -129,11 +91,6 @@ export default {
       //   return this.model.members
       // }
       return ''
-    },
-    isEditable: {
-      get () {
-        return this.myself.id === this.model.createByID
-      }
     },
     currContactForm () {
       return _.filter(this.$store.state.followup.contactForm, { 'val': this.model.contactForm })[0]
@@ -160,14 +117,7 @@ export default {
       })
     },
     promptToEdit () {
-      this.isEditComment = true
-    },
-    // 编辑确认按钮
-    onOk () {
-      this.isEditComment = false
-    },
-    onCancel () {
-      this.isEditComment = false
+
     },
     openFollowupDetail () {
       this.$router.push({
@@ -181,20 +131,19 @@ export default {
     }
   },
   components: {
-    TwAvatar: () => import('components/base/TwAvatar'),
-    'followup-edit': () => import('components/followup/FollowupEdit')
+    TwAvatar: () => import('components/base/TwAvatar')
   }
 }
 </script>
 
 <style scoped lang="scss">
 .followup-card:before {
-  content: '';
+  content: "";
   display: block;
   padding-top: 0px !important;
 }
 .followup-card:after {
-  content: '';
+  content: "";
   display: block;
 }
 @media (min-width: $breakpoint-xs-max) {

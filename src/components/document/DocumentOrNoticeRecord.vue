@@ -6,12 +6,11 @@
 @Copyright：西安精雕软件科技有限公司
 -->
 <template>
-  <q-card class="card-grow-in-page q-px-xxl" :flat="$q.screen.lt.sm">
+  <div class="q-px-md">
     <div class="row justify-center q-py-md" v-if="modelList === null">
       <q-spinner-dots color="primary" size="40px" />
     </div>
     <!-- 初始化更新后，卡片列表length>0 -->
-    <tw-header-card :title="title" />
     <q-infinite-scroll
       @load="onLoadData"
       :offset="250"
@@ -47,7 +46,7 @@
     </q-infinite-scroll>
     <!-- 卡片列表length===0时展示没有数据 -->
     <tw-banner-no-result v-if="modelList.length === 0" info="暂无记录" />
-  </q-card>
+  </div>
 </template>
 
 <script>
@@ -82,8 +81,10 @@ export default {
   mounted () {},
   computed: {
     ...mapState('file', [
+      'visitorRecords',
       'visitRecords',
       'downloadRecords',
+      'visitorRecordPage',
       'visitRecordPage',
       'downloadRecordPage'
     ]),
@@ -101,9 +102,6 @@ export default {
         )
       }
       return list
-    },
-    title () {
-      return this.type === 'visit' ? '访问记录' : '下载记录'
     }
   },
   methods: {
@@ -123,16 +121,12 @@ export default {
       })
     },
     init (callBack) {
-      let objectType = 'document'
-      if (this.$route.name === 'noticeRecord') {
-        objectType = 'notice'
-      }
       let query = [
-        { Key: 'ObjectType', Value: objectType, Oper: 'eq' },
+        { Key: 'ObjectType', Value: this.category, Oper: 'eq' },
         'and',
         { Key: 'ObjectID', Value: +this.id, Oper: 'eq' },
         'and',
-        { Key: 'Type', Value: this.type, Oper: 'eq' }
+        { Key: 'Type', Value: this.type === 'visitor' ? 'visit' : this.type, Oper: 'eq' }
       ]
       this.$store
         .dispatch('file/loadRecords', { query, type: this.type })
@@ -144,8 +138,7 @@ export default {
   components: {
     // PublicResourceList: () => import('components/resource/PublicResourceList'),
     TwBannerNoResult: () => import('components/base/TwBannerNoResult'),
-    TwAvatar: () => import('components/base/TwAvatar'),
-    TwHeaderCard: () => import('components/base/TwHeaderCard')
+    TwAvatar: () => import('components/base/TwAvatar')
   }
 }
 </script>

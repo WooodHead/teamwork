@@ -45,29 +45,32 @@ export default {
    * @param {*} param0
    * @param {*} param1
    */
-  loadFollowups ({ commit, state }, { byPage = false, query = [], returnData = true }) {
-    return request.get(byPage ? url.getPageList : url.getList, {
+  loadFollowups ({ commit, state }, { byPage = false, query, filter, returnData = true }) {
+    let condition = {
       query: JSON.stringify(query),
-      limit: state.page.limit,
-      offset: state.page.offset,
-      sort: ''
-    }).then(res => {
-      let followups = Followup.from(res.data)
-      commit('addFollowups', followups)
-      commit('updatePage',
-        {
-          offset: state.page.offset + followups.length,
-          limit: state.page.limit
-        })
-      if (returnData) {
-        return followups
-      } else {
-        return !byPage || res.nextPageToken === -1
-      }
-    }).catch((error) => {
-      error.userMessage && showWarningMessage(i18n.t(`followup.error.${error.userMessage}`))
-      return true
-    })
+      filter: JSON.stringify(filter),
+      sort: state.sort,
+      search: state.search,
+      fields: 'List'
+    }
+    return request
+      .get(url.getList, condition).then(res => {
+        let followups = Followup.from(res.data)
+        commit('addFollowups', followups)
+        commit('updatePage',
+          {
+            offset: state.page.offset + followups.length,
+            limit: state.page.limit
+          })
+        if (returnData) {
+          return followups
+        } else {
+          return !byPage || res.nextPageToken === -1
+        }
+      }).catch((error) => {
+        error.userMessage && showWarningMessage(i18n.t(`followup.error.${error.userMessage}`))
+        return true
+      })
   },
   /**
    * 重置列表
@@ -120,7 +123,6 @@ export default {
    * @param {*} id
    */
   deleteFollowup ({ state, commit, dispatch }, id) {
-    debugger
     return request.delete(url.delete, {
       id: id
     }).then(res => {

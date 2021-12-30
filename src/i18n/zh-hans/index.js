@@ -416,7 +416,8 @@ const index = {
     changeCover: '上传封面',
     viewGroupMembers: '查看群组成员',
     viewVisitRecord: '访问记录',
-    viewDownloadRecord: '下载记录'
+    viewDownloadRecord: '下载记录',
+    viewDocumentCount: '文档统计'
   },
   base: {
     selectPerson: '选择人员',

@@ -521,15 +521,10 @@ export default {
           label: this.$t('action.viewGroupMembers'),
           icon: 'group'
         },
-        viewVisitRecord: {
-          key: 'viewVisitRecord',
-          label: this.$t('action.viewVisitRecord'),
-          icon: 'group'
-        },
-        viewDownloadRecord: {
-          key: 'viewDownloadRecord',
-          label: this.$t('action.viewDownloadRecord'),
-          icon: 'group'
+        viewDocumentCount: {
+          key: 'viewDocumentCount',
+          label: this.$t('action.viewDocumentCount'),
+          icon: 'poll'
         }
       }
     }

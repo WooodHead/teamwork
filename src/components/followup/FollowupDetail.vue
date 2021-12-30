@@ -22,18 +22,23 @@
             class="column q-gutter-y-sm text-center "
             :style="$q.platform.is.desktop&&'margin-top:-40px;'"
           >
+            <div
+              style="font-size:12px;"
+              :class="{'emoji-font':$q.platform.is.win}"
+            >{{currentModel.contactForm}}跟进
+            </div>
             <div class="text-h5">
               <span class="text-weight-bold">{{currentModel.title}}</span>
             </div>
             <div class="text-caption text-grey-9 ">
               {{$t('document.modify.postedBy',{modifyBy:currentModel.modifyBy})}}•
               {{timeAgo({ dateTime :currentModel.modifyTime})}}
-              <q-icon
+              <!-- <q-icon
                 :name="iconName"
                 :color="iconColor"
                 size="sm"
-              />
-              <span class="text-caption text-grey-9">{{currentModel.contactForm}}跟进</span>
+              /> -->
+              <!-- <span class="text-caption text-grey-9">{{currentModel.contactForm}}跟进</span> -->
             </div>
           </div>
           <!-- 跟进具体内容 -->
@@ -44,7 +49,7 @@
           </div>
         </q-card-section>
       </slot>
-      <q-card-section v-if="model">
+      <q-card-section v-if="currentModel">
         <!-- 点赞区 -->
         <tw-boost-pack
           :boostTo="currentModel.modifyBy"
@@ -60,7 +65,6 @@
           :objectType="type"
           type='discuss'
           :objectTitle="title"
-          @submitFinished="addAssessFinished($event)"
         />
       </q-card-section>
 
@@ -110,6 +114,9 @@ export default {
     }
   },
   computed: {
+    title () {
+      return '[' + this.currentModel.title + ']的跟进'
+    },
     currentModel () {
       return this.$store.getters['followup/currentModel'](+this.id)
     }
@@ -154,19 +161,6 @@ export default {
       showConfirm(that.$t('message.reallyDelete'), () => {
         that.$store.dispatch('followup/deleteFollowup', +that.id)
       })
-    },
-    /**
-     * 评论添加完成后
-     */
-    addAssessFinished (val) {
-      // 当前评论者是商机的负责人
-      if (val && +this.$myinfo.id === this.currentModel.manufacturerLeaderID) {
-        // 更新评估的状态
-        this.updateResult({ id: +this.id, result: val.value, notes: val.description }).then(res => {
-          this.refreshAssess(+this.id) // 刷新评估对象
-          this.refreshOpportunity(+this.currentModel.opportunityID) // 刷新商机状态
-        })
-      }
     }
   },
   components: {

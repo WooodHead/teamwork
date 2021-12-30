@@ -99,11 +99,7 @@ function getFileDocumentMenuList (that) {
     let f = _.find(menuList, m => {
       return _.isObject(m) && m.group.includes('history')
     })
-    if (that.detailModel.classify === 'file') {
-      f.group = ['history', 'viewVisitRecord', 'viewDownloadRecord']
-    } else { 
-      f.group = ['history', 'viewVisitRecord']
-    }
+    f.group = ['history', 'viewDocumentCount']
   }
   return menuList
 }

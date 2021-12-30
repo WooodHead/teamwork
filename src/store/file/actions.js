@@ -126,7 +126,8 @@ export default {
       query: JSON.stringify(query),
       search: '',
       limit: state[`${type}RecordPage`].limit,
-      offset: state[`${type}RecordPage`].offset
+      offset: state[`${type}RecordPage`].offset,
+      type
     }
     return request
       .get('files/loadrecords', condition)
@@ -145,6 +146,28 @@ export default {
       .catch(error => {
         error.userMessage && showWarningMessage(error.userMessage)
         return []
+      })
+  },
+  // 统计访问记录
+  loadRecordCount ({ state, commit }, { query }) {
+    return request
+      .get('files/loadRecordCount', {
+        query: JSON.stringify(query)
+      })
+      .then(res => {
+        return res.data || {
+          visitor: 0,
+          visit: 0,
+          download: 0
+        }
+      })
+      .catch(error => {
+        error.userMessage && showWarningMessage(error.userMessage)
+        return {
+          visitor: 0,
+          visit: 0,
+          download: 0
+        }
       })
   }
 }

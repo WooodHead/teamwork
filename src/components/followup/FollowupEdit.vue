@@ -2,11 +2,12 @@
   <tw-form @primary="onSubmit">
     <div>
       <q-input
-      filled
-      v-model="model.title"
-       label="标题"
-       :rules="[ val => val && val.length > 0 ]"
-       > </q-input>
+        filled
+        v-model="model.title"
+        label="标题"
+        :rules="[(val) => val && val.length > 0]"
+      >
+      </q-input>
     </div>
     <div class="q-gutter-sm">
       <q-radio
@@ -26,7 +27,10 @@
       mask="date"
     >
       <template v-slot:append>
-        <q-icon name="event" class="cursor-pointer">
+        <q-icon
+          name="event"
+          class="cursor-pointer"
+        >
           <q-popup-proxy
             ref="qDateProxy"
             transition-show="scale"
@@ -58,7 +62,7 @@
       stack-label
       :label="$t('followup.customerContacter')"
     />
-      <!-- :rules="[ val => val && val.length > 0 || $t('followup.customerContacter')]" -->
+    <!-- :rules="[ val => val && val.length > 0 || $t('followup.customerContacter')]" -->
     <!-- 参与人 -->
     <q-select
       filled
@@ -131,49 +135,94 @@ export default {
       clientModel: null, // 客户联系人下拉框v-model属性用
       clientOptions: [], // 客户联系人下拉框数据源
       memModel: [], // 参与人下拉框v-model属性用
-      memberOptions: []// 参与人下拉框数据源
+      memberOptions: [] // 参与人下拉框数据源
     }
   },
-  created () {
-    this.loadCustomer(+this.objectID).then(res => {
-      this.customer = res
-      // 给客户联系人下拉框绑定数据源
-      let clientPson = res.membersObject.client
-      let selectPersons = this.$store.state.person.selectPersons
-      const persons = _.map(clientPson, p => selectPersons[p])
-      persons.forEach(item => {
-        this.clientOptions.push({
-          id: item.id,
-          name: item.name
+  mounted () {
+    debugger
+    // 给客户联系人下拉框绑定数据源
+    let cateType = this.category.charAt(0).toUpperCase() + this.category.substring(1, this.category.length)
+    this.category &&
+      this.objectID &&
+      this.$store
+        .dispatch(`${this.category}/load${cateType}`, +this.objectID)
+        .then((res) => {
+          this.loadCustomer(+res.customerID).then(res => {
+            this.customer = res
+            // 给客户联系人下拉框绑定数据源
+            let clientPson = res.membersObject.client
+            let selectPersons = this.$store.state.person.selectPersons
+            const persons = _.map(clientPson, p => selectPersons[p])
+            persons.forEach(item => {
+              this.clientOptions.push({
+                id: item.id,
+                name: item.name
+              })
+            })
+          })
         })
-      })
-      // 给参与人下拉框绑定数据源
-      const psons = _.map(this.customer.membersObject.member, p => selectPersons[p])
-      psons.forEach(item => {
-        this.memberOptions.push({
-          id: item.id,
-          name: item.name
+
+    // 给参与人下拉框绑定数据源
+    this.category &&
+      this.objectID &&
+      this.$store
+        .dispatch('member/loadMembers', {
+          category: this.category,
+          objectID: +this.objectID,
+          types: 'leader,member,visitor'
         })
-      })
-    })
+        .then((ids) => {
+          if (ids.length) {
+            let selectPersons = this.$store.state.person.selectPersons
+            const persons = _.map(ids, (p) => selectPersons[p])
+            persons.forEach((item) => {
+              this.memberOptions.push({
+                id: item.id,
+                name: item.name
+              })
+            })
+          }
+        })
+
+    // this.loadCustomer(+this.objectID).then(res => {
+    //   this.customer = res
+    //   // 给客户联系人下拉框绑定数据源
+    //   let clientPson = res.membersObject.client
+    //   let selectPersons = this.$store.state.person.selectPersons
+    //   const persons = _.map(clientPson, p => selectPersons[p])
+    //   persons.forEach(item => {
+    //     this.clientOptions.push({
+    //       id: item.id,
+    //       name: item.name
+    //     })
+    //   })
+    //   // 给参与人下拉框绑定数据源
+    //   const psons = _.map(this.customer.membersObject.member, p => selectPersons[p])
+    //   psons.forEach(item => {
+    //     this.memberOptions.push({
+    //       id: item.id,
+    //       name: item.name
+    //     })
+    //   })
+    // })
 
     if (this.openType === 'edit') {
-      this.loadFollowup(this.id).then(res => {
+      this.loadFollowup(this.id).then((res) => {
         if (res) {
           this.oldContent = res.content
           this.model = res
           // 参与人
           let selectPersons = this.$store.state.person.selectPersons
           let arr = JSON.parse(this.model.members).member
-          const persons = _.map(arr, p => selectPersons[p])
-          persons.forEach(item => {
+          const persons = _.map(arr, (p) => selectPersons[p])
+          persons.forEach((item) => {
             this.memModel.push({
               id: item.id,
               name: item.name
             })
           })
           // 客户联系人
-          Object.keys(selectPersons).forEach(key => {
+          Object.keys(selectPersons).forEach((key) => {
             if (this.model.customerContacter === +key) {
               this.clientModel = {
                 id: this.model.customerContacter,
@@ -192,6 +241,7 @@ export default {
       'updateFollowup'
     ]),
     ...mapActions('customer', ['loadCustomer']),
+    ...mapActions('member', ['loadMembers']),
     /** 保存 */
     onSubmit () {
       if (!this.model.content && this.model.content.length === 0) {
@@ -202,10 +252,9 @@ export default {
       this.model.objectID = this.$router.history.current.params.objectID
       this.model.customerContacter = this.clientModel.id
       let arrNew = []
-      this.memModel.forEach(item => {
+      this.memModel.forEach((item) => {
         arrNew.push(item.id)
       })
-      debugger
       this.model.members = arrNew
       if (this.openType === 'add') {
         this.addFollowup(this.model)

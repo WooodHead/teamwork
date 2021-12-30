@@ -483,8 +483,7 @@
           filled
           v-model="fields.params.EnergyConsume.AirSourcePressure"
           :label="$t('product.fields.airSourcePressure')"
-          :rules="[$rules.decimal($t('rule.numeric'))]"
-          class="col-12 col-sm-6"
+          class="col-12 col-sm-6 g-padding-bottom20"
           suffix="MPa"
         />
       </div>

@@ -27,23 +27,36 @@ export default {
   },
   computed: {
     ...mapState('widget', ['widgets']),
-    ...mapState('followup', ['search']),
-    resource () {
-      const { category, objectID } = this
-      return { category, objectID }
-    }
+    ...mapState('followup', ['followups', 'search'])
   },
   methods: {
     ...mapMutations('breadcrumbs', ['pushWidgetBreadcrumb', 'clearWidgetBreadcrumbs', 'deleteWidgetBreadcrumb']),
-    ...mapActions('breadcrumbs', ['setModuleBreadcrumbs'])
+    ...mapActions('breadcrumbs', ['setModuleBreadcrumbs']),
+    initBreadcrumb (newVal) {
+      if (this.$q.platform.is.mobile) return
+      this.clearWidgetBreadcrumbs()
+      this.setModuleBreadcrumbs()
+      new RegExp(/.+followup\/.+/).test(newVal.path) &&
+        this.pushWidgetBreadcrumb({
+          id: `${this.category}${this.objectID}FollowupIndex`,
+          title: '跟进',
+          to: {
+            name: 'followup',
+            params: { category: this.category, objectID: +this.objectID }
+          }
+        })
+    }
   },
   watch: {
-    resource: {
-      handler (newVal, oldVal) {
-        this.setModuleBreadcrumbs()
-      },
+    $route: {
       immediate: true,
-      deep: true
+      deep: true,
+      async handler (newVal, oldVal) {
+        if (this.$q.platform.is.mobile) return
+        if (!newVal.path.includes('followup')) return
+        // 初始化面包屑
+        this.initBreadcrumb(newVal)
+      }
     }
   },
   components: {
