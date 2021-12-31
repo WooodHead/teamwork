@@ -61,7 +61,7 @@
             :label="$t('document.trash')"
             icon="delete"
             @click.stop="toTrash()"
-            color="primary"
+            :color="$route.path.includes('trash')?'primary':'grey-9'"
           />
           <!-- 管理 -->
           <q-btn
