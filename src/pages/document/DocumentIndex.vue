@@ -8,12 +8,7 @@
       :showLeft="showLeft"
     >
       <template #left>
-        <q-scroll-area
-          :thumb-style="thumbStyle"
-          id="scroll-area-with-virtual-scroll-1"
-          style="height: 90vh;"
-          class="relative-position "
-        >
+        <div class="left-container relative-position">
           <!-- 收缩左侧目录按钮 -->
           <q-btn
             color="grey-2"
@@ -23,46 +18,54 @@
             dense
             padding="none"
             class="absolute-top-right hide-left-btn z-top q-mt-md left-tree-btn"
+            style="margin-right: 5px;"
             @click="showLeft=false"
           />
-          <!-- 收藏树 -->
-          <bookmark-tree
-            class="q-pt-sm"
-            :type="category||'document'"
-            :id="+objectID"
-          />
-          <!-- 目录树 -->
-          <document-tree
-            :category="category"
-            :objectID="objectID"
-            :rootId="rootId"
-            :wikiAuth="hasWikiSettingAuth"
-            class="q-pt-sm"
-          />
-          <!-- 废纸篓 -->
-          <q-btn
-            class="q-pt-sm"
-            style="width:100%"
-            flat
-            align="left"
-            :label="$t('document.trash')"
-            icon="delete"
-            @click.stop="toTrash()"
-            :color="$route.path.includes('trash')?'primary':'grey-9'"
-          />
-          <!-- 管理 -->
-          <q-btn
-            class="q-pt-sm"
-            v-if="hasWikiSettingAuth"
-            style="width:100%"
-            flat
-            align="left"
-            :label="$t('document.manage')"
-            icon="settings"
-            @click.stop="toWikiManage()"
-            color="grey-9"
-          />
-        </q-scroll-area>
+          <!-- 滚动区域 -->
+          <q-scroll-area
+            :thumb-style="thumbStyle"
+            id="scroll-area-with-virtual-scroll-1"
+            style="height: 90vh;"
+          >
+            <!-- 收藏树 -->
+            <bookmark-tree
+              class="q-pt-sm"
+              :type="category||'document'"
+              :id="+objectID"
+            />
+            <!-- 目录树 -->
+            <document-tree
+              :category="category"
+              :objectID="objectID"
+              :rootId="rootId"
+              :wikiAuth="hasWikiSettingAuth"
+              class="q-pt-sm"
+            />
+            <!-- 废纸篓 -->
+            <q-btn
+              class="q-pt-sm"
+              style="width:100%"
+              flat
+              align="left"
+              :label="$t('document.trash')"
+              icon="delete"
+              @click.stop="toTrash()"
+              :color="$route.path.includes('trash')?'primary':'grey-9'"
+            />
+            <!-- 管理 -->
+            <q-btn
+              class="q-pt-sm"
+              v-if="hasWikiSettingAuth"
+              style="width:100%"
+              flat
+              align="left"
+              :label="$t('document.manage')"
+              icon="settings"
+              @click.stop="toWikiManage()"
+              color="grey-9"
+            />
+          </q-scroll-area>
+        </div>
       </template>
       <template #right>
         <!-- 临时展开左侧目录树 -->
@@ -495,7 +498,7 @@ export default {
   .hide-left-btn {
     display: none;
   }
-  #scroll-area-with-virtual-scroll-1:hover .hide-left-btn {
+  .left-container:hover .hide-left-btn {
     display: block;
   }
   .left-tree-btn {
