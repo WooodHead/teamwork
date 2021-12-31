@@ -195,6 +195,21 @@ export default [
           label: i18n.t('document.action.upload')
         },
         component: () => import(/* webpackChunkName: "document" */ 'components/document/doc/DocForm.vue')
+      },
+      {
+        path: ':id(\\d+)/count',
+        name: 'noticeCount',
+        hideInMenu: true,
+        props: true,
+        meta: {
+          icon: 'help',
+          label: '公告访问下载记录',
+          group: group.get('rd'),
+          index: 80,
+          requiresAuth: true,
+          description: '公告访问下载记录'
+        },
+        component: () => import('components/document/DocumentOrNoticeCount')
       }
     ]
   }
