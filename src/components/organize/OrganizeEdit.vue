@@ -5,91 +5,84 @@
     @secondary="organizeShow"
     :secondaryLabel="$t('action.cancel')"
   >
-    <template v-if="['add', 'edit'].includes(openType)">
-      <q-input
+    <q-input
+      filled
+      v-model.trim="organizeObj.name"
+      @input="$emit('update:title', $event)"
+      :label="$t('contacts.organize.name')"
+      lazy-rules
+      :rules="nameRules"
+      ref="title"
+    />
+    <q-input
+      filled
+      @input="$emit('update:title', $event)"
+      v-model.trim="organizeObj.shortName"
+      :label="$t('contacts.organize.simpleName')"
+      lazy-rules
+      :rules="[val => (val && val.length > 0) || '请输入正确的简介']"
+      ref="title"
+      class="q-mt-none"
+    />
+    <q-input
+      filled
+      v-model.trim="organizeObj.organizeCode"
+      :label="$t('contacts.organize.organizeCode')"
+      class="q-mt-none"
+    />
+    <div class="row q-col-gutter-x-md">
+      <tw-select-person
+        class="col-12 col-sm-6 q-pb-md"
         filled
-        v-model.trim="organizeObj.name"
-        @input="$emit('update:title', $event)"
-        :label="$t('contacts.organize.name')"
-        lazy-rules
-        :rules="nameRules"
-        ref="title"
+        v-model="organizeObj.leaderID"
+        emit-value
+        :label="$t('organize.leader')"
       />
-      <q-input
+      <tw-select-edit
+        class="col-12 col-sm-6"
+        withDictKey
+        keyToValue
         filled
-        @input="$emit('update:title', $event)"
-        v-model.trim="organizeObj.shortName"
-        :label="$t('contacts.organize.simpleName')"
-        lazy-rules
-        :rules="[val => (val && val.length > 0) || '请输入正确的简介']"
-        ref="title"
-        class="q-mt-none"
-      />
-      <q-input
-        filled
-        v-model.trim="organizeObj.organizeCode"
-        :label="$t('contacts.organize.organizeCode')"
-        class="q-mt-none"
-      />
-
-      <div class="row q-col-gutter-x-md">
-        <tw-select-person
-          class="col-12 col-sm-6 q-pb-md"
-          filled
-          v-model="organizeObj.leaderID"
-          emit-value
-          :label="$t('organize.leader')"
-        />
-        <tw-select-edit
-          class="col-12 col-sm-6"
-          withDictKey
-          keyToValue
-          filled
-          module="organize"
-          field="organizeType"
-          :value="String(organizeObj.type)"
-          @input="
+        module="organize"
+        field="organizeType"
+        :value="String(organizeObj.type)"
+        @input="
             payload => {
               organizeObj.type = payload.dictKey;
             }
           "
-          :label="$t('organize.field.label.type')"
-        />
-      </div>
-
-      <!-- 机构地址 -->
-      <location-select
-        v-if="$custom.hasOrganizeLocation"
-        :class="{ 'q-mt-none': !$q.platform.is.mobile }"
-        showSearch
-        filled
-        :mylocation.sync="organizeObj.organizeAddress"
-        :placeholder="$t('contacts.organize.organizeAddress')"
+        :label="$t('organize.field.label.type')"
       />
-      <q-field
-        filled
-        :label="$t('auth.acl.acl')"
-        stack-label
-        color="grey-8"
-      >
-        <q-option-group
-          :options="limits"
-          type="radio"
-          v-model="organizeObj.acl"
-        />
-      </q-field>
-    </template>
-
+    </div>
+    <!-- 机构地址 -->
+    <location-select
+      v-if="$custom.hasOrganizeLocation"
+      :class="{ 'q-mt-none': !$q.platform.is.mobile }"
+      showSearch
+      filled
+      :mylocation.sync="organizeObj.organizeAddress"
+      :placeholder="$t('contacts.organize.organizeAddress')"
+    />
+    <q-field
+      filled
+      :label="$t('auth.acl.acl')"
+      stack-label
+      color="grey-8"
+    >
+      <q-option-group
+        :options="limits"
+        type="radio"
+        v-model="organizeObj.acl"
+      />
+    </q-field>
     <q-dialog v-model="isShowDialog">
       <q-card style="width:25%;">
         <q-card-section>
           <div class="text-h6">确认</div>
         </q-card-section>
-
         <q-card-section class="q-pt-none">
           {{ $t("organize.messageTip") }}
         </q-card-section>
-
         <q-card-actions
           align="right"
           class="q-pa-md"
@@ -114,6 +107,7 @@
 
 <script>
 import { mapState, mapActions } from 'vuex'
+import Organize from '@/store/organize/model'
 export default {
   name: 'OrganizeEdit',
   props: {
@@ -123,7 +117,7 @@ export default {
     },
     openType: {
       type: String,
-      default: ''
+      default: 'add'
     },
     isShow: {
       type: Boolean,
@@ -133,14 +127,7 @@ export default {
       type: Object,
       required: false,
       default: () => {
-        return {
-          id: 0,
-          parentId: 0,
-          path: '',
-          level: 0,
-          name: '',
-          shortName: ''
-        }
+        return new Organize()
       }
     }
   },
@@ -153,7 +140,7 @@ export default {
             organizeAddress: { type: 'none', value: '' }
           }
         } else {
-          this.loadOrganize(newId).then(res => {
+          this.loadOrganize(newId).then((res) => {
             this.organizeObj = res
             if (this.organizeObj.organizeAddress === null) {
               this.organizeObj.organizeAddress = { type: 'none', value: '' }
@@ -166,14 +153,7 @@ export default {
   data () {
     return {
       formAction: [{ label: this.$t('action.save'), action: 'save' }],
-      organizeObj: {
-        acl: 1,
-        // 所在位置
-        organizeAddress: {
-          type: 'none',
-          value: ''
-        }
-      },
+      organizeObj: new Organize(),
       type: '',
       limits: [
         { label: this.$t('auth.acl.public'), value: 0 },
@@ -194,7 +174,7 @@ export default {
     // 校验机构名称
     nameRules () {
       return [
-        val =>
+        (val) =>
           (val && val.split(' ').join('').length !== 0) || '请正确输入机构名称'
       ]
     },
@@ -219,20 +199,17 @@ export default {
     this.loadDictionarys('organize')
     // 编辑页获取数据
     if (this.openType === 'edit') {
-      this.loadOrganize(+this.id).then(res => {
+      this.loadOrganize(+this.id).then((res) => {
         this.organizeObj = _.cloneDeep(res)
-        if (this.organizeObj.organizeAddress === null) {
-          this.organizeObj.organizeAddress = {
-            type: 'none',
-            value: ''
-          }
+        if (!this.organizeObj.organizeAddress) {
+          this.organizeObj.organizeAddress = { type: 'none', value: '' } 
         }
       })
     }
     if (Object.keys(this.widgets).length) {
       this.organizeObj.widgets = this.widgets
     } else {
-      this.loadCategory('organize').then(category => {
+      this.loadCategory('organize').then((category) => {
         this.organizeObj.widgets = this.widgets
       })
     }
@@ -249,7 +226,8 @@ export default {
     // 保存
     onSave () {
       this.$custom.hasOrganizeLocation
-        ? this.isShowDialog = true : this.updateOrg()
+        ? (this.isShowDialog = true)
+        : this.updateOrg()
     },
     // 不同步
     outSyncOrganize () {
@@ -259,12 +237,12 @@ export default {
     // 同步
     sycnOrganize () {
       this.loadOrganizes()
-        .then(res => {
+        .then((res) => {
           this.organizeObj.path = this.organizeObj.path + ','
-          _.forEach(res, item => {
+          _.forEach(res, (item) => {
             if (item.path.includes(this.organizeObj.path)) {
               this.nextOrganizeAddrs.push(item)
-              _.forEach(this.nextOrganizeAddrs, organizeAdd => {
+              _.forEach(this.nextOrganizeAddrs, (organizeAdd) => {
                 organizeAdd.organizeAddress = this.organizeObj.organizeAddress
                 this.updateOrganize(organizeAdd)
               })
@@ -285,16 +263,14 @@ export default {
           this.organizeObj.parentId = this.node.parentId
           this.organizeObj.path = this.node.path
           this.organizeObj.level = this.node.level
-          this.organizeObj.widgets = this.widgets
         }
-        this.updateOrganize(this.organizeObj).then(res => {
+        this.updateOrganize(this.organizeObj).then((res) => {
           this.organizeObj = res
           if (res) {
             this.$router.push({
               name: 'organizeDetail',
               params: { id: res.id }
             })
-            this.$emit('changeIsShow')
             this.organizeShow()
           }
         })
@@ -305,16 +281,11 @@ export default {
       this.updateOrg()
     },
     organizeShow () {
-      this.isShow = false
-      this.$emit('organizeShow', this.isShow)
+      this.$emit('organizeShow', false)
     }
   }
 }
 </script>
 
 <style scoped>
-  .organize-border {
-    border: solid 1px lightgray;
-    border-radius: 4px;
-  }
 </style>

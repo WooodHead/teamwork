@@ -1,26 +1,23 @@
 <template>
-  <div class="bg-white row q-col-gutter-sm full-width">
+  <div class="fit row q-col-gutter-x-xs">
     <contacts-menu
+      style="width:300px;"
       @initOnLoad="initOnLoad"
       @organizeEdit="organizeEdit"
     ></contacts-menu>
-    <div
+    <organize-edit
       v-if="isShow"
-      class="col scroll"
-    >
-      <organize-edit
-        :id="id"
-        :openType="openType"
-        :isShow="isShow"
-        :node="node"
-        @organizeShow="organizeShow"
-      />
-    </div>
-    <div
-      v-else
-      class="col scroll"
-    >
+      :style="`height:${$q.screen.height-66}px;`"
+      class="col scroll q-ml-sm"
+      :id="id"
+      :openType="openType"
+      :isShow="isShow"
+      :node="node"
+      @organizeShow="organizeShow"
+    />
+    <div v-else class="col">
       <tw-search-sort
+        class="q-mb-sm"
         :search.sync="search"
         :sort.sync="sort"
         :options="sortOptions"
@@ -40,22 +37,21 @@
         </template>
       </tw-search-sort>
       <q-infinite-scroll
-        class="scroll"
         ref="qInfiniteScroll"
-        :offset="250"
-        :style="`height:${$q.screen.height-106}px;`"
+        :style="`height:${$q.screen.height-114}px;`"
+        class="scroll"
         @load="onLoad"
       >
-        <div class="row justify-evenly">
+        <div class="row q-col-gutter-md q-pb-md">
           <person-card
-            class="q-my-sm"
+            :style="personCardWidthStyle"
             v-for="person in persons"
             :key="person.id"
             :id="person.id"
           ></person-card>
         </div>
         <template v-slot:loading>
-          <div class="row justify-center q-py-md">
+          <div class="row justify-center">
             <q-spinner-dots
               color="primary"
               size="40px"
@@ -69,8 +65,8 @@
 
 <script>
 import { mapState, mapGetters, mapActions, mapMutations } from 'vuex'
-import { format } from 'quasar' // 格式化工具
-const { capitalize } = format // 字符串首字母大写
+import { format } from 'quasar'
+const { capitalize } = format
 export default {
   name: 'ContactsDesktop',
   data () {
@@ -89,9 +85,28 @@ export default {
   computed: {
     ...mapGetters('contacts', ['selected', 'treed']),
     ...mapState('person', ['sortOptions', 'isInServiceOptions']),
+    personCardWidthStyle () {
+      let style = 'width:25%'
+      if (this.$q.screen.width < 800) {
+        style = 'width:100%'
+      } else if (this.$q.screen.width < 1000) {
+        style = 'width:50%'
+      } else if (this.$q.screen.width < 1200) {
+        style = 'width:33.3%'
+      } else if (this.$q.screen.width < 1400) {
+        style = 'width:25%'
+      } else if (this.$q.screen.width < 1600) {
+        style = 'width:20%'
+      } else {
+        style = 'width:16.6%'
+      }
+      return style
+    },
     persons: {
       get () {
-        return this.$store.getters[`person/filterPersonsByContactsAcl`](this.$store.getters[`person/personsOf${capitalize(this.selected.name)}`](this.treed.id))
+        return this.$store.getters[`person/filterPersonsByContactsAcl`](
+          this.$store.getters[`person/personsOf${capitalize(this.selected.name)}`](this.treed.id)
+        )
       }
     },
     treedId: {
@@ -133,7 +148,12 @@ export default {
   methods: {
     ...mapActions('contacts', ['updateTreed']),
     ...mapActions('person', ['loadPersons']),
-    ...mapMutations('person', ['setSort', 'setSearch', 'setIsInService', 'initPage']),
+    ...mapMutations('person', [
+      'setSort',
+      'setSearch',
+      'setIsInService',
+      'initPage'
+    ]),
     onLoad (index, done) {
       if (index === 1) {
         // 设置当前选中的ID
@@ -142,19 +162,21 @@ export default {
         this.initPage()
       }
       // 获取用户列表信息
-      this.loadPersons({ byPage: true, moduleName: this.selected.name }).then(() => {
-        if (this.$store.state.person.page.nextPageToken > -1) {
-          done()
-        } else {
-          done(true)
+      this.loadPersons({ byPage: true, moduleName: this.selected.name }).then(
+        () => {
+          if (this.$store.state.person.page.nextPageToken > -1) {
+            done()
+          } else {
+            done(true)
+          }
         }
-      })
+      )
     },
     initOnLoad () {
       // 重新调用onLoad的方法
       this.$refs.qInfiniteScroll.reset() // 设置滚动索引为0
       this.$refs.qInfiniteScroll.resume() // 重新开启加载
-      this.$refs.qInfiniteScroll.trigger()// 不管滚动位置如何，重新调用onload
+      this.$refs.qInfiniteScroll.trigger() // 不管滚动位置如何，重新调用onload
     },
     organizeEdit (val, type) {
       this.node = val

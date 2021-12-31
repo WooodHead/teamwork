@@ -1,4 +1,5 @@
 import commomFields from '@/utils/model-common-fields'
+import { LocalStorage } from 'quasar'
 const init = {
   id: 0,
   type: '',
@@ -12,7 +13,7 @@ const init = {
   leaderID: 0,
   shortName: '',
   organizeCode: '',
-  organizeAddress: '',
+  organizeAddress: { type: 'none', value: '' },
   acl: 1, // 0：公开；1：限制；2、保密
   classify: 'internal',
   widgets: {},
@@ -67,6 +68,9 @@ function toOne (front) {
  */
 export default class Organize {
   constructor (organize) {
+    let myinfo = LocalStorage.getItem('myself')
+    init.leaderID = myinfo.id
+    init.parentId = LocalStorage.getItem('myself').organizeId
     Object.assign(this, init, organize)
   }
   static from (end) {

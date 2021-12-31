@@ -31,17 +31,19 @@ export default {
       if (getters.selected.name === 'group') {
         treedList = getters.selected.data.filter(t => { return t.psonId === myinfo.id })
       } else {
-        treedList = getters.selected.data.length > 0 ? getters.selected.data : [{ id: 0 }]
+        treedList = getters.selected.data
       }
     } else {
       filterTreed(getters.selected.data, state[`selected${capitalize(getters.selected.name)}`], treedList)
       if (getters.selected.name === 'group') {
         treedList = treedList.filter(t => { return t.psonId === myinfo.id })
-      } else {
-        treedList = treedList.length > 0 ? treedList : [{ id: 0 }]
       }
     }
-    return treedList.length > 0 ? treedList[0] : { id: 0 }
+    return treedList.length > 0
+      ? treedList[0]
+      : getters.selected.name === 'organize'
+        ? [{ id: 1 }]
+        : [{ id: 0 }]
   }
 }
 /**
