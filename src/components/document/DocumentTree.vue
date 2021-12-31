@@ -116,6 +116,13 @@ export default {
       if (+newVal !== +old) {
         this.init()
       }
+    },
+    $route: {
+      immediate: true,
+      deep: true,
+      async handler (newVal, oldVal) {
+        this.selected = newVal.params.id || null
+      }
     }
   },
   mounted () {
@@ -232,6 +239,7 @@ export default {
         return false
       }
       if (_.isNumber(target)) {
+        this.selected = +target
         this.loadModel({ id: +target, fields: 'MindMap' })
           .then(res => {
             if (res) {

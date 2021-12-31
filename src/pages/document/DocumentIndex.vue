@@ -5,7 +5,7 @@
     2、从各个资源模块进入文档中心无左侧树结构 -->
     <left-right-card-layout
       v-if="haveLeftTree"
-      :showLeft="showLeft||mouseShowLeft"
+      :showLeft="showLeft"
     >
       <template #left>
         <q-scroll-area
@@ -13,7 +13,6 @@
           id="scroll-area-with-virtual-scroll-1"
           style="height: 90vh;"
           class="relative-position "
-          @mouseleave.native="mouseShowLeft=false"
         >
           <!-- 收缩左侧目录按钮 -->
           <q-btn
@@ -25,18 +24,6 @@
             padding="none"
             class="absolute-top-right hide-left-btn z-top q-mt-md left-tree-btn"
             @click="showLeft=false"
-          />
-          <!-- 展开左侧目录按钮 -->
-          <q-btn
-            v-if="!showLeft&&mouseShowLeft"
-            color="grey-2"
-            text-color="grey-5"
-            size="md"
-            icon="phonelink_lock"
-            dense
-            padding="none"
-            class="absolute-top-right z-top q-mt-md left-tree-btn"
-            @click="showLeft=true;"
           />
           <!-- 收藏树 -->
           <bookmark-tree
@@ -73,14 +60,14 @@
             :label="$t('document.manage')"
             icon="settings"
             @click.stop="toWikiManage()"
-            color="primary"
+            color="grey-9"
           />
         </q-scroll-area>
       </template>
       <template #right>
         <!-- 临时展开左侧目录树 -->
         <q-btn
-          v-if="!showLeft&&!mouseShowLeft"
+          v-if="!showLeft"
           color="grey-2"
           text-color="grey-5"
           size="md"
@@ -88,7 +75,7 @@
           dense
           padding="none"
           class="absolute-top-left z-top q-pa-none q-mt-md left-tree-btn"
-          @mouseenter.native="mouseShowLeft=true"
+          @click="showLeft=true"
         />
         <router-view :style="$q.screen.lt.sm?'':minHeight"></router-view>
       </template>
@@ -135,8 +122,7 @@ export default {
         width: '5px',
         opacity: 0.75
       },
-      showLeft: true,
-      mouseShowLeft: false
+      showLeft: true
     }
   },
   mounted () {
@@ -450,7 +436,7 @@ export default {
     TwBreadcrumbs: () => import('components/base/TwBreadcrumbs'),
     TwPageScroller: () => import('components/base/TwPageScroller'),
     DocumentTree: () => import('components/document/DocumentTree'),
-    BookmarkTree: () => import('components/base/BookmarkTree'),
+    BookmarkTree: () => import('components/document/BookmarkTree'),
     LeftRightCardLayout: () => import('layouts/LeftRightCardLayout')
   },
   methods: {

@@ -28,7 +28,6 @@ export default {
   },
   initPage (state) {
     state.page = { offset: 0, limit: 12, total: 0, nextPageToken: -1 }
-    state.loadedAll = false
   },
   updatePage (state, page) {
     if (page.nextPageToken === -1) {
@@ -41,9 +40,6 @@ export default {
       selectPage.offset = 0
     }
     Object.assign(state.selectPage, selectPage)
-  },
-  setLoadedAll (state, loaded) {
-    state.loadedAll = loaded
   },
   updatePersons (state, persons) {
     state.persons = { ...state.persons, ...persons }

@@ -35,6 +35,7 @@ export default {
   ],
   // 是否分页
   byPage: false,
+  
   // 人员分页（不区分类别）
   page: {
     offset: 0,
@@ -50,13 +51,9 @@ export default {
   },
   // 前端人员库
   persons: {},
-  // 人员是否已加载完
-  loadedAll: false,
 
   // 加载选择组件所需要的系统所有人员
   selectPersons: {},
-  // 是否已经加载选择组件所需要的系统所有人员
-  loadedSelect: false,
 
   // 类别ID
   organizeId: 0,
