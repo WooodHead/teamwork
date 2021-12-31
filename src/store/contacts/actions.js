@@ -40,7 +40,7 @@ export default {
           })
           let teamGroup = [..._.map(teams, t => { t.type = 'team'; return t }), ..._.map(groups, g => { g.type = 'group'; return g })]
           let frequentContact = rootGetters['person/filterPersonsByContactsAcl'](_.map(frequentContacts, (fc) => rootState.person.selectPersons[fc.id]))
-
+          
           commit('setMhome', {
             organize: organize.filter(o => !!o),
             service: service.filter(s => !!s),

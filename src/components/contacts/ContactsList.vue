@@ -1,8 +1,5 @@
 <template>
-  <div
-    :style="`height:${$q.screen.height-128}px;overflow-x: hidden;`"
-    class=" q-mt-md bg-white scroll"
-  >
+   <q-scroll-area>
     <q-list>
       <!-- 根目录成员模块 -->
       <q-item v-if="newData.length===0">
@@ -20,18 +17,12 @@
         @click="treedEvent(d)"
       >
         <q-item-section class="q-my-sm">
-          <span
-            class="ellipsis"
-            :style="$q.screen.width > 1024?'width: 100%;':'width:100%'"
-          >
-            {{d.name||d.title}}
-          </span>
+          <q-item-label>
+             {{d.name||d.title}}
+          </q-item-label>
         </q-item-section>
-        <q-item-section
-          side
-          v-if="treed.id===d.id"
-        >
-          <div>
+        <q-item-section side v-if="treed.id===d.id">
+          <q-item-label>
             <q-btn
               flat
               round
@@ -72,21 +63,20 @@
               v-if="($myinfo.auth.role.isSystemAdministrator||$myinfo.auth.role.isHRSpecialist||selected.name==='group')&&selected.name!='team'"
               @click.stop="deleteEvent(d)"
             />
-          </div>
-          <!-- 成员关系批量添加弹窗 -->
-          <q-dialog
-            v-model="showSelect"
-            transition-show="slide-up"
-            transition-hide="slide-down"
-          >
-            <person-select-panel
-              style="width: 600px; max-width: 90vw;"
-              @multiSelect="multiSelect"
-              :isVirtualScroll="true"
-              :multiple="true"
-              :initSelectedPersonIDs="members"
-            />
-          </q-dialog>
+            <q-dialog
+              v-model="showSelect"
+              transition-show="slide-up"
+              transition-hide="slide-down"
+            >
+              <person-select-panel
+                style="width: 600px; max-width: 90vw;"
+                @multiSelect="multiSelect"
+                :isVirtualScroll="true"
+                :multiple="true"
+                :initSelectedPersonIDs="members"
+              />
+            </q-dialog>
+          </q-item-label>
         </q-item-section>
       </q-item>
       <!-- 新建按钮 -->
@@ -119,7 +109,7 @@
         @saveAdd="isAdd = false"
       />
     </q-list>
-  </div>
+  </q-scroll-area>
 </template>
 <script>
 import { mapActions, mapMutations } from 'vuex'

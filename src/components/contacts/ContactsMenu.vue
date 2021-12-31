@@ -1,7 +1,8 @@
 <template>
-  <div style="width:300px;">
+  <div class="column">
     <!-- 模糊搜索 -->
     <select-search
+      class="col-auto q-mb-sm"
       :selects="($myinfo.auth.role.isSystemAdministrator||$myinfo.auth.role.isSeniorManager)?selects.filter(s=>s.used):selects.filter(s=>s.used&&s.name!='role')"
       :selected="selected"
       :search.sync="search"
@@ -9,16 +10,18 @@
     ></select-search>
     <!-- 机构树 -->
     <organize-tree
-      v-if="$q.screen.width > 1024&&selected.name==='organize'"
+      class="col bg-white"
+      v-if="selected.name==='organize'"
       :selected="selected"
       :treed="treed"
       :search="search"
       @treed-event="treedEvent"
       @edit-event="ediEvent"
     ></organize-tree>
-    <!-- PC端除去机构，其它切换成列表的形式-->
+    <!-- 除机构，其它切换成列表的形式-->
     <contacts-list
-      v-else-if="$q.screen.width > 1024&&selected.name!=='organize'"
+      class="col bg-white"
+      v-else-if="selected.name!=='organize'"
       :selected="selected"
       :treed="treed"
       :search="search"
@@ -62,7 +65,7 @@ export default {
       // 默认选择列表中的第一个并且选中它
       var treedList = []
       if (this.selected.name === 'group') {
-        treedList = treedList.filter(t => { return t.psonId === this.$myinfo.id })
+        treedList = this.selected.data.filter((t) => t.psonId === this.$myinfo.id)
       } else {
         treedList = this.selected.data
       }

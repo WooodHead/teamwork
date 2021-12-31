@@ -89,7 +89,7 @@
         >{{model.title}}</q-item-label>
       </q-item>
     </q-card-section>
-    <q-card-section class="q-pa-none history-list">
+    <q-card-section class="q-pa-none history-list" v-if="mineListCanSee.length">
       <div class='q-mb-xs text-subtitle2 text-weight-bold'>{{$t('home.myWorkPlate.title')}}</div>
       <q-item
         v-for="item in mineListCanSee"
