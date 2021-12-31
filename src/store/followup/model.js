@@ -1,27 +1,29 @@
 import commomFields from '@/utils/model-common-fields'
-import { date } from 'quasar'
+import { LocalStorage, date } from 'quasar'
 
 const init = {
   id: 0,
   objectID: 0,
   title: '',
   objectType: '',
-  contactForm: '面谈',
-  customerContacter: 0,
+  contactForm: '电话',
+  customerContacter: undefined,
   leaderID: 0,
-  followupDate: date.formatDate(new Date(), 'YYYY-MM-DD HH:mm'),
+  followupDate: '',
   content: '',
   createTime: date.formatDate(new Date(), 'YYYY-MM-DD HH:mm'),
   createBy: '',
   createByID: 0,
-  modifyTime: date.formatDate(new Date(), 'YYYY-MM-DD HH:mm'),
+  modifyTime: '',
   modifyBy: '',
-  deleteTime: date.formatDate(new Date(), 'YYYY-MM-DD HH:mm'),
+  deleteTime: '',
   deleteBy: '',
   deleted: 0,
   members: []
 }
 function fromOne (end) {
+  let members = _.has(end, 'Members')
+    ? (end.Members !== null && _.isArray(end.Members) ? end.Members : JSON.parse(end.Members)) : []
   return {
     id: end.Id,
     objectID: end.ObjectID,
@@ -34,8 +36,8 @@ function fromOne (end) {
     content: end.Content,
     createByID: end.CreateByID,
     deleted: end.IsDelete,
-    members: end.Members,
-    ...(commomFields.from(end))
+    members: members,
+    ...commomFields.from(end)
   }
 }
 
@@ -64,6 +66,10 @@ function toOne (front) {
  */
 export default class Followup {
   constructor (followup) {
+    let myinfo = LocalStorage.getItem('myself')
+    init.leaderID = myinfo.id
+    init.createByID = myinfo.id
+    init.createBy = myinfo.name
     Object.assign(this, init, followup)
   }
   static from (end) {

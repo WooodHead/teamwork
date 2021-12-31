@@ -2,7 +2,7 @@
   <q-card
     :flat="$q.screen.lt.sm"
     class="card-grow-in-page document-file-detail-img"
-    :style="haveLeftTree?'width: 100% !important;':''"
+    :style="haveLeftTree ? 'width: 100% !important;' : ''"
   >
     <!-- 菜单区 -->
     <tw-header-detail :noMenu="noMenu">
@@ -20,40 +20,35 @@
           menu-self="top middle"
           flat
           dense
-          :label="cardItemParent?cardItemParent.title:''"
+          :label="cardItemParent ? cardItemParent.title : ''"
           class="ellipsis document-btn-dropdown"
         >
-          <template v-if="cardItemParent.objectType==='productCase'">
-            <q-list
-              v-for="(dictionary) in dictionarys"
-              :key="dictionary.id"
-            >
+          <template v-if="cardItemParent.objectType === 'productCase'">
+            <q-list v-for="dictionary in dictionarys" :key="dictionary.id">
               <q-item class="row items-center">
                 <q-item-label header>
-                  {{dictionary.dictValue }}
+                  {{ dictionary.dictValue }}
                 </q-item-label>
                 <q-separator class="fade-line" />
               </q-item>
 
               <q-item
-                v-for="item in _filter(cardItemParent.children, { 'tag':dictionary.dictValue })"
+                v-for="item in _filter(cardItemParent.children, {
+                  tag: dictionary.dictValue
+                })"
                 :key="item.id"
                 clickable
                 v-close-popup
                 @click="onItemClick(item)"
               >
                 <q-item-section>
-                  <q-item-label>{{item.title}}</q-item-label>
+                  <q-item-label>{{ item.title }}</q-item-label>
                 </q-item-section>
               </q-item>
             </q-list>
           </template>
-          <q-list
-            v-else
-            dense
-            class="q-pa-md q-pl-none"
-          >
-            <template v-for="(item,index) in cardItemParent.children">
+          <q-list v-else dense class="q-pa-md q-pl-none">
+            <template v-for="(item, index) in cardItemParent.children">
               <q-item
                 :key="item.id"
                 clickable
@@ -62,20 +57,24 @@
               >
                 <q-item-section avatar>
                   <q-icon
-                    :style="item.classify==='folder'?'color:#ffc107':'color:#bbc4ca'"
-                    :name="item.classify==='folder'?'app:tw-icon-folder':'app:tw-icon-file'"
+                    :style="
+                      item.classify === 'folder'
+                        ? 'color:#ffc107'
+                        : 'color:#bbc4ca'
+                    "
+                    :name="
+                      item.classify === 'folder'
+                        ? 'app:tw-icon-folder'
+                        : 'app:tw-icon-file'
+                    "
                   >
                   </q-icon>
                 </q-item-section>
                 <q-item-section>
-                  <q-item-label>{{item.title}}</q-item-label>
+                  <q-item-label>{{ item.title }}</q-item-label>
                 </q-item-section>
               </q-item>
-              <q-separator
-                :key="`${item.id}-${index}`"
-                spaced
-                inset="item"
-              />
+              <q-separator :key="`${item.id}-${index}`" spaced inset="item" />
             </template>
             <!-- <q-item
               v-for="item in cardItemParent.children"
@@ -96,7 +95,7 @@
       <!-- 归档文件说明区 -->
       <q-card-section
         v-if="haveParentArchive"
-        :class="{'q-pt-none':$q.platform.is.desktop}"
+        :class="{ 'q-pt-none': $q.platform.is.desktop }"
       >
         <tw-archive-part-notes
           :category="category"
@@ -107,35 +106,32 @@
         />
       </q-card-section>
       <q-card-section
-        v-if="!haveParentArchive&&cardItem.archived"
-        :class="{'q-pt-none':$q.platform.is.desktop}"
+        v-if="!haveParentArchive && cardItem.archived"
+        :class="{ 'q-pt-none': $q.platform.is.desktop }"
       >
         <tw-archive-notes
           :id="cardItem.id"
           :type="type"
-          :label="$t('document.title')"
+          :label="$t(`${type}.title`)"
           :archiveTime="cardItem.archiveTime"
           :archiveBy="cardItem.archiveBy"
         />
       </q-card-section>
       <!-- 草稿区 -->
-      <div
-        v-if="cardItem&& cardItem.isPublish===0"
-        class="q-pb-lg"
-      >
+      <div v-if="cardItem && cardItem.isPublish === 0" class="q-pb-lg">
         <edit-draft
-          v-if="editDraft&&!saveDraft"
+          v-if="editDraft && !saveDraft"
           :model="cardItem"
           :type="type"
-          @shareDraft="editDraft=false"
+          @shareDraft="editDraft = false"
           @saveDraft="showSaveDraft"
         ></edit-draft>
         <share-draft
-          v-if="!editDraft&&!saveDraft"
-          @close="editDraft=true"
+          v-if="!editDraft && !saveDraft"
+          @close="editDraft = true"
         ></share-draft>
         <save-draft
-          v-if="!editDraft&&saveDraft"
+          v-if="!editDraft && saveDraft"
           :model="cardItem"
           :type="type"
           @close="closeShareDraft"
@@ -145,34 +141,36 @@
       <!-- 内容区-->
       <slot name="content">
         <q-card-section class="q-pt-none q-gutter-y-sm">
-          <div
-            class="column q-gutter-y-sm text-center "
-            :style="$q.platform.is.desktop&&'margin-top:-40px;'"
-          >
+          <div class="column q-gutter-y-sm text-center ">
             <div
               style="font-size:12px;"
-              :class="{'emoji-font':$q.platform.is.win}"
-            >{{cardItem.noticeType}}
+              :class="{ 'emoji-font': $q.platform.is.win }"
+            >
+              {{ cardItem.noticeType }}
             </div>
             <div class="text-h5">
-              <span class="text-weight-bold">{{cardItem.title}}</span>
+              <span class="text-weight-bold">{{ cardItem.title }}</span>
             </div>
             <div
               class="text-caption text-grey-9 "
-              v-if="cardItem&& cardItem.isPublish===1"
-            >{{$t('document.modify.postedBy',{modifyBy:cardItem.modifyBy})}}
+              v-if="cardItem && cardItem.isPublish === 1"
+            >
+              {{
+                $t("document.modify.postedBy", { modifyBy: cardItem.modifyBy })
+              }}
               <q-badge
                 v-if="cardItem.onlyICanEdit && cardItem.authorID === $myinfo.id"
                 color="grey-7"
                 outline
                 :label="$t('document.meEdit')"
-              /> •
-              {{timeAgo({ dateTime :cardItem.modifyTime})}}
+              />
+              •
+              {{ timeAgo({ dateTime: cardItem.modifyTime }) }}
             </div>
           </div>
           <!-- markmap 文档内容区域 -->
           <mind-map
-            v-if="cardItem.extension==='markmap'"
+            v-if="cardItem.extension === 'markmap'"
             :code="cardItem.content"
             :title="cardItem.title"
           />
@@ -181,17 +179,16 @@
             class="editor__content tiptap"
             v-else
             v-html="cardItem.content"
-          >
-          </div>
+          ></div>
         </q-card-section>
       </slot>
 
-      <q-card-section v-if="cardItem&& cardItem.isPublish===1">
+      <q-card-section v-if="cardItem && cardItem.isPublish === 1">
         <tw-boost-pack
           :boostTo="cardItem.modifyBy"
           :objectID="+id"
           :objectType="type"
-          :messageTitle="cardItem.title||''"
+          :messageTitle="cardItem.title || ''"
         />
       </q-card-section>
       <!-- 文档保密区 -->
@@ -202,17 +199,19 @@
         />
       </q-card-section>
 
-      <q-card-section v-if="cardItem&& cardItem.isPublish===1">
+      <q-card-section v-if="cardItem && cardItem.isPublish === 1">
         <discuss-board
           :objectType="type"
           :objectID="+id"
-          :objectTitle="cardItem.title||''"
+          :objectTitle="cardItem.title || ''"
           @submitFinished="submitFinished"
         />
       </q-card-section>
 
       <!-- 订阅 -->
-      <q-card-section v-if="!categoryModel.isTemplate&&cardItem&& cardItem.isPublish===1">
+      <q-card-section
+        v-if="!categoryModel.isTemplate && cardItem && cardItem.isPublish === 1"
+      >
         <tw-subscribe
           :objectType="type"
           :objectID="+id"
@@ -283,7 +282,9 @@ export default {
     haveLeftTree () {
       // 1、PC端从文档中心、知识库中进入有左侧树结构
       // 2、从各个资源模块进入文档中心无左侧树结构
-      return !(this.$q.platform.is.mobile || this.$route.name === 'documentCenter')
+      return !(
+        this.$q.platform.is.mobile || this.$route.name === 'documentCenter'
+      )
     },
     elementStyle () {
       return ['q-mt-md', { 'col pageDetailWidth': this.$q.screen.gt.sm }]
@@ -292,12 +293,20 @@ export default {
       return this.$store.getters[`${this.type}/currentModel`](+this.id)
     },
     cardItemParent () {
-      return this.cardItem ? _.find(this.$store.state.document.documentList, d => d.id === this.cardItem.parentId) : {}
+      return this.cardItem
+        ? _.find(
+          this.$store.state.document.documentList,
+          d => d.id === this.cardItem.parentId
+        )
+        : {}
     },
     noMenu () {
       let nM = false
       // 只有知识空间成员有编辑权限
-      if (this.category === 'wiki' && !this.$store.getters['wiki/editWikiAuth'](+this.objectID)) {
+      if (
+        this.category === 'wiki' &&
+        !this.$store.getters['wiki/editWikiAuth'](+this.objectID)
+      ) {
         nM = true
       }
       return nM
@@ -323,9 +332,14 @@ export default {
     ...mapActions('document', ['isHaveParentArchive']),
     ...mapActions('dictionary', ['loadDictionarys']),
     init () {
-      this.$store.dispatch(`${this.type}/load${capitalize(this.type)}`, +this.id)
+      this.$store
+        .dispatch(`${this.type}/load${capitalize(this.type)}`, +this.id)
         .then(res => {
-          res.parentId && this.$store.dispatch(`${this.type}/load${capitalize(this.type)}`, +res.parentId)
+          res.parentId &&
+            this.$store.dispatch(
+              `${this.type}/load${capitalize(this.type)}`,
+              +res.parentId
+            )
         })
 
       if (this.type === 'document') {
@@ -335,14 +349,19 @@ export default {
       }
 
       // 获取资源类型指定的人员(用于订阅组件快捷选中人员)
-      this.category && this.objectID && this.loadMembers({ category: this.category, objectID: +this.objectID }).then(ids => {
-        if (ids.length) {
-          this.quickSelected = {
-            title: this.$t(`${this.category}.title`) + '成员',
-            personIDs: ids
+      this.category &&
+        this.objectID &&
+        this.loadMembers({
+          category: this.category,
+          objectID: +this.objectID
+        }).then(ids => {
+          if (ids.length) {
+            this.quickSelected = {
+              title: this.$t(`${this.category}.title`) + '成员',
+              personIDs: ids
+            }
           }
-        }
-      })
+        })
       recodeVisitMark(this.type, +this.id)
     },
     /***
@@ -366,28 +385,45 @@ export default {
     },
     updateMembers (ids) {
       this.cardItem.whiteList = ids
-      this.$store.dispatch(`document/updateDocument`, this.cardItem)
+      this.$store
+        .dispatch(`document/updateDocument`, this.cardItem)
         .then(res => {
-          this.$q.notify({ message: '设置成功！', icon: 'check', color: 'positive' })
+          this.$q.notify({
+            message: '设置成功！',
+            icon: 'check',
+            color: 'positive'
+          })
         })
     },
     cancelSecrecy () {
       if (this.cardItemParent.acl === 2) {
-        this.$q.notify({ message: '无法解除保密，请先设置父级文件夹为公开状态！', icon: 'check', color: 'purple' })
+        this.$q.notify({
+          message: '无法解除保密，请先设置父级文件夹为公开状态！',
+          icon: 'check',
+          color: 'purple'
+        })
         return
       }
-      this.$q.dialog({
-        title: '温馨提示',
-        message: '确定要公开该文档？',
-        cancel: true,
-        persistent: true
-      }).onOk(() => {
-        this.cardItem.acl = 0
-        this.$store.dispatch(`document/updateDocument`, this.cardItem)
-          .then(res => {
-            this.$q.notify({ message: '解除成功！', icon: 'check', color: 'positive' })
-          })
-      }).onCancel(() => { })
+      this.$q
+        .dialog({
+          title: '温馨提示',
+          message: '确定要公开该文档？',
+          cancel: true,
+          persistent: true
+        })
+        .onOk(() => {
+          this.cardItem.acl = 0
+          this.$store
+            .dispatch(`document/updateDocument`, this.cardItem)
+            .then(res => {
+              this.$q.notify({
+                message: '解除成功！',
+                icon: 'check',
+                color: 'positive'
+              })
+            })
+        })
+        .onCancel(() => {})
     },
     onItemClick (e) {
       this.$router.push({
@@ -418,22 +454,22 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  .card-grow-in-page img {
-    max-width: 100% !important;
-  }
+.card-grow-in-page img {
+  max-width: 100% !important;
+}
 
-  .tiptap-content {
-    word-break: break-all;
-  }
-  /deep/svg[id^="markmap"] {
-    min-height: 500px;
-  }
-  .document-file-detail-img img {
-    max-width: 100%;
-  }
-  /deep/ .document-btn-dropdown .q-btn__content span:first-child {
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    overflow: hidden;
-  }
+.tiptap-content {
+  word-break: break-all;
+}
+/deep/svg[id^="markmap"] {
+  min-height: 500px;
+}
+.document-file-detail-img img {
+  max-width: 100%;
+}
+/deep/ .document-btn-dropdown .q-btn__content span:first-child {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
 </style>

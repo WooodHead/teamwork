@@ -1,94 +1,104 @@
 <template>
   <tw-form @primary="onSubmit">
-    <div>
+    <div class="row q-col-gutter-sm">
+
+      <!-- 跟进方式 -->
+      <div class="col-12 q-gutter-md q-pa-sm">
+        <q-radio
+          v-model="model.contactForm"
+          v-for="(cy, index) in classifys"
+          :key="index + cy"
+          dense
+          :val="cy.val"
+          :label="cy.label"
+        />
+      </div>
+
+      <!-- 标题 -->
       <q-input
         filled
+        class="col-12"
         v-model="model.title"
         label="标题"
-        :rules="[(val) => val && val.length > 0]"
-      >
-      </q-input>
-    </div>
-    <div class="q-gutter-sm">
-      <q-radio
-        v-model="model.contactForm"
-        v-for="(cy, index) in classifys"
-        :key="index + cy"
-        dense
-        :val="cy.val"
-        :label="cy.label"
+        :rules="[(val) => val && val.length > 0 || '请输入标题']"
+        hide-bottom-space
       />
-    </div>
-    <!-- 跟进日期 -->
-    <q-input
-      filled
-      v-model="model.followupDate"
-      :label="$t('followup.followupDate')"
-      mask="date"
-    >
-      <template v-slot:append>
-        <q-icon
-          name="event"
-          class="cursor-pointer"
-        >
-          <q-popup-proxy
-            ref="qDateProxy"
-            transition-show="scale"
-            transition-hide="scale"
+
+      <!-- 跟进日期 -->
+      <q-input
+        filled
+        class="col-12"
+        v-model="model.followupDate"
+        :label="$t('followup.followupDate')"
+        mask="date"
+      >
+        <template v-slot:append>
+          <q-icon
+            name="event"
+            class="cursor-pointer"
           >
-            <q-date
-              :value="model.followupDate"
-              @input="
+            <q-popup-proxy
+              ref="qDateProxy"
+              transition-show="scale"
+              transition-hide="scale"
+            >
+              <q-date
+                :value="model.followupDate"
+                @input="
                 (val) => {
                   model.followupDate = val
                   $refs.qDateProxy.hide()
                 }
               "
-              minimal
-            />
-          </q-popup-proxy>
-        </q-icon>
-      </template>
-    </q-input>
-    <!-- 客户联系人 -->
-    <q-select
-      filled
-      :options="clientOptions"
-      v-model="clientModel"
-      option-value="id"
-      option-label="name"
-      use-input
-      use-chips
-      stack-label
-      :label="$t('followup.customerContacter')"
-    />
-    <!-- :rules="[ val => val && val.length > 0 || $t('followup.customerContacter')]" -->
-    <!-- 参与人 -->
-    <q-select
-      filled
-      multiple
-      :options="memberOptions"
-      v-model="memModel"
-      option-value="id"
-      option-label="name"
-      use-chips
-      stack-label
-      label="参与人"
-    />
-    <!-- 跟进内容 -->
-    <quasar-editor
-      :focus="false"
-      :value="oldContent"
-      :placeholder="$t('followup.addContent')"
-      :folder="category"
-      :applied="goIntoAction"
-      @input="
-        (val) => {
-          model.content = val
-        }
-      "
-      class="col-12"
-    ></quasar-editor>
+                minimal
+              />
+            </q-popup-proxy>
+          </q-icon>
+        </template>
+      </q-input>
+
+      <!-- 客户联系人 -->
+      <q-select
+        filled
+        class="col-12"
+        v-model="model.customerContacter"
+        :options="clients"
+        option-value="id"
+        option-label="name"
+        emit-value
+        map-options
+        stack-label
+        :label="$t('followup.customerContacter')"
+      />
+
+      <!-- 参与人 -->
+      <q-select
+        filled
+        multiple
+        class="col-12"
+        v-model="model.members"
+        :options="members"
+        option-value="id"
+        option-label="name"
+        emit-value
+        map-options
+        use-chips
+        stack-label
+        label="参与人"
+      />
+
+      <!-- 跟进内容 -->
+      <quasar-editor
+        :focus="false"
+        :folder="category"
+        class="col-12"
+        :value="oldContent"
+        :placeholder="$t('followup.addContent')"
+        :applied="goIntoAction"
+        @input="val => {model.content = val}"
+      ></quasar-editor>
+
+    </div>
   </tw-form>
 </template>
 
@@ -96,7 +106,6 @@
 import { showWarningMessage } from '@/utils/show-message'
 import { mapActions } from 'vuex'
 import Followup from '@/store/followup/model'
-import Customer from 'src/store/customer/model'
 export default {
   name: 'FollowupEdit',
   props: {
@@ -123,112 +132,69 @@ export default {
       default: 'add'
     }
   },
-  data   () {
+  data () {
     return {
-      date: '',
       goIntoAction: false,
-      oldContent: '',
-      classify: '电话',
       classifys: this.$store.state.followup.contactForm,
-      model: new Followup(),
-      customer: new Customer(),
-      clientModel: null, // 客户联系人下拉框v-model属性用
-      clientOptions: [], // 客户联系人下拉框数据源
-      memModel: [], // 参与人下拉框v-model属性用
-      memberOptions: [] // 参与人下拉框数据源
+      oldContent: '',
+      clientIds: [],
+      memberIds: [],
+      model: new Followup()
     }
   },
-  mounted  () {
+  computed: {
+    clients () {
+      let clients = []
+      if (_.isArray(this.clientIds) && this.clientIds.length) {
+        clients = _.map(this.clientIds, (p) => this.$store.state.person.selectPersons[p])
+      }
+      return clients
+    },
+    members () {
+      let members = []
+      if (_.isArray(this.memberIds) && this.memberIds.length) {
+        members = _.map(this.memberIds, (p) => this.$store.state.person.selectPersons[p])
+      }
+      return members
+    }
+  },
+  created () {
     // 给客户联系人下拉框绑定数据源
     let cateType = this.category.charAt(0).toUpperCase() + this.category.substring(1, this.category.length)
-    this.category &&
-      this.objectID &&
-      this.$store
-        .dispatch(`${this.category}/load${cateType}`, +this.objectID)
-        .then((res) => {
-          this.loadCustomer(+res.customerID).then(res => {
-            this.customer = res
-            // 给客户联系人下拉框绑定数据源
-            let clientPson = res.membersObject.client
-            let selectPersons = this.$store.state.person.selectPersons
-            const persons = _.map(clientPson, p => selectPersons[p])
-            persons.forEach(item => {
-              this.clientOptions.push({
-                id: item.id,
-                name: item.name
+    if (this.category === 'customer') {
+      this.loadCustomer(+this.objectID).then((res) => {
+        this.clientIds = res.membersObject.client
+      })
+    } else {
+      this.category &&
+        this.objectID &&
+          this.$store
+            .dispatch(`${this.category}/load${cateType}`, +this.objectID)
+            .then((res) => {
+              this.loadCustomer(+res.customerID).then((res) => {
+                this.clientIds = res.membersObject.client
               })
             })
-          })
-        })
+    }
 
     // 给参与人下拉框绑定数据源
     this.category &&
       this.objectID &&
-      this.$store
-        .dispatch('member/loadMembers', {
-          category: this.category,
-          objectID: +this.objectID,
-          types: 'leader,member,visitor'
-        })
-        .then((ids) => {
-          if (ids.length) {
-            let selectPersons = this.$store.state.person.selectPersons
-            const persons = _.map(ids, (p) => selectPersons[p])
-            persons.forEach((item) => {
-              this.memberOptions.push({
-                id: item.id,
-                name: item.name
-              })
-            })
-          }
-        })
-
-    // this.loadCustomer(+this.objectID).then(res => {
-    //   this.customer = res
-    //   // 给客户联系人下拉框绑定数据源
-    //   let clientPson = res.membersObject.client
-    //   let selectPersons = this.$store.state.person.selectPersons
-    //   const persons = _.map(clientPson, p => selectPersons[p])
-    //   persons.forEach(item => {
-    //     this.clientOptions.push({
-    //       id: item.id,
-    //       name: item.name
-    //     })
-    //   })
-    //   // 给参与人下拉框绑定数据源
-    //   const psons = _.map(this.customer.membersObject.member, p => selectPersons[p])
-    //   psons.forEach(item => {
-    //     this.memberOptions.push({
-    //       id: item.id,
-    //       name: item.name
-    //     })
-    //   })
-    // })
+        this.$store
+          .dispatch('member/loadMembers', {
+            category: this.category,
+            objectID: +this.objectID,
+            types: 'leader,member,visitor'
+          })
+          .then((ids) => {
+            this.memberIds = ids
+          })
 
     if (this.openType === 'edit') {
       this.loadFollowup(this.id).then((res) => {
         if (res) {
-          this.oldContent = res.content
-          this.model = res
-          // 参与人
-          let selectPersons = this.$store.state.person.selectPersons
-          let arr = JSON.parse(this.model.members).member
-          const persons = _.map(arr, (p) => selectPersons[p])
-          persons.forEach((item) => {
-            this.memModel.push({
-              id: item.id,
-              name: item.name
-            })
-          })
-          // 客户联系人
-          Object.keys(selectPersons).forEach((key) => {
-            if (this.model.customerContacter === +key) {
-              this.clientModel = {
-                id: this.model.customerContacter,
-                name: selectPersons[+key].name
-              }
-            }
-          })
+          this.model = _.clone(res)
+          this.oldContent = this.model.content
         }
       })
     }
@@ -242,36 +208,25 @@ export default {
     ...mapActions('customer', ['loadCustomer']),
     ...mapActions('member', ['loadMembers']),
     /** 保存 */
-    onSubmit    () {
+    onSubmit () {
+      this.goIntoAction = true
       if (!this.model.content && this.model.content.length === 0) {
         showWarningMessage(this.$t('followup.addContent'))
         return
       }
-      this.model.objectType = this.$router.history.current.params.category
-      this.model.objectID = this.$router.history.current.params.objectID
-      this.model.customerContacter = this.clientModel.id
-      let arrNew = []
-      this.memModel.forEach((item) => {
-        arrNew.push(item.id)
-      })
-      this.model.members = arrNew
+      this.model.objectType = this.category
+      this.model.objectID = this.objectID
       if (this.openType === 'add') {
-        this.addFollowup(this.model)
+        this.addFollowup(this.model).then(res => { if (res) this.routerJump(res) })
       } else {
-        // 更新
-        this.updateFollowup(this.model)
+        this.updateFollowup(this.model).then(res => { if (res) this.routerJump(res) })
       }
-      this.$emit('ok')
     },
-    /** 取消 */
-    onCancel    () {
-      this.$nextTick(() => {
-        this.$emit('cancel')
+    routerJump (followup) {
+      this.$router.push({
+        name: 'followupDetail',
+        params: { category: this.category, objectID: this.objectID, id: followup.id }
       })
-    },
-    // 清除日期
-    CleanDate    () {
-      this.date = ''
     }
   },
   components: {
