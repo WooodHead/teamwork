@@ -25,16 +25,14 @@
         />
       </template>
       </tw-header-card>
-      <q-card-section v-if="isShowPublic" class="q-pt-xl text-h5 text-center">
-        <q-btn
-          round
-          :size="$q.screen.gt.xs?'64px':'32px'"
-          color="primary"
-          icon="local_library"
-        /> 
+      <q-card-section v-if="isShowPublic" class="q-pt-xl text-h5 text-center">        
+        <q-icon
+          :size="$q.screen.gt.xs?'192px':'96px'"
+          name="img:icons/fully-visible.svg"
+        />
         <q-item>
           <q-item-section class="q-pt-xl">
-            <q-item-label>当前知识空间全员公开可见</q-item-label>
+            <q-item-label>当前知识空间全员可见</q-item-label>
           </q-item-section> 
         </q-item>               
       </q-card-section>

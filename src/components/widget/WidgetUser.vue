@@ -7,15 +7,13 @@
   >
   <template slot="content"> 
     <div v-if="wikiShowPublic" :class="$q.screen.gt.xs?'q-py-md':'q-py-xs'">
-       <q-btn
-        round
-        :size="$q.screen.gt.xs?'32px':'20px'"
-        color="primary"
-        icon="local_library"
-      />      
+      <q-icon
+        :size="$q.screen.gt.xs?'96px':'48px'"
+        name="img:icons/fully-visible.svg"
+      />     
     <q-item> 
       <q-item-section>
-        <q-item-label>当前知识空间全员公开可见</q-item-label>
+        <q-item-label>当前知识空间全员可见</q-item-label>
       </q-item-section>
     </q-item>
     </div> 
