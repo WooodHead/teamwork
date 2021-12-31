@@ -80,11 +80,20 @@ export default {
       bookmark && bookmark.route && bookmark.route.path && this.$router.push({ path: bookmark.route.path })
     },
     // 初始化选中项
-    initSeleted () {
+    initSeleted (path = this.$route.path) {
       let bookmark = _.find(this.bookmarkTree(this.type, this.id), (b) => {
         return b.route && b.route.path && b.route.path === this.$route.path
       })
-      if (bookmark) this.selected = bookmark.id
+      this.selected = (bookmark && bookmark.id) || null
+    }
+  },
+  watch: {
+    $route: {
+      immediate: true,
+      deep: true,
+      async handler (newVal, oldVal) {
+        this.initSeleted(newVal.path)
+      }
     }
   }
 }

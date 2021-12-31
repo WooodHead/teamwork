@@ -73,7 +73,7 @@
             :label="$t('document.manage')"
             icon="settings"
             @click.stop="toWikiManage()"
-            color="primary"
+            color="grey-9"
           />
         </q-scroll-area>
       </template>
@@ -450,7 +450,7 @@ export default {
     TwBreadcrumbs: () => import('components/base/TwBreadcrumbs'),
     TwPageScroller: () => import('components/base/TwPageScroller'),
     DocumentTree: () => import('components/document/DocumentTree'),
-    BookmarkTree: () => import('components/base/BookmarkTree'),
+    BookmarkTree: () => import('components/document/BookmarkTree'),
     LeftRightCardLayout: () => import('layouts/LeftRightCardLayout')
   },
   methods: {
