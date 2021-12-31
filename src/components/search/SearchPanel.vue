@@ -2,9 +2,8 @@
   <q-card-section>
     <!-- 快捷搜索(当前页面内搜索和查看上一次搜索) -->
     <div
-      class="q-pb-sm cursor-pointer"
+      class="q-pb-sm cursor-pointer text-primary"
       @click="searchCurrentPage"
-      :class="showCurrentPage?'text-primary':'text-grey'"
     >
       <span class="q-mr-lg">{{ $t("search.searchCurrentPage") }}</span>
     </div>
@@ -202,8 +201,7 @@ export default {
     return {
       dialog: false,
       myinfo: LocalStorage.getItem('myself'),
-      tags: [],
-      showCurrentPage: false
+      tags: []
     }
   },
   components: {
@@ -384,7 +382,6 @@ export default {
       'setOrganize'
     ]),
     searchCurrentPage () {
-      this.showCurrentPage = true
       let newVal = this.$route
       if ('projectDetail,productDevDetail,teamDetail'.includes(newVal.name)) {
         this.object = {

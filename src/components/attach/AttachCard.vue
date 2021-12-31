@@ -4,8 +4,8 @@
       <attach-item
         :name="attach.title"
         :extension="attach.extension"
-        :path="attach.filePath||attach.path"
-        :size="Number(attach.size)*1000 | formatSize"
+        :path="attach.filePath || attach.path"
+        :size="(Number(attach.size) * 1000) | formatSize"
         class="text-left"
       />
     </div>
@@ -14,7 +14,7 @@
         <attach-icon
           :id="attach.id"
           :path="attach.filePath || attach.path"
-          :extension="attach.extension===''?'doc':attach.extension"
+          :extension="attach.extension === '' ? 'doc' : attach.extension"
           :snapshotPath="attach.snapshotPath"
           @attachIconClick="$emit('attachIconClick')"
           :tooltip="tooltip"
@@ -26,18 +26,17 @@
       </slot>
       <div
         class="text-h5 text-grey-10 text-weight-bold"
-        :class="{'q-mt-md':$q.platform.is.desktop}"
+        :class="{ 'q-mt-md': $q.platform.is.desktop }"
       >
         {{ attach.title }}
       </div>
-      <div class="text-caption text-grey-9 ">
-        <slot name="postedByBefore">
-        </slot>
-        {{$t("document.modify.postedBy",{modifyBy:attach.createBy})}}
+      <div class="text-caption text-grey-9">
+        <slot name="postedByBefore"> </slot>
+        {{ $t('document.modify.postedBy', { modifyBy: attach.createBy }) }}
         •
-        {{timeAgo({ dateTime :attach.modifyTime})}}
+        {{ timeAgo({ dateTime: attach.modifyTime }) }}
         •
-        {{Number(attach.size)*1024 | formatSize}}
+        {{ (Number(attach.size) * 1024) | formatSize }}
       </div>
       <div class="q-mt-md">
         <template v-if="canPreview">
@@ -46,34 +45,43 @@
             @click="previewFile"
             class="cursor-pointer"
             title="预览文件"
-          > 在线预览</a>
-          <span v-if="showDownload||showEdit">&nbsp;•&nbsp;</span>
+          >
+            在线预览</a
+          >
         </template>
         <template v-if="showDownload">
+          <span v-if="canPreview">&nbsp;•&nbsp;</span>
           <a
             href="javascript:void(0);"
-            @click="download(attach.filePath||attach.path)"
+            @click="download(attach.filePath || attach.path)"
             class="cursor-pointer"
             title="下载文件时您的ip会被记录，请安全阅读~"
-          > 点击下载</a>
-          <span v-if="showEdit">&nbsp;•&nbsp;</span>
+          >
+            点击下载</a
+          >
         </template>
         <template v-if="showEdit">
+          <span v-if="canPreview || showDownload">&nbsp;•&nbsp;</span>
           <a
             clickable
             href="#"
             @click.prevent="$emit('reupdate')"
             title="如果这个不是您想要的文件，可以重新上传哦~"
-          >重新上传</a>
-          <span v-if="showVersion">&nbsp;•&nbsp;</span>
+            >重新上传</a
+          >
         </template>
-        <a
-          v-if="showVersion"
-          clickable
-          href="#"
-          @click.prevent="$emit('version')"
-          :title="$t('document.versionTitle')"
-        >{{$t('document.version')}}</a>
+        <template v-if="showVersion">
+          <span v-if="canPreview || showDownload || showEdit"
+            >&nbsp;•&nbsp;</span
+          >
+          <a
+            clickable
+            href="#"
+            @click.prevent="$emit('version')"
+            :title="$t('document.versionTitle')"
+            >{{ $t('document.version') }}</a
+          >
+        </template>
       </div>
     </div>
   </div>
