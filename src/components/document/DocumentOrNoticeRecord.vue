@@ -78,7 +78,9 @@ export default {
   data () {
     return {}
   },
-  mounted () {},
+  destroyed () {
+    this.$store.commit(`file/${this.type}FilesReset`)
+  },
   computed: {
     ...mapState('file', [
       'visitorRecords',
