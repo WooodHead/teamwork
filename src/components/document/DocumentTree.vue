@@ -121,7 +121,7 @@ export default {
       immediate: true,
       deep: true,
       async handler (newVal, oldVal) {
-        this.selected = newVal.params.id
+        this.selected = newVal.params.id || null
       }
     }
   },
