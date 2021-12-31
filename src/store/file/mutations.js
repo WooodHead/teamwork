@@ -82,13 +82,37 @@ export default {
     })
     state.visitorRecords.push(...newFiles)
   },
+  visitorFilesReset (state) {
+    Object.assign(state.visitorRecordPage, {
+      offset: 0,
+      limit: 20,
+      nextPageToken: 0
+    })
+    state.visitorRecords = []
+  },
   visitPushFiles (state, files) {
     let newFiles = _.differenceBy(files, state.visitRecords, 'id')
     state.visitRecords.push(...newFiles)
   },
+  visitFilesReset (state) {
+    Object.assign(state.visitRecordPage, {
+      offset: 0,
+      limit: 20,
+      nextPageToken: 0
+    })
+    state.visitRecords = []
+  },
   downloadPushFiles (state, files) {
     let newFiles = _.differenceBy(files, state.downloadRecords, 'id')
     state.downloadRecords.push(...newFiles)
+  },
+  downloadFilesReset (state) {
+    Object.assign(state.downloadRecordPage, {
+      offset: 0,
+      limit: 20,
+      nextPageToken: 0
+    })
+    state.downloadRecords = []
   }
 
 }

@@ -159,7 +159,14 @@ export default {
     onDelete () {
       let that = this
       showConfirm(that.$t('message.reallyDelete'), () => {
-        that.$store.dispatch('followup/deleteFollowup', +that.id)
+        that.$store.dispatch('followup/deleteFollowup', +that.id).then(res => {
+          if (res) {
+            this.$router.push({
+              name: 'followup',
+              params: { category: this.category, objectID: this.objectID }
+            }) 
+          }
+        })
       })
     }
   },

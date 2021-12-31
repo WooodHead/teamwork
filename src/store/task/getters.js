@@ -241,7 +241,7 @@ export default {
       list = list.filter(r => r.type !== 'item' || (r.type === 'item' && r.finished))
     }
     if (state.person.id) {
-      list = list.filter(r => r.type !== 'item' || (r.type === 'item' && r.finished && r.finishedBy === state.person.id))
+      list = list.filter(r => r.type !== 'item' || (r.type === 'item' && r.finished && +r.finishedBy === +state.person.id))
     }
     if (state.fromToDate) {
       list = list.filter(r => r.type !== 'item' || (r.type === 'item' && r.finished && formatDate(r.finishedTime, 'YYYY-MM-DD') >= state.fromToDate.from && formatDate(r.finishedTime, 'YYYY-MM-DD') <= state.fromToDate.to))
