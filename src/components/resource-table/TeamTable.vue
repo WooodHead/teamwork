@@ -12,6 +12,7 @@
     separator="cell"
     class="full-width"
     @row-click="rowClick"
+    binary-state-sort
   >
     <template v-slot:body-cell-leaderID="props">
       <q-td
@@ -49,8 +50,8 @@ export default {
         columns: [
           { name: 'title', label: '名称', field: 'title', align: 'left', sortable: true, sort: (a, b) => this.textSort(a, b) },
           { name: 'type', label: '类型', field: 'type', align: 'left', sortable: true, sort: (a, b) => this.textSort(a, b) },
-          { name: 'organizeID', label: '机构', field: 'organizeID', align: 'left', format: (val, row) => this.selectOrganizes[val] && this.selectOrganizes[val].shortName },
-          { name: 'leaderID', label: '负责人', field: 'leaderID', align: 'left', sortable: true, sort: (a, b) => this.personSort(a, b) },
+          { name: 'organizeID', label: '机构', field: 'organizeID', align: 'left', sortable: true, format: (val, row) => this.selectOrganizes[val] && this.selectOrganizes[val].shortName },
+          { name: 'leaderID', label: '负责人', field: 'leaderID', align: 'left' },
           { name: 'members', label: '成员', field: 'members', align: 'left', format: (val, row) => _.join(_.map(val, v => { return this.selectPersons[v] && this.selectPersons[v].name }), ',') }
         ]
       }

@@ -122,7 +122,7 @@ export default {
    * 如果不分页，这不用传byPage
    */
   loadSearchResultsByPage (
-    { state, commit },
+    { state, commit, rootState },
     { object = {},
       person,
       filter,
@@ -145,7 +145,14 @@ export default {
       schedule: 'Id',
       task: 'TaskID'
     }
-    Object.assign(condition, { sort: sortField[modules.value] || sort, order }, byPage ? { limit, offset } : {})
+    // 如果是产品、项目或团队，使用自己的sort
+    let exceptionalSort = null
+    let exceptionalOrder = null
+    if (['project', 'productDev'].includes(modules.value)) {
+      exceptionalSort = rootState[modules.value].sort
+      exceptionalOrder = rootState[modules.value].order
+    }
+    Object.assign(condition, { sort: sortField[modules.value] || exceptionalSort || sort, order: exceptionalOrder || order }, byPage ? { limit, offset } : {})
     let results = []
     let url = byPage ? `${modules.controller}/getpagelist` : `${modules.controller}/getlist`
     return request.get(url, condition).then(res => {

@@ -31,6 +31,8 @@
           :is="compTable[condition.modules.type]"
           :modelList="selectResults"
           :title="SearchResults"
+          serverSort
+          @sortButtonClick="onSort"
         ></component>
         <search-result-content
           v-else
@@ -257,6 +259,9 @@ export default {
           this.count = res
         })
       }
+    },
+    onSort () {
+      this.init(this.condition)
     },
     GetTaskSelectResults (value) {
       // 获取选中的筛选条件

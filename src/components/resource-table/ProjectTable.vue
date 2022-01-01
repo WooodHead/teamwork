@@ -46,7 +46,6 @@
 <script>
 import { date } from 'quasar'
 import { mapState, mapMutations } from 'vuex'
-import { statusFilter } from '@/utils/status-filter'
 export default {
   name: 'ProjectTable',
   components: {
@@ -54,6 +53,7 @@ export default {
     TwStatusBadge: () => import('components/base/TwStatusBadge')
   },
   props: {
+    serverSort: { type: Boolean, default: false },
     modelList: { type: Array, default: () => [] },
     hideBottom: { type: Boolean, default: true },
     perPageOptions: { type: Array, default: () => [0] },
@@ -70,14 +70,14 @@ export default {
       },
       rowKey: 'id',
       columns: [
-        { name: 'num', label: '项目编号', field: 'projNum', align: 'left', sortable: true, sort: (a, b) => this.projNumSort(a, b) },
-        { name: 'title', label: '项目名称', field: 'title', align: 'left', sortable: true, sort: (a, b) => this.textSort(a, b) },
-        { name: 'projLevel', label: '项目等级', field: 'projLevel', align: 'left', sortable: true, sort: (a, b) => this.textSort(a, b), format: (val, row) => this.projLevelFormat(val) },
-        { name: 'organizeID', label: '机构', field: 'organizeID', align: 'left', format: (val, row) => this.selectOrganizes[val] && this.selectOrganizes[val].shortName },
-        { name: 'leaderID', label: '负责人', field: 'leaderID', align: 'left', sortable: true, sort: (a, b) => this.personSort(a, b) },
-        { name: 'status', label: '项目状态', field: 'status', align: 'left', sortable: true, sort: (a, b, rowA, rowB) => this.statusSort(a, b, rowA, rowB) },
+        { name: 'num', label: '项目编号', field: 'projNum', align: 'left', sortable: true },
+        { name: 'title', label: '项目名称', field: 'title', align: 'left' },
+        { name: 'projLevel', label: '项目等级', field: 'projLevel', align: 'left', sortable: true },
+        { name: 'organizeID', label: '机构', field: 'organizeID', align: 'left', sortable: true, format: (val, row) => this.selectOrganizes[val] && this.selectOrganizes[val].shortName },
+        { name: 'leaderID', label: '负责人', field: 'leaderID', align: 'left', sortable: true },
+        { name: 'status', label: '项目状态', field: 'status', align: 'left', sortable: true },
         { name: 'beginDate', label: '开始日期', field: 'beginDate', align: 'left', sortable: true, format: (val, row) => date.formatDate(val, 'YYYY-MM-DD') },
-        { name: 'predictEndDate', label: '预计结束日期', field: 'predictEndDate', align: 'left', sortable: true, format: (val, row) => date.formatDate(val, 'YYYY-MM-DD') }
+        { name: 'predictEndDate', label: '预计结束日期', field: 'predictEndDate', align: 'left', format: (val, row) => date.formatDate(val, 'YYYY-MM-DD') }
       ],
       sortedStatus: ['wait', 'doing', 'putoff', 'suspended', 'done'],
       fieldContrast: {
@@ -93,7 +93,6 @@ export default {
     }
   },
   computed: {
-    ...mapState('project', ['sort', 'order']),
     ...mapState('person', ['selectPersons']),
     ...mapState('organize', ['selectOrganizes'])
   },
@@ -109,7 +108,7 @@ export default {
         this.setOrder(sortOrder)
         this.setSort(this.fieldContrast[sortName])
       }
-      this.$emit('sortButtonClick')
+      this.serverSort && this.$emit('sortButtonClick')   
     },
     rowClick (evt, row, index) {
       this.$router.push({
@@ -120,37 +119,6 @@ export default {
     projLevelFormat (val) {
       const arr = val && val.includes(':') && val.split(':')
       return arr ? arr[arr.length - 1] : val
-    },
-    projNumSort (a, b) {
-      // 按编号的年份排序，次之项目编号排
-      // 产品的年份位置不固定，使用正则获取
-      let aYear = +new RegExp('\\d{2}').exec(a)[0],
-        bYear = +new RegExp('\\d{2}').exec(b)[0]
-      if (aYear === bYear) {
-        return a.localeCompare(b)
-      } else {
-        return aYear - bYear
-      }
-    },
-    textSort (a, b) {
-      return a.localeCompare(b)
-    },
-    personSort (a, b) {
-      // 人员id转换为人名再排序
-      let aName = (this.selectPersons[a] && this.selectPersons[a].name) || ''
-      let bName = (this.selectPersons[b] && this.selectPersons[b].name) || ''
-      return aName.localeCompare(bName)
-    },
-    statusSort (a, b, rowA, rowB) {
-      // 区别进行中的延期
-      let aStatusIndex = _.indexOf(this.sortedStatus, statusFilter(a, rowA.predictEndDate))
-      let bStatusIndex = _.indexOf(this.sortedStatus, statusFilter(b, rowB.predictEndDate))
-      // 如果同是同状态，使用开始时间排序
-      if (aStatusIndex === bStatusIndex) {
-        return new Date(rowA.beginDate) - new Date(rowB.beginDate)
-      } else {
-        return aStatusIndex - bStatusIndex
-      }
     }
   }
 }
