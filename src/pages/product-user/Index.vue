@@ -242,7 +242,7 @@ export default {
         if (window.confirm('取消全员公开后，需要选择关联用户。')) {
           // 更新当前文件的权限
           let fields = {
-            Acl: 2, // 设置为保密权限
+            Acl: 1, // 设置为非公开权限
             DocID: this.wikiFolderId
           }
           this.updateDocumentField(fields).then(() => {
