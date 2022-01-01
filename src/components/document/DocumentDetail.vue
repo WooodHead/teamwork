@@ -151,6 +151,14 @@
             <div class="text-h5">
               <span class="text-weight-bold">{{ cardItem.title }}</span>
             </div>
+            <div v-if="cardItem.tags && cardItem.tags.length">
+              <tw-chip
+                v-for="tag in cardItem.tags"
+                :key="tag"
+                size="xs"
+                :label="tag"
+              />
+            </div>
             <div
               class="text-caption text-grey-9 "
               v-if="cardItem && cardItem.isPublish === 1"
@@ -448,7 +456,8 @@ export default {
     SaveDraft: () => import('components/draft/SaveDraft'),
     MindMap: () => import('components/document/markmap/MindMap'),
     TwSecrecyArea: () => import('components/base/TwSecrecyArea'),
-    TwHeaderDetail: () => import('components/base/TwHeaderDetail')
+    TwHeaderDetail: () => import('components/base/TwHeaderDetail'),
+    TwChip: () => import('components/base/TwChip')
   }
 }
 </script>

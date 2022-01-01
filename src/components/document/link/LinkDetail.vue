@@ -23,6 +23,14 @@
         >
           {{currentModel.title}}
         </div>
+        <div class="q-py-xs" v-if="currentModel.tags && currentModel.tags.length">
+            <tw-chip
+              v-for="tag in currentModel.tags"
+              :key="tag"
+              size="xs"
+              :label="tag"
+            />
+        </div>
         <q-btn
           outline
           rounded
@@ -93,7 +101,8 @@ export default {
   components: {
     DocumentDetail: () => import('components/document/DocumentDetail'),
     DocumentPublicDetail: () => import('components/document/DocumentPublicDetail'),
-    AttachIcon: () => import('components/attach/AttachIcon')
+    AttachIcon: () => import('components/attach/AttachIcon'),
+    TwChip: () => import('components/base/TwChip')
   }
 }
 </script>

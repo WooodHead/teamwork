@@ -30,6 +30,14 @@
       >
         {{ attach.title }}
       </div>
+       <div class="q-pt-xs q-pb-md" v-if="attach.tags && attach.tags.length">
+          <tw-chip
+            v-for="tag in attach.tags"
+            :key="tag"
+            size="xs"
+            :label="tag"
+          />
+       </div>
       <div class="text-caption text-grey-9">
         <slot name="postedByBefore"> </slot>
         {{ $t('document.modify.postedBy', { modifyBy: attach.createBy }) }}
@@ -148,7 +156,8 @@ export default {
   },
   components: {
     'attach-icon': () => import('components/attach/AttachIcon'),
-    'attach-item': () => import('components/attach/AttachItem')
+    'attach-item': () => import('components/attach/AttachItem'),
+    'tw-chip': () => import('components/base/TwChip')
   },
   methods: {
     timeAgo,

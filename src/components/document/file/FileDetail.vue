@@ -11,7 +11,7 @@
       <q-card-section class="file-detail">
         <!-- 仅创建者可编辑时，对其他人不显示重新上传 -->
         <attach-card
-          :attach="{createBy:currentModel.createBy, modifyBy:currentModel.authorName,filePath:currentModel.filePath,extension:currentModel.extension,title:currentModel.title,size:currentModel.size,snapshotPath:currentModel.snapshotPath,modifyTime:currentModel.modifyTime}"
+          :attach="{createBy:currentModel.createBy, modifyBy:currentModel.authorName,filePath:currentModel.filePath,extension:currentModel.extension,title:currentModel.title,size:currentModel.size,snapshotPath:currentModel.snapshotPath,modifyTime:currentModel.modifyTime,tags:currentModel.tags}"
           @attachIconClick="setShowFile"
           @reupdate="reupdate"
           @version="version"
