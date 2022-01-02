@@ -14,14 +14,14 @@
         <div
           class="row q-pl-sm box"
         >
-          <span class="text-subtitle2">
-            <q-icon
-              :name="iconName"
-              :color="iconColor"
-              size="sm"
-            />
-            {{ model.contactForm }}跟进
-          </span>
+          <q-badge
+                color="secondary"
+                multi-line
+              >
+                <span>
+                  {{ model.contactForm }}跟进
+                </span>
+              </q-badge>
 
         </div>
       </q-item-section>
