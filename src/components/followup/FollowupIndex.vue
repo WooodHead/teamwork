@@ -143,7 +143,7 @@ export default {
       this.exportPDF = true
     },
     followupCount () {
-      return this.$store.state.followup.followups.filter(item => !item.deleted).length || 0
+      return this.$store.state.followup.followups.filter(item => this.category === item.objectType && this.objectID === item.objectID && !item.deleted).length || 0
     }
   },
   computed: {

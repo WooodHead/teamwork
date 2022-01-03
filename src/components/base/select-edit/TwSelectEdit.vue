@@ -207,7 +207,7 @@ export default {
         selectValue = this.value
       } else if (this.value === '' && !(this.editable && this.selectOptions.length === 1)) {
         selectValue = this.selectOptions[0]
-        this.$emit('input', selectValue)
+        if (selectValue) this.$emit('input', selectValue)
       } else {
         if (this.keyToValue) {
           const dictionary = this.selectOptions.find(r => r.dictKey === this.value)

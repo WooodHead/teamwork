@@ -10,6 +10,7 @@
 <script>
 import { mapActions } from 'vuex'
 import Customer from '@/store/customer/model'
+import { showWarningMessage } from '@/utils/show-message'
 export default {
   name: 'CustomerEdit',
   props: {
@@ -53,22 +54,16 @@ export default {
     ...mapActions('customer', ['loadCustomer', 'addCustomer', 'editCustomer']),
     ...mapActions('resource', ['loadCategory']),
     onSubmit () {
+      if (!this.model.title && this.model.title.length === 0) {
+        showWarningMessage(this.$t('customer.rules.title'))
+        return
+      }
       window.RichTextEditting = false
       if (!this.model.isOutCustomer && this.model.selfOrganizeID) {
         let currOrg = this.$store.state.organize.selectOrganizes[this.model.selfOrganizeID]
         this.model.title = currOrg.name
         this.model.customerType = currOrg.type
       }
-      // 要求把客户档案放在最前面
-      // this.model.widgets.customerInfo.order = 1
-      // this.model.widgets.task.order = 2
-      // this.model.widgets.notice.order = 3
-      // this.model.widgets.document.order = 4
-      // this.model.widgets.project.order = 5
-      // this.model.widgets.schedule.order = 6
-      // this.model.widgets.followup.order = 7
-      // this.model.widgets.order.order = 8
-      // this.model.widgets.opportunity.order = 9
       this[`${this.openType}Customer`](this.model).then(res => {
         this.$router.push({
           name: 'customerDetail',

@@ -1,8 +1,8 @@
 <template>
-  <div class="row q-col-gutter-md">
+  <div class="row q-col-gutter-sm">
     <q-field
       filled
-      class="col-12 col-sm-6 q-mb-md"
+      class="col-12 col-sm-6"
     >
       <q-radio
         v-model="model.isOutCustomer"
@@ -14,7 +14,6 @@
         v-model="model.isOutCustomer"
         :val="0"
         :disable="openType!=='add'"
-        color="teal"
         label="内部客户"
       />
     </q-field>
@@ -30,8 +29,6 @@
       position="bottom"
       class="col-12 col-md-6"
       :label="$t('customer.label.selfOrganize')"
-      lazy-rules
-      :rules="[ val => val && val.length > 0 || $t('customer.rules.selfOrganize')]"
     />
     <q-input
       v-if="model.isOutCustomer"
@@ -40,9 +37,7 @@
       class="col-12 col-sm-6"
       v-model="model.title"
       :placeholder="$t('customer.label.title')"
-      lazy-rules
       debounce="1000"
-      :rules="[ val => val && val.length > 0 || $t('customer.rules.title')]"
     >
       <template v-slot:append>
         <q-avatar>
@@ -129,7 +124,6 @@
     />
     <tw-select-edit
       v-if="model.isOutCustomer"
-      withDictKey
       filled
       module="customer"
       field="grade"
@@ -141,7 +135,6 @@
     />
     <tw-select-edit
       v-if="model.isOutCustomer"
-      withDictKey
       filled
       module="customer"
       field="applyIndustry"
@@ -153,7 +146,6 @@
     />
     <tw-select-edit
       v-if="model.isOutCustomer"
-      withDictKey
       filled
       module="customer"
       field="infoSource"
@@ -161,9 +153,8 @@
       :label="$t('customer.label.infoSource')"
       :editable="!!$myinfo.auth.role.isSystemAdministrator"
       :value="String(model.infoSource)"
-      @input="(payload)=>{model.infoSource= payload.dictKey}"
+      @input="(payload)=>{model.infoSource= payload.dictValue}"
     />
-
     <tw-select-person
       filled
       class="col-12 col-md-6"
@@ -256,42 +247,22 @@
     />
     <tw-select-edit
       v-if="model.isOutCustomer&&showMoreInfoNotes&&Number(model.customerType)===5"
-      withDictKey
       filled
       module="customer"
       field="companySize"
       class="col-12 col-md-6"
       :editable="!!$myinfo.auth.role.isSystemAdministrator"
       :value="String(model.companySize)"
-      @input="(payload)=>{model.companySize= payload.dictKey}"
+      @input="(payload)=>{model.companySize= payload.dictValue}"
       :label="$t('customer.label.companySize')"
     />
     <q-input
       filled
       v-if="showMoreInfoNotes&&model.isOutCustomer"
-      class="col-12"
+      class="col-12 col-md-6"
       v-model="model.address"
       :label="$t('customer.label.address')"
     />
-    <!-- <q-field
-      v-if="showMoreInfoNotes&&model.isOutCustomer"
-      filled
-      label="其它信息"
-      stack-label
-      class="col-12"
-    >
-      <template v-slot:control>
-        <quasar-editor
-          :focus="false"
-          folder="customer"
-          :applied="false"
-          :value="model.extra"
-          class="col-12"
-          @input="(val)=>{model.extra=val}"
-          placeholder="可选择模板，填写客户与精雕相关的东西..."
-        ></quasar-editor>
-      </template>
-    </q-field> -->
     <q-field
       filled
       v-if="showMoreInfoNotes"
@@ -348,17 +319,11 @@ export default {
     return {
       formAction: [{ label: this.$t('action.save'), action: 'save' }],
       showMoreInfoNotes: false,
-      newCity: '',
-      customerAddress: {
-        type: 'none',
-        value: ''
-      },
       options: [
         { label: this.$t('auth.acl.public'), value: 0 },
         { label: this.$t('auth.acl.restrict'), value: 1 },
         { label: this.$t('auth.acl.secret', { category: this.$t('customer.title') }), value: 2 }
       ],
-      // sysCustomers: [], // 系统客户列表
       showCustomerSearchDialog: false
     }
   },
@@ -389,7 +354,6 @@ export default {
   },
   created () {
     this.search = ''
-    this.model.customerAddress = this.customerAddress
     // 初始化编辑页
     if (this.openType === 'edit') {
       this.showMoreInfoNotes = true
@@ -401,7 +365,6 @@ export default {
     TwSelectTree: () => import('components/base/TwSelectTree'),
     TwSelectPerson: () => import('components/base/TwSelectPerson.vue'),
     TwSelectEdit: () => import('components/base/select-edit/TwSelectEdit'),
-    // QuasarEditor: () => import('components/base/q-editor/QuasarEditor'),
     CustomerSearch: () => import('components/customer/CustomerSearch')
   },
   methods: {
@@ -421,13 +384,11 @@ export default {
       })
     },
     onSelectedCustomer (qccCustomer) {
-      console.log(qccCustomer)
       if (qccCustomer) {
         this.model.title = qccCustomer.Name
         this.model.chieftain = qccCustomer.OperName // 企业法人
         this.model.foundDate = qccCustomer.StartDate // 成立日期
         this.model.licenceNo = qccCustomer.CreditCode // 营业执照
-        // this.model.companySize = qccCustomer.PersonScope // 人员规模(400-499人). flag需要和系统做匹配处理
         this.model.bankRoll = qccCustomer.RegistCapi && qccCustomer.RegistCapi.split('万')[0] // 注册资金
         this.model.province = qccCustomer.Area.Province // 省
         this.model.city = qccCustomer.Area.City // 市
