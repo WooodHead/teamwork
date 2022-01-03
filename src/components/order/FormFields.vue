@@ -21,18 +21,6 @@
         class="q-ml-sm"
       />
     </q-field>
-
-    <!-- <tw-select-edit
-      withDictKey
-      filled
-      class="col-12"
-      module="opportunity"
-      field="classification"
-      :editable="!!$myinfo.auth.role.isSystemAdministrator"
-      :value="model.classification"
-      @input="(payload)=>{model.classification= payload.dictValue}"
-      :label="$t('order.classification')"
-    /> -->
     <q-select
       filled
       use-input
@@ -229,12 +217,10 @@ export default {
     'model.customerID': {
       immediate: true,
       handler (newVal, oldVal) {
-        newVal && this.$store.dispatch('customer/loadCustomer', newVal).then(res => {
+        newVal && this.$store.dispatch('customer/loadCustomerNoAcl', newVal).then(res => {
           if (res) {
-            if (this.openType === 'edit') {
-              this.customerOptions.push(..._.differenceBy([res], this.customerOptions, 'id'))
-              this.customerOptionsFilter.push(..._.differenceBy([res], this.customerOptionsFilter, 'id'))
-            }
+            this.customerOptions.push(..._.differenceBy([res], this.customerOptions, 'id'))
+            this.customerOptionsFilter.push(..._.differenceBy([res], this.customerOptionsFilter, 'id'))
             if (res.title) this.model.customerName = res.title
           }
         })
