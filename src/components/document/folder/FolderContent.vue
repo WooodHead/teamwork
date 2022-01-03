@@ -28,7 +28,7 @@
         />
       </div>
     </q-card-section>
-    <q-card-section v-if="documents.length === 0&&!search&&!showLoading&&(!(visitWikiAuth(objectID)&&model.acl===1)||[0,2].includes(model.acl))">
+    <q-card-section v-if="documents.length === 0&&!search&&!showLoading">
       <!-- 未检索没有数据 -->
       <folder-no></folder-no>
     </q-card-section>
@@ -50,8 +50,6 @@
         :draftTotals='draftTotals'
       />
       <!-- 滚动加载文件区域 -->
-      {{visitWikiAuth(objectID)}}
-      {{model.acl}}
       <q-infinite-scroll
       v-if="(visitWikiAuth(objectID)&&model.acl===1)||[0,2].includes(model.acl)"
       ref="qInfiniteScroll"

@@ -121,7 +121,9 @@ export default {
         })
         .then(res => {
           if (onlyGetData) {
-            return Document.from(res.data)
+            let data = Document.from(res.data)
+            commit('setDocumentList', [data])
+            return data
           } else {
             return dispatch('loadDocumentCall', res.data)
           }
