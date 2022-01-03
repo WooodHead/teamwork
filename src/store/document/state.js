@@ -13,7 +13,8 @@ export default {
       isPublish: 1,
       tag: 'RESOURCE_FOLDER',
       children: [],
-      orderNumber: 0
+      orderNumber: 0,
+      acl: 0
     },
     {
       id: -2,
@@ -27,7 +28,8 @@ export default {
       isPublish: 1,
       tag: 'LEAN_QUALITY',
       children: [],
-      orderNumber: 1
+      orderNumber: 1,
+      acl: 0
     },
     {
       id: -3,
@@ -41,7 +43,8 @@ export default {
       isPublish: 1,
       tag: 'LEAN_QUALITY',
       children: [],
-      orderNumber: 2
+      orderNumber: 2,
+      acl: 0
     }
   ],
   emptyFolder: {},

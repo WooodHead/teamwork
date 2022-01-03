@@ -51,9 +51,10 @@
       />
       <!-- 滚动加载文件区域 -->
       <q-infinite-scroll
-        ref="qInfiniteScroll"
-        @load="onLoad"
-        :offset="250"
+      v-if="(editWikiAuth(objectID)&&model.acl===1)||[0,2].includes(model.acl)"
+      ref="qInfiniteScroll"
+      @load="onLoad"
+      :offset="250"
       >
         <!-- <div class="fit row q-gutter-md justify-evenly"> -->
         <draggable
@@ -128,6 +129,11 @@
           </div>
         </template>
       </q-infinite-scroll>
+
+      <tw-banner-no-result
+      v-if="!editWikiAuth(objectID)&&model.acl===1"
+      info="没有查看权限"
+    />
       <!-- 归档文档数量显示区域 -->
       <tw-archived-count
         v-if="archiveNum&&!search"
@@ -136,7 +142,7 @@
       />
     </q-card-section>
     <!-- 文件夹保密区 -->
-    <q-card-section v-if="!!model.acl">
+    <q-card-section v-if="model.acl===2">
       <tw-secrecy-area
         :currentModel="model"
         :parentModel="modelParent"
@@ -146,7 +152,7 @@
 </template>
 
 <script>
-import { mapActions, mapState, mapMutations } from 'vuex'
+import { mapActions, mapState, mapGetters, mapMutations } from 'vuex'
 import draggable from 'vuedraggable'
 import { computedOrder } from '@/utils/computed-order'
 export default {
@@ -198,6 +204,7 @@ export default {
   },
   computed: {
     ...mapState('document', ['page', 'search', 'sort', 'emptyFolder', 'archivedCount', 'listType']),
+    ...mapGetters('wiki', ['editWikiAuth']),
     draggableDisabled () {
       const haveEdit =
         (this.model.onlyICanEdit && (this.model.authorID === this.$myinfo.id || this.$myinfo.auth.role.isSystemAdministrator)) ||
@@ -399,7 +406,8 @@ export default {
     DraftHeader: () => import('components/document/draft/DraftHeader'),
     TwArchivedCount: () => import('components/base/TwArchivedCount'),
     TwSecrecyArea: () => import('components/base/TwSecrecyArea'),
-    ProductCaseCard: () => import('components/product-case/ProductCaseCard')
+    ProductCaseCard: () => import('components/product-case/ProductCaseCard'),
+    TwBannerNoResult: () => import('components/base/TwBannerNoResult')
   }
 }
 </script>

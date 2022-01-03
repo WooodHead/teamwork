@@ -87,8 +87,7 @@ function getFileDocumentMenuList (that) {
         : menuList
   }
   if (
-    !that.detailModel.acl &&
-    that.type === 'document' &&
+    [0, 1].includes(that.detailModel.acl) &&
     ((that.detailModel.onlyICanEdit === 1 &&
       that.detailModel.authorID === that.myself.id) ||
       that.detailModel.onlyICanEdit === 0)
@@ -136,7 +135,7 @@ function getFolderDocumentMenuList (that) {
   ) {
     _.remove(menuList, m => ['rename', 'copy', 'move', 'archive', 'delete'].includes(m))
   }
-  if (!that.model.acl) {
+  if ([0, 1].includes(that.model.acl)) {
     that.$set(menuList, menuList.length, 'secrecy')
   }
 

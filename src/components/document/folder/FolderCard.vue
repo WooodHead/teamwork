@@ -6,7 +6,7 @@
     :class="folder.color"
   >
     <q-icon
-      v-if="!!folder.acl"
+      v-if="folder.acl===2"
       size="20vh"
       class="absolute-center text-blue-grey-1"
       name="img:icons/secrecy/secrecy.svg"

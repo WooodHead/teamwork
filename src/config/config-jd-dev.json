@@ -26,9 +26,9 @@
   "oss": {
     "enable": true,
     "baseDir": "teamwork-dev",
-    "options": {
+    "options": {    
       "accesskeyId": "",
-      "accesskeySecret": "",
+      "accesskeySecret": "",   
       "secure": true,
       "cname": true,
       "region": "oss-cn-hangzhou",

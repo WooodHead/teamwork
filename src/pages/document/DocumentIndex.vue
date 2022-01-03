@@ -131,7 +131,12 @@ export default {
   mounted () {
     this.initRootId()
     this.setInitListType()
-    this.category === 'wiki' && this.inMembers(+this.objectID)
+    if (+this.id) {
+      this.loadModel({ id: +this.id, fields: 'DocID' })
+        .then(res => {
+          res.objectType === 'wiki' && this.inMembers(+res.objectID)
+        })
+    }
   },
   computed: {
     ...mapState('widget', ['widgets']),
