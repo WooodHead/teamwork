@@ -1,7 +1,7 @@
 export default {
   module: '商机管理',
   title: '商机',
-  notes: '在这里管理所有商机',
+  notes: '暂无相关商机',
   field: {
     placeholder: {
       title: '请填写商机标题'

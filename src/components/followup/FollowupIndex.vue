@@ -6,15 +6,16 @@
   >
     <!-- 卡片头部 -->
     <tw-header-card
-      :title="$t(`followup.title`)"
+      :title=" '['+ customer.notes+']'+ $t(`followup.title`)"
       :actions="actions"
       :add="{label:$t(`followup.addLabel`),click:()=>addFollowup()}"
     >
-      <template v-slot:titleAppend>
         <!-- 跟进数量 -->
+      <!-- <template v-slot:titleAppend>
         <span>({{followupCount()}})</span>
-      </template>
+      </template> -->
     </tw-header-card>
+
     <q-card-section class="q-px-xxl q-pt-none">
       <div
         v-if="filterType!==''||search!==''"
@@ -59,6 +60,7 @@
 <script>
 import { mapActions, mapState, mapGetters, mapMutations } from 'vuex'
 import { LocalStorage, date, Platform } from 'quasar'
+import Customer from '@/store/customer/model'
 const { formatDate } = date
 export default {
   name: 'FollowupIndex',
@@ -94,6 +96,7 @@ export default {
   data () {
     return {
       actions: ['add', 'menu'],
+      customer: new Customer(),
       sortOptions: [{
         value: 'card',
         label: this.$t(`task.view.card`)
@@ -109,6 +112,7 @@ export default {
     formatDate,
     ...mapMutations('followup', ['setAddingEvent', 'setView', 'setFilterType', 'cleanCtrlList']),
     ...mapActions('followup', ['loadFollowups']),
+    ...mapActions('customer', ['loadCustomer']),
     // 切换卡片和列表
     sortUpdate (value) {
       this.setView(value)
@@ -141,10 +145,10 @@ export default {
         return false
       }
       this.exportPDF = true
-    },
-    followupCount () {
-      return this.$store.state.followup.followups.filter(item => this.category === item.objectType && this.objectID === item.objectID && !item.deleted).length || 0
     }
+    // followupCount () {
+    //   return this.$store.state.followup.followups.filter(item => this.category === item.objectType && this.objectID === item.objectID && !item.deleted).length || 0
+    // }
   },
   computed: {
     ...mapState('followup', ['search', 'view', 'followups']),
@@ -199,6 +203,9 @@ export default {
   },
   mounted () {
     this.loadFollowups(this.condition)
+    this.loadCustomer(+this.objectID).then(res => {
+      this.customer = res
+    })
   }
 }
 </script>
