@@ -193,6 +193,10 @@ export default {
   setExportFinished (state, value) {
     state.exportFinished = value
   },
+  // 设置excel导出已归档的任务
+  setExportArchived (state, value) {
+    state.exportArchived = value
+  },
   /** ----------------------start update overview---------------------- */
   setOverviewIncrease (state, task) {
     if (task.type === 'list') return

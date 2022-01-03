@@ -1,14 +1,16 @@
 
 <template>
-  <q-card
-    class="card-grow-in-page"
-    :flat="$q.screen.lt.sm"
-  >
+  <q-card class="card-grow-in-page" :flat="$q.screen.lt.sm">
     <!-- 任务卡片头部 -->
     <tw-header-card
       :title="$t(`task.title`)"
       :actions="actions"
-      :add="{label:$t(`task.addLabel`),click:()=>{addingEvent=true}}"
+      :add="{
+        label: $t(`task.addLabel`),
+        click: () => {
+          addingEvent = true
+        },
+      }"
       :select="view"
       :selectOptions="sortOptions"
       @update:select="sortUpdate"
@@ -17,18 +19,26 @@
         <tw-menu
           :menus="menuLists"
           @publicLink="publicLink"
-          @batchImport="()=>{showImportDialog=true}"
+          @batchImport="
+            () => {
+              showImportDialog = true
+            }
+          "
           @bookmark="bookmark()"
           @deleteBookmark="removeBookmark()"
           @exportPDF="exportPdf()"
-          @exportExcel="()=>{exportExcel=true}"
+          @exportExcel="
+            () => {
+              exportExcel = true
+            }
+          "
         />
       </template>
       <template v-slot:titleAppend>
         <!-- 完成度 -->
         <span
           class="text-caption self-start"
-          style="height:32px;line-height:32px;"
+          style="height: 32px; line-height: 32px"
         >
           <q-circular-progress
             class="q-ml-sm"
@@ -38,7 +48,7 @@
             track-color="green-4"
             size="sm"
           />
-          {{overallProgress.text}}
+          {{ overallProgress.text }}
         </span>
       </template>
     </tw-header-card>
@@ -56,73 +66,46 @@
         <template v-slot:one>
           <div class="row items-center no-wrap">
             <q-icon name="list" />
-            <div class="text-center">
-              清单
-            </div>
+            <div class="text-center">清单</div>
           </div>
         </template>
         <template v-slot:two>
           <div class="row items-center no-wrap">
             <q-icon name="bug_report" />
-            <div class="text-center">
-              缺陷
-            </div>
+            <div class="text-center">缺陷</div>
           </div>
         </template>
         <template v-slot:three>
           <div class="row items-center no-wrap">
             <q-icon name="directions_railway" />
-            <div class="text-center">
-              里程碑
-            </div>
+            <div class="text-center">里程碑</div>
           </div>
         </template>
         <template v-slot:four>
-          <div
-            class="row items-center no-wrap"
-            @click="toTaskTagCount"
-          >
+          <div class="row items-center no-wrap" @click="toTaskTagCount">
             <q-icon name="local_offer" />
-            <div class="text-center">
-              标签
-            </div>
+            <div class="text-center">标签</div>
           </div>
         </template>
-        <template
-          v-slot:five
-        >
-          <div
-            class="row items-center no-wrap"
-            @click="toTaskDashboard"
-          >
+        <template v-slot:five>
+          <div class="row items-center no-wrap" @click="toTaskDashboard">
             <q-icon name="poll" />
-            <div class="text-center">
-              仪表盘
-            </div>
+            <div class="text-center">仪表盘</div>
           </div>
         </template>
       </q-btn-toggle>
-      <div
-        v-if="filterType"
-        class="q-mt-xs q-ml-md"
-      >
+      <div v-if="filterType" class="q-mt-xs q-ml-md">
         <div
-          class=" cursor-pointer"
+          class="cursor-pointer"
           href="javascript:void(0);"
           @click="clearFilter"
         >
-          <q-chip
-            dense
-            icon="close"
-          >清空所有筛选条件</q-chip>
+          <q-chip dense icon="close">清空所有筛选条件</q-chip>
         </div>
       </div>
     </q-card-section>
     <!-- 新建清单Form -->
-    <q-card-section
-      v-if="addingEvent"
-      class="q-px-xxl"
-    >
+    <q-card-section v-if="addingEvent" class="q-px-xxl">
       <task-form-list
         :category="category"
         :objectID="+objectID"
@@ -135,13 +118,15 @@
     </q-card-section>
     <!-- 任务清单 -->
     <q-card-section class="q-px-xxl">
-      <task-content
-        :category="category"
-        :objectID="+objectID"
-      />
+      <task-content :category="category" :objectID="+objectID" />
       <tw-archived-count
         v-if="showArchive"
-        :label="$t('archive.someArchived',{count:archivedCount[category+objectID+'task'+0].itemCount,something:$t('task.list.title')})"
+        :label="
+          $t('archive.someArchived', {
+            count: archivedCount[category + objectID + 'task' + 0].itemCount,
+            something: $t('task.list.title'),
+          })
+        "
         align="start"
         :inset="false"
         @click="toArchiveTaskLists"
@@ -154,20 +139,24 @@
       transition-show="slide-up"
       transition-hide="slide-down"
       full-height
-      :maximized="$q.screen.lt.sm?true:false"
+      :maximized="$q.screen.lt.sm ? true : false"
     >
       <import-index
         :category="category"
         :objectID="+objectID"
         importType="task"
-        @close="()=>{showImportDialog=false}"
+        @close="
+          () => {
+            showImportDialog = false
+          }
+        "
         :showChoiceRepeatWay="false"
-        :extraProperty="{isSetSecretList:exportExcelIsSetSecretList}"
+        :extraProperty="{ isSetSecretList: exportExcelIsSetSecretList }"
       >
         <q-checkbox
           ref="checkbox"
           class="q-mt-md"
-          style="margin-left: 30px;"
+          style="margin-left: 30px"
           right-label
           v-model="exportExcelIsSetSecretList"
           :label="$t('excelImport.isSetSecretList')"
@@ -181,7 +170,11 @@
       :modelList="exportPDFList"
       :category="category"
       :objectID="+objectID"
-      @exit="()=>{exportPDF=false}"
+      @exit="
+        () => {
+          exportPDF = false
+        }
+      "
       :fileName="`${resource.title}(${formatDate(new Date(), 'YYYYMMDD')})`"
     >
     </export-pdf>
@@ -189,19 +182,24 @@
       <export-excel
         v-if="exportExcel"
         moduleType="task"
+        loadDataAction="getlist"
+        :getDataParameter="queryList"
         :toolbarTitle="$t('action.export', { type: 'Excel' })"
-        :modelList="filterExportExcelList"
+        :packageDataExtra="{ isFormat: true }"
         :fields="exportExcelFields(categoryModel.widgets)"
         :fileName="resource.title"
-        :tableHeader="{name:resource.title,style:'color:white;font-weight:bold;font-size:35px;background-color:#1976D2;text-decoration:underline;'}"
+        :tableHeader="{
+          name: resource.title,
+          style:
+            'color:white;font-weight:bold;font-size:35px;background-color:#1976D2;text-decoration:underline;',
+        }"
       >
-      <template #topExportExtra>
-         <task-filter/>
-      </template>
+        <template #topExportExtra>
+          <task-filter />
+        </template>
       </export-excel>
     </q-dialog>
   </q-card>
-
 </template>
 
 <script>
@@ -239,13 +237,12 @@ export default {
     ImportIndex: () => import('components/import/ImportIndex'),
     ExportPdf: () => import('components/export/ExportPDF'),
     ExportExcel: () => import('components/export/ExportExcel'),
-    TaskFilter: () => import('components/export/export-task/TaskFilter') 
+    TaskFilter: () => import('components/export/export-task/TaskFilter')
   },
   data () {
     return {
       exportExcelIsSetSecretList: false,
       exportExcel: false,
-      exportExcelList: [],
       exportPDF: false,
       exportPDFList: [],
       showImportDialog: false,
@@ -281,32 +278,13 @@ export default {
       value && this.loadTasks({ query }).then(res => {
         this.exportPDFList = res
       })
-    },
-    exportExcel (value) {
-      const query = [
-        { Key: 'ObjectType', Value: this.category, Oper: 'eq' },
-        'and',
-        { Key: 'ObjectID', Value: +this.objectID, Oper: 'eq' },
-        'and',
-        { Key: 'Archived', Value: 0, Oper: 'eq' }
-      ]
-      value && this.loadTasks({ query }).then(res => {
-        let rootList = res.filter(a => a.type === 'list')
-        rootList = _.orderBy(rootList, 'orderNumber', 'desc')
-        let list = []
-        rootList.forEach(item => {
-          list.push(item)
-          let tasksInList = this.$store.getters['task/tasksInList'](+item.id)
-          list.push(tasksInList)
-        })
-        this.exportExcelList = _.flattenDeep(list)
-      })
     }
   },
   computed: {
     ...mapState('task', ['view', 'archivedCount']),
     ...mapState('breadcrumbs', ['resource']),
-    ...mapGetters('task', ['overview', 'exportExcelFields', 'filterExportExcel']),
+    ...mapGetters('task', ['overview', 'exportExcelFields']),
+
     overallProgress () {
       const count = this.overview({
         objectID: +this.objectID,
@@ -349,8 +327,9 @@ export default {
       let aa = this.archivedCount[this.category + this.objectID + 'task' + 0]
       return aa && aa.itemCount > 0
     },
-    filterExportExcelList () {
-      return this.filterExportExcel(this.exportExcelList)
+    queryList () {
+      let query = this.$store.getters['task/exportExcelQuery'](this.category, this.objectID)
+      return { query: JSON.stringify(query) }
     }
   },
   methods: {
