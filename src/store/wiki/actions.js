@@ -121,6 +121,21 @@ export default {
       return state.inMembers[id]
     }
   },
+  haveVisitAuth ({ state, commit }, id) {
+    if (!state.visitAuth.hasOwnProperty(id)) {
+      return request.get('wikis/haveVisitAuth', { id })
+        .then((res) => {
+          commit('updateVisitAuth', { key: id, value: res.data })
+          return res.data
+        })
+        .catch((error) => {
+          error.userMessage && showWarningMessage(i18n.t(`auth.error.${error.userMessage}`))
+          return false
+        })
+    } else {
+      return state.inMembers[id]
+    }
+  },
   /**
    * 新建知识空间
    * @param {Object} wiki 新建的知识空间对象

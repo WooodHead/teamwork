@@ -3,6 +3,7 @@ export default {
   listWikis: [],
   selectWikis: { all: [] }, // 包含all，存储后台返回的原始数组，排序和后台一致
   inMembers: {}, // 是否是某个知识空间的成员，形如：wikiid:true
+  visitAuth: {}, // 是否有访问权限
   // 是否分页
   byPage: true,
   page: {

@@ -28,7 +28,7 @@
         />
       </div>
     </q-card-section>
-    <q-card-section v-if="documents.length === 0&&!search&&!showLoading">
+    <q-card-section v-if="documents.length === 0&&!search&&!showLoading&&(!(visitWikiAuth(objectID)&&model.acl===1)||[0,2].includes(model.acl))">
       <!-- 未检索没有数据 -->
       <folder-no></folder-no>
     </q-card-section>
@@ -50,8 +50,10 @@
         :draftTotals='draftTotals'
       />
       <!-- 滚动加载文件区域 -->
+      {{visitWikiAuth(objectID)}}
+      {{model.acl}}
       <q-infinite-scroll
-      v-if="(editWikiAuth(objectID)&&model.acl===1)||[0,2].includes(model.acl)"
+      v-if="(visitWikiAuth(objectID)&&model.acl===1)||[0,2].includes(model.acl)"
       ref="qInfiniteScroll"
       @load="onLoad"
       :offset="250"
@@ -131,7 +133,7 @@
       </q-infinite-scroll>
 
       <tw-banner-no-result
-      v-if="!editWikiAuth(objectID)&&model.acl===1"
+      v-if="!visitWikiAuth(objectID)&&model.acl===1"
       info="没有查看权限"
     />
       <!-- 归档文档数量显示区域 -->
@@ -204,7 +206,7 @@ export default {
   },
   computed: {
     ...mapState('document', ['page', 'search', 'sort', 'emptyFolder', 'archivedCount', 'listType']),
-    ...mapGetters('wiki', ['editWikiAuth']),
+    ...mapGetters('wiki', ['visitWikiAuth']),
     draggableDisabled () {
       const haveEdit =
         (this.model.onlyICanEdit && (this.model.authorID === this.$myinfo.id || this.$myinfo.auth.role.isSystemAdministrator)) ||

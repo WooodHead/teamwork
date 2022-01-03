@@ -8,7 +8,9 @@ export default {
   editWikiAuth: (state) => (id) => {
     return state.inMembers.hasOwnProperty(id) && state.inMembers[id]
   },
-
+  visitWikiAuth: (state) => (id) => {
+    return state.visitAuth.hasOwnProperty(id) && state.visitAuth[id]
+  },
   wiki: (state) => (id) => {
     return _.find(state.wikis, { id }) || {}
   },

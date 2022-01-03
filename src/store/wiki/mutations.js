@@ -98,6 +98,11 @@ export default {
     obj[payload.key] = payload.value
     state.inMembers = Object.assign({}, state.inMembers, obj)
   },
+  updateVisitAuth (state, payload) {
+    let obj = {}
+    obj[payload.key] = payload.value
+    state.visitAuth = Object.assign({}, state.visitAuth, obj)
+  },
 
   /** ------------------废纸篓相关---------------------- */
   /**

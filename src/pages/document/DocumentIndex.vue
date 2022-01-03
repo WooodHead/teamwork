@@ -135,6 +135,7 @@ export default {
       this.loadModel({ id: +this.id, fields: 'DocID' })
         .then(res => {
           res.objectType === 'wiki' && this.inMembers(+res.objectID)
+          res.objectType === 'wiki' && this.haveVisitAuth(+res.objectID)
         })
     }
   },
@@ -450,7 +451,7 @@ export default {
   methods: {
     ...mapActions('document', ['loadModel', 'loadFolders', 'loadResourceDocument', 'loadProductDocument', 'loadDocumentWithoutChildren', 'loadDocumentByQuery', 'loadFileByObjectTypeAndObjectId']),
     ...mapActions('breadcrumbs', ['setModuleBreadcrumbs']),
-    ...mapActions('wiki', ['inMembers']),
+    ...mapActions('wiki', ['inMembers', 'haveVisitAuth']),
     ...mapMutations('document', ['setListType']),
     ...mapMutations('breadcrumbs', [
       'clearModuleBreadcrumbs',
