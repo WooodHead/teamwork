@@ -2,7 +2,7 @@ import { LocalStorage } from 'quasar'
 import { i18n } from '../../boot/i18n'
 import request from '@/boot/axios'
 import { showWarningMessage } from '@/utils/show-message'
-import Followup from '@/store/followup/model'
+import Followup from './model'
 
 const url = {
   getModel: 'followups/getmodel',
@@ -45,23 +45,41 @@ export default {
    * @param {*} param0
    * @param {*} param1
    */
-  loadFollowups ({ commit, state }, { byPage = false, query, filter, returnData = true }) {
-    let condition = {
-      query: JSON.stringify(query),
+  loadFollowups ({ commit, state }, 
+    {
+      query,
+      filter,
+      sort = state.sort,
+      search = state.search,
+      fields = 'List',
+      limit = state.page.limit,
+      offset = state.page.offset,
+      byPage = state.byPage
+    }) {
+    debugger
+    // 后台参数拼接
+    let params =
+    {
       filter: JSON.stringify(filter),
-      sort: state.sort,
-      search: state.search,
-      fields: 'List'
+      query: JSON.stringify(query),
+      search: search,
+      fields: fields
+    }
+    if (byPage) {
+      Object.assign(params, {
+        limit,
+        offset,
+        sort
+      })
     }
     return request
-      .get(url.getList, condition).then(res => {
+      .get(byPage ? url.getPageList : url.getList, params).then(res => {
         let followups = Followup.from(res.data)
+        if (byPage) {
+          const nextPageToken = res.nextPageToken
+          commit('updatePage', { offset: offset + followups.length, nextPageToken })
+        }
         commit('addFollowups', followups)
-        commit('updatePage',
-          {
-            offset: state.page.offset + followups.length,
-            limit: state.page.limit
-          })
         if (returnData) {
           return followups
         } else {

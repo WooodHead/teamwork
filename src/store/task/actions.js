@@ -1341,11 +1341,11 @@ export default {
   },
   /** --------------------------------工作台账end------------ */
 
-  processDataOfExportExcel ({ state, dispatch, rootState }, { list, fields, extra }) {
+  processDataOfExportExcel ({ state, dispatch, rootState, rootGetters }, { list, fields, extra }) {
     let data = []
     let modellist = _.cloneDeep(list)
     let persons = rootState.person.selectPersons
-    if (extra && Object.keys(extra).length && _.has(extra, 'getComment') && !_.get(extra, 'getComment')) {
+    if (extra && Object.keys(extra).length && _.has(extra, 'isWorkRecord') && extra.isWorkRecord) {
       let tasks = Task.from(modellist)
       let rootList = tasks.filter(a => a.type === 'list')
       if (rootList && rootList.length) {
@@ -1368,8 +1368,33 @@ export default {
       })
       return data
     } else {
-      let lists = modellist.filter(t => t.Type === 'list')
-      let groups = modellist.filter(t => t.Type === 'group')
+      let formatList = _.cloneDeep(modellist)
+
+      if (extra && Object.keys(extra).length && _.has(extra, 'isFormat') && extra.isFormat) {
+        const tasks = Task.from(modellist)
+        formatList = _.cloneDeep(tasks)
+      }
+      // 是否需要按照选择的导出条件过滤
+      if (extra && Object.keys(extra).length && _.has(extra, 'isExportFilter') && extra.isExportFilter) {
+        formatList = rootGetters['task/filterExportExcel'](formatList)
+      }
+      // 是否需要格式化。使任务按清单、分组、任务格式显示
+      if (extra && Object.keys(extra).length && _.has(extra, 'isFormat') && extra.isFormat) {
+        let rootList = formatList.filter(a => a.type === 'list')
+        rootList = _.orderBy(rootList, 'orderNumber', 'desc')
+        let list = []
+        rootList.forEach(item => {
+          let tasksInList = rootGetters['task/tasksInListContainsArchived'](+item.id, formatList, rootState.task.exportArchived)
+          if (tasksInList && tasksInList.length) {
+            list.push(item)
+            list.push(tasksInList)
+          }
+        })
+        formatList = _.flattenDeep(list)
+        formatList = _.cloneDeep(Task.to(formatList))
+      }
+      let lists = formatList.filter(t => t.Type === 'list')
+      let groups = formatList.filter(t => t.Type === 'group')
       let params = {
         taskID: 0,
         category: '',
@@ -1386,12 +1411,12 @@ export default {
         params.taskID = lists[0].TaskID
       } else if (lists.length > 1) {
         // 导出资源下的任务
-        params.objectID = modellist[0].ObjectID
-        params.category = modellist[0].ObjectType
+        params.objectID = formatList[0].ObjectID
+        params.category = formatList[0].ObjectType
       }
       return dispatch('getNewCommentOfAssigned', params).then(res => {
         let comments = res
-        modellist.forEach(item => {
+        formatList.forEach(item => {
           item = processDataByItem(item, fields, persons)
           if (item.Type && item.Type === 'item') {
             let comment = comments.find(a => a.objectID === item.TaskID && item.AssignedTo.includes(a.createBy))

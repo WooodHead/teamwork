@@ -66,6 +66,7 @@ export default {
   ctrlList: [],
   exportExcelFields: ['TaskName', 'Progress', 'StartTime', 'EndTime', 'Finished', 'AssignedTo'],
   exportFinished: false, // 仅导出已完成的任务
+  exportArchived: false, // 是否导出已归档的任务，默认不导已归档的。
   /** -----台账管理start----- */
 
   /** -----台账列表start----- */

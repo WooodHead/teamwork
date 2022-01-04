@@ -254,7 +254,6 @@ export default {
    * @param {*} identify 成员职位
    */
   updateCustomerMembers ({ commit }, { id, personIDs, identify }) {
-    debugger
     return request
       .put(url.UpdateMember, {
         id,

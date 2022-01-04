@@ -1,9 +1,5 @@
 <template>
-  <q-card
-    :flat="$q.screen.lt.sm"
-    clickable
-    class="card-grow-in-page"
-  >
+  <q-card :flat="$q.screen.lt.sm" clickable class="card-grow-in-page">
     <tw-header-detail
       :actions="actions"
       :select="detailView"
@@ -25,7 +21,11 @@
           @bookmark="bookmark()"
           @deleteBookmark="removeBookmark()"
           @exportPDF="exportPdf()"
-          @exportExcel="()=>{exportExcel=true}"
+          @exportExcel="
+            () => {
+              exportExcel = true
+            }
+          "
           @secrecy="setSecrecy()"
         />
       </template>
@@ -34,7 +34,7 @@
       <!-- 任务归档区 -->
       <q-card-section v-if="archived.value">
         <tw-archive-notes
-          v-if="archived.type==='selfArchived'"
+          v-if="archived.type === 'selfArchived'"
           :id="+id"
           type="task"
           :label="archived.parentLabel"
@@ -44,21 +44,17 @@
         />
         <tw-archive-part-notes
           v-else
-          :category='category'
+          :category="category"
           :objectID="+objectID"
-          :parentID='archived.parentId'
-          :parentLabel='archived.parentLabel'
+          :parentID="archived.parentId"
+          :parentLabel="archived.parentLabel"
           type="task"
         />
       </q-card-section>
 
       <!-- 任务清单(分组) -->
       <q-card-section>
-        <task-list
-          :isDetail="true"
-          :id="+id"
-          :editing.sync="editing"
-        />
+        <task-list :isDetail="true" :id="+id" :editing.sync="editing" />
         <!-- 添加组 -->
         <task-form-group
           v-if="addingGroup"
@@ -105,9 +101,13 @@
       v-if="exportPDF"
       moduleType="task"
       :modelList="exportPDFList"
-      :category='category'
+      :category="category"
       :objectID="+objectID"
-      @exit="()=>{exportPDF=false}"
+      @exit="
+        () => {
+          exportPDF = false
+        }
+      "
       :fileName="`${resource.title}(${formatDate(new Date(), 'YYYYMMDD')})`"
     >
     </export-pdf>
@@ -115,15 +115,21 @@
       <export-excel
         v-if="exportExcel"
         moduleType="task"
+        loadDataAction="gettreetasks"
+        :getDataParameter="queryList"
         :toolbarTitle="$t('action.export', { type: 'Excel' })"
-        :modelList="filterExportExcelList"
+        :packageDataExtra="{ isFormat: true, isExportFilter: true }"
         :fields="exportExcelFields(categoryModel.widgets)"
         :fileName="resource.title"
-        :tableHeader="{name:resource.title,style:'color:white;font-weight:bold;font-size:35px;background-color:#1976D2;text-decoration:underline;'}"
+        :tableHeader="{
+          name: resource.title,
+          style:
+            'color:white;font-weight:bold;font-size:35px;background-color:#1976D2;text-decoration:underline;',
+        }"
       >
-      <template #topExportExtra>
-         <task-filter/>
-      </template>
+        <template #topExportExtra>
+          <task-filter />
+        </template>
       </export-excel>
     </q-dialog>
   </q-card>
@@ -162,7 +168,6 @@ export default {
   data () {
     return {
       exportExcel: false,
-      exportExcelList: [],
       exportPDF: false,
       exportPDFList: [],
       editing: false,
@@ -176,7 +181,8 @@ export default {
       }, {
         value: 'mixture',
         label: this.$t(`task.detailView.mixture`)
-      }]
+      }],
+      queryList: {}
     }
   },
   components: {
@@ -197,7 +203,7 @@ export default {
   computed: {
     ...mapState('breadcrumbs', ['resource']),
     ...mapState('task', ['tasks', 'archivedCount', 'detailView']),
-    ...mapGetters('task', ['exportExcelFields', 'filterExportExcel']),
+    ...mapGetters('task', ['exportExcelFields']),
     task () {
       return this.tasks.find(t => t.id === +this.id)
     },
@@ -298,9 +304,6 @@ export default {
       } else {
         return null
       }
-    },
-    filterExportExcelList () {
-      return this.filterExportExcel(this.exportExcelList)
     }
   },
   watch: {
@@ -308,12 +311,6 @@ export default {
       value && this.loadTreeTasks(this.task.id)
         .then(res => {
           this.exportPDFList = res
-        })
-    },
-    'exportExcel' (value) {
-      value && this.loadTreeTasks(this.task.id)
-        .then(res => {
-          this.exportExcelList = this.$store.getters['task/tasksOfList'](+this.id)
         })
     }
   },
@@ -541,6 +538,7 @@ export default {
     this.isExistBookmark()
     this.$route.meta.label = this.task.name
     document.title = `${this.task.name} | TeamWork`
+    this.queryList = { id: +this.id, archived: true }
   }
 }
 </script>

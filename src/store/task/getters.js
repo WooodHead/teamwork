@@ -161,6 +161,28 @@ export default {
       !dirtyGroupsInList.some(g => g.id === task.parentId))
     return sortTasksInList(tasksInList, id)
   },
+  /** 一个清单里面的任务（不包含自身，和删除的分组，有可能包含已归档的） */
+  tasksInListContainsArchived: (state) => (id, tasks = state.tasks, archived = false) => {
+    const dirtyGroupsInList = archived ? tasks.filter(task =>
+      task.rootId === +id &&
+      task.type === 'group' &&
+      task.deleted)
+      : tasks.filter(task =>
+        task.rootId === +id &&
+      task.type === 'group' &&
+      (task.archived || task.deleted))
+    const tasksInList = archived ? tasks.filter(task =>
+      task.rootId === +id &&
+      task.id !== +id &&
+      !task.deleted &&
+      !dirtyGroupsInList.some(g => g.id === task.parentId)) : tasks.filter(task =>
+      task.rootId === +id &&
+      task.id !== +id &&
+      !task.archived &&
+      !task.deleted &&
+      !dirtyGroupsInList.some(g => g.id === task.parentId))
+    return sortTasksInList(tasksInList, id)
+  },
   /** 一个分组里面的任务（不包含自身） */
   tasksInGroup: (state) => id => {
     const tasksInGroup = state.tasks.filter(task =>
@@ -234,9 +256,12 @@ export default {
     }
     return exportFields
   },
-  // 导出excel按照完成人、完成时间过滤
+  // 导出excel按照完成人、完成时间等过滤
   filterExportExcel: (state) => (exportExcelList) => {
     let list = _.cloneDeep(exportExcelList)
+    if (!state.exportArchived) {
+      list = list.filter(r => r.type !== 'item' || (r.type === 'item' && !r.archived))
+    }
     if (state.exportFinished) {
       list = list.filter(r => r.type !== 'item' || (r.type === 'item' && r.finished))
     }
@@ -247,6 +272,44 @@ export default {
       list = list.filter(r => r.type !== 'item' || (r.type === 'item' && r.finished && formatDate(r.finishedTime, 'YYYY-MM-DD') >= state.fromToDate.from && formatDate(r.finishedTime, 'YYYY-MM-DD') <= state.fromToDate.to))
     }
     return list
+  },
+  // 待办任务主页导出查询条件
+  exportExcelQuery: (state) => (objectType, objectID) => {
+    let query = [
+      { Key: 'ObjectType', Value: objectType, Oper: 'eq' },
+      'and',
+      { Key: 'ObjectID', Value: +objectID, Oper: 'eq' }
+    ] 
+    if (!state.exportArchived) {
+      query.push('and', { Key: 'Archived', value: 0, oper: 'eq' })
+    }
+
+    let selectQuery = []
+
+    if (state.exportFinished) {
+      selectQuery.push({ Key: 'Finished', value: 1, oper: 'eq' })
+    }
+    if (state.person.id) {
+      selectQuery.length ? selectQuery.push('and') : selectQuery.push({ Key: 'Finished', value: 1, oper: 'eq' }, 'and')
+      selectQuery.push({ Key: 'FinishedBy', value: +state.person.id, oper: 'eq' })
+    }
+    if (state.fromToDate) {
+      selectQuery.length ? selectQuery.push('and') : selectQuery.push({ Key: 'Finished', value: 1, oper: 'eq' }, 'and')
+      selectQuery.push({ Key: 'Finished', value: 1, oper: 'eq' }, 'and', { Key: 'FinishedTime', value: state.fromToDate.from, oper: 'ge' },
+        'and', { Key: 'FinishedTime', value: formatDate(date.addToDate(new Date(state.fromToDate.to), { days: 1 }), 'YYYY-MM-DD'), oper: 'le' })
+    }
+    if (selectQuery.length) {
+      query = [query, 'and', [
+        { Key: 'Type', value: 'item', oper: 'ne' },
+        'or',
+        [
+          { Key: 'Type', value: 'item', oper: 'eq' },
+          'and',
+          selectQuery
+        ]
+      ]]
+    }
+    return query
   },
   /** ---------------我的任务相关接口 start--------------- */
   /** 获取所有指派给我的任务所在的清单 */

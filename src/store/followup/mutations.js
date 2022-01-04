@@ -56,5 +56,14 @@ export default {
    */
   updatePage (state, page) {
     Object.assign(state.page, page)
+  },
+  setSearch (state, payload) {
+    state.search = payload
+  },
+  setListType (state, value) {
+    state.listType = value
+  },
+  setSort (state, value) {
+    state.sort = value
   }
 }

@@ -7,5 +7,6 @@ export default {
   delete: '删除跟进',
   followupDate: '跟进日期',
   customerContacter: '客户联系人',
-  addContent: '填写跟进内容'
+  addContent: '填写跟进内容',
+  noFollowups: '暂无相关跟进'
 }

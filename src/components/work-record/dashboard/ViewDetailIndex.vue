@@ -1,13 +1,10 @@
 <template>
-  <q-card
-    class="card-grow-in-page"
-    :flat="$q.screen.lt.sm"
-  >
+  <q-card class="card-grow-in-page" :flat="$q.screen.lt.sm">
     <q-card-section class="q-px-xxl">
       <div
         class="q-pt-sm q-gutter-sm"
-        style="font-size:14px"
-        :class="$q.screen.lt.sm?'':'row'"
+        style="font-size: 14px"
+        :class="$q.screen.lt.sm ? '' : 'row'"
       >
         <tw-select-person
           class="col"
@@ -48,12 +45,7 @@
                 transition-show="scale"
                 transition-hide="scale"
               >
-                <q-date
-                  v-model="fromToDate"
-                  mask="YYYY-MM-DD"
-                  minimal
-                  range
-                />
+                <q-date v-model="fromToDate" mask="YYYY-MM-DD" minimal range />
               </q-popup-proxy>
             </q-icon>
           </template>
@@ -83,10 +75,7 @@
         />
       </div>
     </q-card-section>
-    <q-separator
-      inset
-      spaced
-    />
+    <q-separator inset spaced />
     <!-- 工时记录列表 -->
     <q-card-section class="q-px-xxl q-pt-sm">
       <view-detail-list
@@ -101,10 +90,14 @@
         loadDataAction="getworkrecordtasklist"
         :getDataParameter="queryList"
         :fields="exportFields"
-        :packageDataExtra="{getComment:false}"
+        :packageDataExtra="{ isWorkRecord: true }"
         :fileName="$t('workRecord.dashboard.viewDetail')"
         :sheetName="$t('workRecord.dashboard.viewDetail')"
-        :tableHeader="{name:$t('workRecord.dashboard.viewDetail'),style:'color:white;font-weight:bold;font-size:35px;background-color:#1976D2;text-decoration:underline;'}"
+        :tableHeader="{
+          name: $t('workRecord.dashboard.viewDetail'),
+          style:
+            'color:white;font-weight:bold;font-size:35px;background-color:#1976D2;text-decoration:underline;',
+        }"
       />
     </q-dialog>
   </q-card>

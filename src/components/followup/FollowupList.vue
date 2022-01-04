@@ -1,17 +1,27 @@
 <template>
-  <q-list class="full-width row q-col-gutter-x-md">
+  <div>
+    <q-list class="full-width row q-col-gutter-x-md">
+      <div
+        v-for="followup in followupList"
+        :key="followup.id"
+        :class="followupList.length>1?'col-6':'col-12'"
+      >
+        <followup-card
+          class="q-mt-sm"
+          :model="followup"
+        ></followup-card>
+      </div>
+    </q-list>
     <div
-      v-for="followup in followupList"
-      :key="followup.id"
-      :class="followupList.length>1?'col-6':'col-12'"
+      class="col-12"
+      v-if="followupList.length===0"
     >
-          <followup-card
-            class="q-mt-sm"
-            :model="followup"
-          ></followup-card>
-
+      <tw-banner-no-result
+        class="q-mt-md"
+        :info="$t('followup.noFollowups')"
+      />
     </div>
-  </q-list>
+  </div>
 </template>
 
 <script>
@@ -30,14 +40,11 @@ export default {
       type: [Number, String],
       default: '',
       required: false
-    },
-    openType: {
-      type: String,
-      default: 'add'
     }
   },
   components: {
-    FollowupCard: () => import('components/followup/FollowupCard')
+    FollowupCard: () => import('components/followup/FollowupCard'),
+    TwBannerNoResult: () => import('components/base/TwBannerNoResult')
   },
   data () {
     return {
