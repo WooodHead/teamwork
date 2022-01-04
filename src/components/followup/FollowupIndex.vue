@@ -10,29 +10,45 @@
       :actions="actions"
       :add="{label:$t(`followup.addLabel`),click:()=>addFollowup()}"
     >
-        <!-- 跟进数量 -->
+      <!-- 跟进数量 -->
       <!-- <template v-slot:titleAppend>
         <span>({{followupCount()}})</span>
       </template> -->
-    </tw-header-card>
-
-    <q-card-section class="q-px-xxl q-pt-none">
-      <div
-        v-if="filterType!==''||search!==''"
-        class="q-mt-xs q-ml-md"
-      >
-        <div
-          class=" cursor-pointer"
-          href="javascript:void(0);"
-          @click="clearFilter"
+      <template v-slot:right>
+        <q-select
+          :value="sort"
+          @input="sortUpdate"
+          :options="options"
+          dense
+          emit-value
+          map-options
+          options-dense
+          outlined
+          rounded
         >
-          <q-chip
-            dense
-            icon="close"
-          >清空所有筛选条件</q-chip>
-        </div>
-      </div>
-    </q-card-section>
+        </q-select>
+        <q-btn-group
+          rounded
+          outline
+          class="q-ml-sm"
+        >
+          <q-btn
+            v-for="(view,index) in viewTypes"
+            :key="view.value"
+            outline
+            :title="view.title"
+            @click="setListType(view.value)"
+            color="grey-5"
+            :class="{'q-pl-sm':index===0,'q-pr-sm':index===viewTypes.length-1}"
+          >
+            <q-icon
+              :name="view.icon"
+              :color="listType===view.value?'primary':''"
+            />
+          </q-btn>
+        </q-btn-group>
+      </template>
+    </tw-header-card>
     <q-card-section
       class="tw-resume-header bg-white"
       :class="$q.screen.gt.xs ? 'q-px-xl' : 'q-px-md'"
@@ -42,17 +58,60 @@
         :queryList="queryList"
         :search.sync="search"
         :query.sync="query"
-        label="搜索标题/客户联系人/参与人/内容"
+        label="搜索标题/内容"
       />
     </q-card-section>
     <!-- 跟进记录 -->
-    <q-card-section class="q-px-xl q-pt-none">
-      <followup-list
-        :category="category"
-        :objectID="+objectID"
-        :condition="listPageType.selectCondition"
+    <q-infinite-scroll
+      @load="onLoad"
+      :offset="250"
+      ref="qInfiniteScroll"
+    >
+      <q-card-section
+        class="q-px-xl q-pt-none"
+        v-if="listType==='card'"
+      >
+        <!-- <followup-list
+          v-if="listType==='card'"
+          :category="category"
+          :objectID="+objectID"
+        /> -->
+        <div
+          v-for="followup in modelList"
+          :key="followup.id"
+          :class="modelList.length>1?'col-6':'col-12'"
+        >
+          <followup-card
+            class="q-mt-sm"
+            :model="followup"
+          ></followup-card>
+        </div>
+      </q-card-section>
+      <q-card-section
+        class="q-px-xl q-pt-none"
+        v-else
+      >
+        <followup-table
+          :list="modelList"
+          :category="category"
+          :objectID="+objectID"
+        ></followup-table>
+      </q-card-section>
+      <template v-slot:loading>
+        <div class="row justify-center q-my-md">
+          <q-spinner-dots
+            color="primary"
+            size="40px"
+          />
+        </div>
+      </template>
+    </q-infinite-scroll>
+    <template v-if="$store.state.followup.firstLoaded&&modelList.length===0">
+      <tw-banner-no-result
+        class="q-mt-md"
+        info="暂无相关跟进"
       />
-    </q-card-section>
+    </template>
   </q-card>
 
 </template>
@@ -61,9 +120,11 @@
 import { mapActions, mapState, mapGetters, mapMutations } from 'vuex'
 import { LocalStorage, date, Platform } from 'quasar'
 import Customer from '@/store/customer/model'
+import followupIndex from '@/components/wiki/mixins-followup-index'
 const { formatDate } = date
 export default {
   name: 'FollowupIndex',
+  mixins: [followupIndex],
   props: {
     // 资源类型
     category: {
@@ -78,24 +139,20 @@ export default {
       default: () => {
         return LocalStorage.getItem('myself').id
       }
-    },
-    condition: {
-      type: Object,
-      default: () => {
-        return { isArchive: false }
-      },
-      description: '获取跟进列表的条件，后面有了后台可以传递，params，query等条件'
     }
   },
   components: {
     // 'tw-menu': ()=> import('components/base/TwMenu'),
     'tw-header-card': () => import('components/base/TwHeaderCard'),
-    FollowupList: () => import('components/followup/FollowupList'),
+    // FollowupList: () => import('components/followup/FollowupList'),
+    FollowupCard: () => import('components/followup/FollowupCard'),
+    FollowupTable: () => import('components/followup/FollowupTable'),
+    TwBannerNoResult: () => import('components/base/TwBannerNoResult'),
     TwSearchPanel: () => import('components/base/TwSearchPanel')
   },
   data () {
     return {
-      actions: ['add', 'menu'],
+      actions: ['add'],
       customer: new Customer(),
       sortOptions: [{
         value: 'card',
@@ -110,12 +167,14 @@ export default {
   },
   methods: {
     formatDate,
-    ...mapMutations('followup', ['setAddingEvent', 'setView', 'setFilterType', 'cleanCtrlList']),
+    ...mapMutations('followup', ['setAddingEvent', 'setListType', 'setSort']),
     ...mapActions('followup', ['loadFollowups']),
     ...mapActions('customer', ['loadCustomer']),
     // 切换卡片和列表
+    // 更新排序
     sortUpdate (value) {
-      this.setView(value)
+      this.setSort(value)
+      this.resetInfiniteScroll()
     },
     addFollowup () {
       this.$router.push({
@@ -127,13 +186,21 @@ export default {
         }
       })
     },
-    // 编辑确认按钮
-    onOk () {
-      this.setAddingEvent(false)
-    },
-    // 编辑取消按钮
-    onCancel () {
-      this.setAddingEvent(false)
+    onLoad (index, done) {
+      if (index === 1) {
+        this.$store.commit('followup/updatePage', { nextPageToken: -1 })
+      }
+      Object.assign(this.condition, { byPage: true })
+      this.loadFollowups(this.condition).then(res => {
+        setTimeout(() => {
+          if (this.$store.state.followup.page.nextPageToken === -1) {
+            this.$store.state.followup.firstLoaded = true // 首次已加载
+            done(true)
+          } else {
+            done()
+          }
+        }, 200)
+      })
     },
     clearFilter () {
       this.setFilterType('')
@@ -151,10 +218,43 @@ export default {
     // }
   },
   computed: {
-    ...mapState('followup', ['search', 'view', 'followups']),
+    ...mapState('followup', ['search', 'listType', 'sort']),
     ...mapGetters('followup', ['followups', 'listStyle', 'listPageType']),
     menuLists () {
       return [{ group: ['exportPDF', 'exportExcel'] }]
+    },
+    modelList () {
+      return this.followups({})
+    },
+    modelTitleList () {
+      return this.followups({}).map((a) => a.title)
+    },
+    dateRange () {
+      return {
+        condition: this.condition,
+        search: this.search
+      }
+    },
+    condition () {
+      debugger
+      const baseQuery = [
+        { Key: 'ObjectType', Value: this.category, Oper: 'eq' },
+        'and',
+        { Key: 'ObjectID', Value: this.objectID, Oper: 'eq' },
+        'and',
+        { Key: 'IsDelete', Value: 0, Oper: 'eq' }
+      ]
+      let queryAll = []
+      queryAll.push(...baseQuery)
+      if (this.listPageType.selectCondition.query.length > 0) {
+        queryAll.push(
+          ...this.listPageType.selectCondition.query
+        )
+      }
+      return {
+        query: queryAll,
+        returnData: false
+      }
     },
     queryList: {
       get () { return this.$store.getters[`followup/queryList`] }
@@ -175,6 +275,7 @@ export default {
         return this.$store.getters['followup/search']
       },
       set (val) {
+        debugger
         val
           ? this.$store.commit('followup/setSearch', val)
           : this.$store.commit('followup/setSearch', '')
@@ -187,25 +288,32 @@ export default {
       set (value) {
         this.setFilterType(value)
       }
-    },
-    condition2 () {
-      return {
-        query: [
-          { Key: 'ObjectType', Value: this.category, Oper: 'eq' },
-          'and',
-          { Key: 'ObjectID', Value: this.objectID, Oper: 'eq' }
-          // 'and',
-          // { Key: 'IsDelete', Value: false, Oper: 'eq' }
-        ],
-        returnData: true
-      }
     }
   },
   mounted () {
-    this.loadFollowups(this.condition)
+    // this.loadFollowups(this.condition)
     this.loadCustomer(+this.objectID).then(res => {
       this.customer = res
     })
+  },
+  watch: {
+    dateRange: {
+      immediate: true,
+      deep: true,
+      handler (newVal, oldVal) {
+        // 清空数据，重新加载
+        this.$store.state.followup.followups = []
+        this.$store.state.followup.page = { offset: 0, limit: 10, nextPageToken: 0 }
+        // 重新显示加载图标
+        this.$store.state.followup.firstLoaded = false
+
+        if (this.$refs.qInfiniteScroll) {
+          this.$refs.qInfiniteScroll.reset() // 设置滚动索引为0
+          this.$refs.qInfiniteScroll.resume() // 重新开启加载
+          this.$refs.qInfiniteScroll.trigger()// 不管滚动位置如何，重新调用onload
+        }
+      }
+    }
   }
 }
 </script>

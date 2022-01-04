@@ -14,8 +14,10 @@ export default function () {
     ObjectID: 0,
     addingEvent: false,
     filterType: '',
-    // 列表/卡片视图
-    view: 'list',
+    firstLoaded: true,
+    // 卡片/列表视图
+    listType: 'card',
+    sort: 'modifyTime',
     contactForm: [
       { label: '电话', val: '电话', iconName: 'smartphone', iconColor: 'primary' },
       { label: '邮件', val: '邮件', iconName: 'mail_outline', iconColor: 'orange' },
@@ -41,11 +43,11 @@ export default function () {
       {
         label: '跟进方式',
         value: [
-          { label: '电话', value: 1, name: 'contactForm' },
-          { label: '邮件', value: 2, name: 'contactForm' },
-          { label: '面谈', value: 3, name: 'contactForm' },
-          { label: '视频会议', value: 4, name: 'contactForm' },
-          { label: '其他', value: 5, name: 'contactForm' }
+          { label: '电话', value: '电话', name: 'contactForm' },
+          { label: '邮件', value: '邮件', name: 'contactForm' },
+          { label: '面谈', value: '面谈', name: 'contactForm' },
+          { label: '视频会议', value: '视频会议', name: 'contactForm' },
+          { label: '其他', value: '其他', name: 'contactForm' }
         ]
       }
     ]

@@ -1,3 +1,4 @@
+import { searchToPersonIds } from '@/utils/search-convert-helper'
 export default {
   currentModel: (state, getters) => (id) => {
     return _.find(state.followups, { 'id': +id }) || {}
@@ -9,18 +10,29 @@ export default {
     objectType: state.ObjectType }) => {
     state.ObjectID = objectID
     state.ObjectType = objectType
-    return getters.followupsSorted
+    return getters.filesSorted
   },
   /** 列表排序 */
   followupsSorted: (state, getters) => {
-    return _.orderBy(getters.followupsFiltered, ['modifyTime'], ['desc'])
+    return _.orderBy(getters.followupsFiltered, state.sort)
+  },
+  /** 列表排序 */
+  filesSorted: state => {
+    return _.orderBy(state.followups, state.sort)
   },
   /** 跟进列表过滤 */
   followupsFiltered: state => {
     let followups = []
-    if (state.followups.length > 0 && +state.ObjectID > 0) {
-      followups = _.filter(state.followups.slice(), followup =>
-        (followup.objectType === state.ObjectType) && (followup.objectID === state.ObjectID) && (followup.deleted === false))
+    let search = state.search
+    if (state.followups.length > 0 && search) {
+      if (search) {
+        let personIds = searchToPersonIds(rootGetters, search)
+        followups = _.filter(state.followups, followup =>
+          (followup.title && followup.title.toLowerCase().includes(search.toLowerCase())) ||
+        (followup.contactForm && followup.contactForm.toLowerCase().includes(search.toLowerCase())) ||
+        (followup.leaderID && personIds.includes(followup.leaderID.toString())) ||
+        (followup.content && followup.content.toLowerCase().includes(search.toLowerCase())))
+      }
     } else {
       followups = state.followups
     }
@@ -47,6 +59,7 @@ export default {
    * 组装query
    */
   listPageType: (state, _getters) => {
+    debugger
     const _allListQuery = []
     // 多条件检索
     let query = state.query

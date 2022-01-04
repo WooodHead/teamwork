@@ -40,10 +40,6 @@ export default {
       type: [Number, String],
       default: '',
       required: false
-    },
-    openType: {
-      type: String,
-      default: 'add'
     }
   },
   components: {

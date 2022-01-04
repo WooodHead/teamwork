@@ -9,33 +9,42 @@
     <q-item>
       <div>
 
-      <!--跟进方式-->
-      <q-item-section>
-        <div
-          class="row q-pl-sm box"
-        >
-          <q-badge
-                color="secondary"
-                multi-line
-              >
-                <span>
-                  {{ model.contactForm }}跟进
-                </span>
-              </q-badge>
+        <!--跟进方式-->
+        <!-- <q-item-section>
+          <div class="row q-pl-sm box">
+            <q-badge
+              color="secondary"
+              multi-line
+            >
+              <span>
+                {{ model.contactForm }}跟进
+              </span>
+            </q-badge>
 
-        </div>
-      </q-item-section>
+          </div>
+        </q-item-section> -->
 
-      <q-item-section>
-        <div class="row  q-pl-none">
-          <!-- 标题 -->
-          <span
-            title="标题"
-            v-text="model.title"
-            class="text-h6"
-          ></span>
-        </div>
-      </q-item-section>
+        <q-item-section>
+          <div class="row  q-pl-none">
+            <!-- 标题 -->
+            <span
+              title="标题"
+              v-text="model.title"
+              class="text-h6"
+            ></span>
+          </div>
+        </q-item-section>
+        <!--跟进方式-->
+        <q-item-section>
+          <div class="row q-gutter-xs">
+            <q-icon
+              :name="iconName"
+              :color="iconColor"
+              size="sm"
+            />
+            <span class="text-subtitle2">{{ model.contactForm }}跟进</span>
+          </div>
+        </q-item-section>
       </div>
       <q-space />
       <q-item-section side>
@@ -47,7 +56,7 @@
     <q-card-section class="q-py-none">
       <!-- 跟进内容 -->
       <div
-        class="text-caption ellipsis-2-lines q-pl-sm"
+        class="text-caption ellipsis-2-lines"
         v-html="htmlToText(model &&model.content)"
         :title="htmlToText(model &&model.content)"
       >
@@ -85,7 +94,9 @@ export default {
     }
   },
   data () {
-    return {}
+    return {
+
+    }
   },
   computed: {
     ...mapGetters('member', ['membersFilterInService']),
@@ -98,9 +109,7 @@ export default {
       return ''
     },
     currContactForm () {
-      return _.filter(this.$store.state.followup.contactForm, {
-        val: this.model.contactForm
-      })[0]
+      return _.filter(this.$store.state.followup.contactForm, { 'val': this.model.contactForm })[0]
     },
     iconName () {
       return this.currContactForm.iconName || ''
@@ -109,7 +118,9 @@ export default {
       return this.currContactForm.iconColor || 'green'
     }
   },
-  mounted () {},
+  mounted () {
+
+  },
   methods: {
     ...mapActions('followup', ['deleteFollowup']),
     formatDate,
@@ -121,7 +132,9 @@ export default {
         that.deleteFollowup(id)
       })
     },
-    promptToEdit () {},
+    promptToEdit () {
+
+    },
     openFollowupDetail () {
       this.$router.push({
         name: 'followupDetail',
@@ -140,18 +153,13 @@ export default {
 </script>
 
 <style scoped lang="scss">
-
-.box{
-    display: table-cell;
-    vertical-align: middle;
-}
 .followup-card:before {
-  content: '';
+  content: "";
   display: block;
   padding-top: 0px !important;
 }
 .followup-card:after {
-  content: '';
+  content: "";
   display: block;
 }
 @media (min-width: $breakpoint-xs-max) {
