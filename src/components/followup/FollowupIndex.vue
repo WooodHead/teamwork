@@ -229,7 +229,7 @@ export default {
     modelTitleList () {
       return this.followups({}).map((a) => a.title)
     },
-    dateRange () {
+    conditionAndSearch () {
       return {
         condition: this.condition,
         search: this.search
@@ -297,7 +297,7 @@ export default {
     })
   },
   watch: {
-    dateRange: {
+    conditionAndSearch: {
       immediate: true,
       deep: true,
       handler (newVal, oldVal) {
