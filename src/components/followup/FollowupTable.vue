@@ -32,13 +32,13 @@
       </template>
       <template v-slot:body-cell-contactForm="props">
         <q-td :props="props">
-          <q-icon
+          <!-- <q-icon
             :name="iconName(props.value)"
             :color="iconColor(props.value)"
             size="sm"
-          />
+          /> -->
           <span
-            class="q-ml-md"
+            class="q-ml-none"
             :title="props.value"
           >{{props.value}}</span>
           <span v-if="['file','link'].includes(props.row.classify)">{{`${props.row.extension||props.row.classify}`}}</span>

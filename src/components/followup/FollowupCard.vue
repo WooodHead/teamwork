@@ -8,9 +8,8 @@
   >
     <q-item>
       <div>
-
         <!--跟进方式-->
-        <!-- <q-item-section>
+        <q-item-section>
           <div class="row q-pl-sm box">
             <q-badge
               color="secondary"
@@ -20,9 +19,8 @@
                 {{ model.contactForm }}跟进
               </span>
             </q-badge>
-
           </div>
-        </q-item-section> -->
+        </q-item-section>
 
         <q-item-section>
           <div class="row  q-pl-none">
@@ -32,17 +30,6 @@
               v-text="model.title"
               class="text-h6"
             ></span>
-          </div>
-        </q-item-section>
-        <!--跟进方式-->
-        <q-item-section>
-          <div class="row q-gutter-xs">
-            <q-icon
-              :name="iconName"
-              :color="iconColor"
-              size="sm"
-            />
-            <span class="text-subtitle2">{{ model.contactForm }}跟进</span>
           </div>
         </q-item-section>
       </div>
@@ -56,7 +43,7 @@
     <q-card-section class="q-py-none">
       <!-- 跟进内容 -->
       <div
-        class="text-caption ellipsis-2-lines"
+        class="text-caption ellipsis-2-lines q-pl-sm"
         v-html="htmlToText(model &&model.content)"
         :title="htmlToText(model &&model.content)"
       >
