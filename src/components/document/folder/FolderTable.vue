@@ -17,6 +17,7 @@
       @request="onRequest"
       binary-state-sort
       hide-bottom
+     text-grey-8
     >
       <template v-slot:header="props">
         <q-tr :props="props">
@@ -92,10 +93,10 @@ export default {
       },
       rowKey: 'id',
       columns: [
-        { name: 'title', classes: 'text-grey-8', label: '文件名', field: 'title', align: 'left', sortable: true, sort: (a, b) => a.localeCompare(b) },
-        { name: 'authorName', classes: 'text-grey-8', label: '创建者', field: 'authorName', align: 'left', sortable: true, sort: (a, b) => a.localeCompare(b) },
-        { name: 'modifyTime', classes: 'text-grey-8', label: '最近更新', field: 'modifyTime', align: 'left', sortable: true, format: (val, row) => date.formatDate(val, 'YYYY-MM-DD') },
-        { name: 'size', classes: 'text-grey-8', label: '大小(KB)', field: 'size', align: 'left', sortable: true, sort: (a, b) => a > b }
+        { name: 'title', classes: '', style: 'font-size: 14px', headerClasses: 'text-grey-8', label: '文件名', field: 'title', align: 'left', sortable: true, sort: (a, b) => a.localeCompare(b) },
+        { name: 'authorName', classes: '', style: 'font-size: 14px', headerClasses: 'text-grey-8', label: '创建者', field: 'authorName', align: 'left', sortable: true, sort: (a, b) => a.localeCompare(b) },
+        { name: 'modifyTime', classes: '', style: 'font-size: 14px', headerClasses: 'text-grey-8', label: '最近更新', field: 'modifyTime', align: 'left', sortable: true, format: (val, row) => date.formatDate(val, 'YYYY-MM-DD') },
+        { name: 'size', classes: '', style: 'font-size: 14px', headerClasses: 'text-grey-8', label: '大小(KB)', field: 'size', align: 'left', sortable: true, sort: (a, b) => a > b }
       ]
     }
   },
@@ -137,4 +138,7 @@ export default {
 </script>
 
 <style scoped>
+.q-table th{
+  font-size:14px !important;
+}
 </style>

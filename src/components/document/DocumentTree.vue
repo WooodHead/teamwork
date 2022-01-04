@@ -46,6 +46,7 @@
                 :model="model"
                 :category="category"
                 :objectID="objectID"
+                :excludeButton="['deleteBookmark','bookmark']"
               />
               <file-menu
                 v-else
@@ -56,6 +57,7 @@
                 :detailModel="model"
                 :category="category"
                 :objectID="objectID"
+                :excludeButton="['deleteBookmark','bookmark']"
               />
             </div>
           </div>

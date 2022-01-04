@@ -132,7 +132,7 @@ export default {
     this.initRootId()
     this.setInitListType()
     if (+this.id) {
-      this.loadModel({ id: +this.id, fields: 'DocID' })
+      this.loadModel({ id: +this.id, fields: 'DocID,ObjectType,ObjectID' })
         .then(res => {
           res.objectType === 'wiki' && this.inMembers(+res.objectID)
           res.objectType === 'wiki' && this.haveVisitAuth(+res.objectID)

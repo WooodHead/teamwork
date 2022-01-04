@@ -100,6 +100,9 @@ function getFileDocumentMenuList (that) {
     })
     f.group = ['history', 'viewDocumentCount']
   }
+  if (that.excludeButton) { 
+    menuList = _.difference(menuList, that.excludeButton)
+  }
   return menuList
 }
 function getFolderDocumentMenuList (that) {
@@ -122,6 +125,9 @@ function getFolderDocumentMenuList (that) {
         'delete',
         that.isBookmark ? 'deleteBookmark' : 'bookmark'
       ]
+    }
+    if (that.excludeButton) { 
+      menuList = _.difference(menuList, that.excludeButton)
     }
     return menuList
   }
@@ -152,6 +158,9 @@ function getFolderDocumentMenuList (that) {
   //   that.$set(menuList, menuList.length, 'secrecy')
   // }
   if (that.excludeButton.length) {
+    menuList = _.difference(menuList, that.excludeButton)
+  }
+  if (that.excludeButton) { 
     menuList = _.difference(menuList, that.excludeButton)
   }
   return menuList

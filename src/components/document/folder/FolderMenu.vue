@@ -134,7 +134,10 @@ export default {
   },
   mounted () {
     this.title = this.model.title
-    this.isExistBookmark()
+    if (!(this.excludeButton.includes('deleteBookmark') ||
+    this.excludeButton.includes('deleteBookmark'))) {
+      this.isExistBookmark()
+    }
   },
   watch: {
     'model.title' () {

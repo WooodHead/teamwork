@@ -78,6 +78,12 @@ export default {
       type: String,
       required: false,
       default: 'top right'
+    },
+    excludeButton: {
+      type: Array,
+      default: () => { return [] },
+      required: false,
+      description: '排除的按钮'
     }
   },
   data () {
@@ -89,7 +95,10 @@ export default {
     }
   },
   mounted () {
-    this.isExistBookmark()
+    if (!(this.excludeButton.includes('deleteBookmark') ||
+    this.excludeButton.includes('deleteBookmark'))) {
+      this.isExistBookmark()
+    }
     // 1、获取对应的字典类型
     this.loadDictionarys('productCase')
   },
