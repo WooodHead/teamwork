@@ -10,10 +10,6 @@
       :actions="actions"
       :add="{label:$t(`followup.addLabel`),click:()=>addFollowup()}"
     >
-      <!-- 跟进数量 -->
-      <!-- <template v-slot:titleAppend>
-        <span>({{followupCount()}})</span>
-      </template> -->
       <template v-slot:right>
         <q-select
           :value="sort"
@@ -71,11 +67,6 @@
         class="q-px-xl q-pt-none"
         v-if="listType==='card'"
       >
-        <!-- <followup-list
-          v-if="listType==='card'"
-          :category="category"
-          :objectID="+objectID"
-        /> -->
         <div
           v-for="followup in modelList"
           :key="followup.id"
@@ -106,12 +97,14 @@
         </div>
       </template>
     </q-infinite-scroll>
-    <template v-if="$store.state.followup.firstLoaded&&modelList.length===0">
-      <tw-banner-no-result
-        class="q-mt-md"
-        info="暂无相关跟进"
-      />
-    </template>
+    <q-card-section class="q-px-xl q-pt-none">
+      <template v-if="$store.state.followup.firstLoaded&&modelList.length===0">
+        <tw-banner-no-result
+          class="q-mt-md"
+          info="暂无相关跟进"
+        />
+      </template>
+    </q-card-section>
   </q-card>
 
 </template>
@@ -154,13 +147,16 @@ export default {
     return {
       actions: ['add'],
       customer: new Customer(),
-      sortOptions: [{
-        value: 'card',
-        label: this.$t(`task.view.card`)
-      }, {
-        value: 'list',
-        label: this.$t(`task.view.list`)
-      }],
+      sortOptions: [
+        {
+          value: 'card',
+          label: this.$t(`task.view.card`)
+        },
+        {
+          value: 'list',
+          label: this.$t(`task.view.list`)
+        }
+      ],
       id: 0, // 新建和编辑清单Form时使用
       myself: LocalStorage.getItem('myself')
     }
@@ -191,7 +187,7 @@ export default {
         this.$store.commit('followup/updatePage', { nextPageToken: -1 })
       }
       Object.assign(this.condition, { byPage: true })
-      this.loadFollowups(this.condition).then(res => {
+      this.loadFollowups(this.condition).then((res) => {
         setTimeout(() => {
           if (this.$store.state.followup.page.nextPageToken === -1) {
             this.$store.state.followup.firstLoaded = true // 首次已加载
@@ -208,7 +204,9 @@ export default {
     exportPdf () {
       // 判断如果是微信浏览器，则暂不支持下载导出，需要使用浏览器下载
       if (Platform.userAgent.toLowerCase().indexOf('micromessenger') > -1) {
-        showWarningMessage(this.$t('exportFile.weChatDoesNotCurrentlySupportExports'))
+        showWarningMessage(
+          this.$t('exportFile.weChatDoesNotCurrentlySupportExports')
+        )
         return false
       }
       this.exportPDF = true
@@ -247,9 +245,7 @@ export default {
       let queryAll = []
       queryAll.push(...baseQuery)
       if (this.listPageType.selectCondition.query.length > 0) {
-        queryAll.push(
-          ...this.listPageType.selectCondition.query
-        )
+        queryAll.push(...this.listPageType.selectCondition.query)
       }
       return {
         query: queryAll,
@@ -257,7 +253,9 @@ export default {
       }
     },
     queryList: {
-      get () { return this.$store.getters[`followup/queryList`] }
+      get () {
+        return this.$store.getters[`followup/queryList`]
+      }
     },
     query: {
       get () {
@@ -292,7 +290,7 @@ export default {
   },
   mounted () {
     // this.loadFollowups(this.condition)
-    this.loadCustomer(+this.objectID).then(res => {
+    this.loadCustomer(+this.objectID).then((res) => {
       this.customer = res
     })
   },
@@ -303,14 +301,18 @@ export default {
       handler (newVal, oldVal) {
         // 清空数据，重新加载
         this.$store.state.followup.followups = []
-        this.$store.state.followup.page = { offset: 0, limit: 10, nextPageToken: 0 }
+        this.$store.state.followup.page = {
+          offset: 0,
+          limit: 10,
+          nextPageToken: 0
+        }
         // 重新显示加载图标
         this.$store.state.followup.firstLoaded = false
 
         if (this.$refs.qInfiniteScroll) {
           this.$refs.qInfiniteScroll.reset() // 设置滚动索引为0
           this.$refs.qInfiniteScroll.resume() // 重新开启加载
-          this.$refs.qInfiniteScroll.trigger()// 不管滚动位置如何，重新调用onload
+          this.$refs.qInfiniteScroll.trigger() // 不管滚动位置如何，重新调用onload
         }
       }
     }
