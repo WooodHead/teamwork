@@ -106,6 +106,7 @@
 import { showWarningMessage } from '@/utils/show-message'
 import { mapActions } from 'vuex'
 import Followup from '@/store/followup/model'
+import date from '@/utils/get-date.js'
 export default {
   name: 'FollowupEdit',
   props: {
@@ -160,6 +161,7 @@ export default {
   },
   created () {
     // 给客户联系人下拉框绑定数据源
+    this.model.followupDate = date.getToday().from
     let cateType = this.category.charAt(0).toUpperCase() + this.category.substring(1, this.category.length)
     if (this.category === 'customer') {
       this.loadCustomer(+this.objectID).then((res) => {
@@ -176,7 +178,6 @@ export default {
               })
             })
     }
-
     // 给参与人下拉框绑定数据源
     this.category &&
       this.objectID &&
