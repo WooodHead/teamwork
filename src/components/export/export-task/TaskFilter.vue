@@ -12,7 +12,7 @@
         :label="$t('task.exportArchivedTask')"
       />
     </div>
-    <div class="row items-center q-mt-xs q-gutter-x-sm">
+    <div class="row items-center q-mt-xs q-gutter-x-sm q-px-sm">
       <tw-select-person
         class="col"
         v-model="person"
