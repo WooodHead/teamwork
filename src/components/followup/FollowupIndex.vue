@@ -5,8 +5,9 @@
     :flat="$q.screen.lt.sm"
   >
     <!-- 卡片头部 -->
+      <!-- :title=" '['+ customer.notes+']'+ $t(`followup.title`)" -->
     <tw-header-card
-      :title=" '['+ customer.notes+']'+ $t(`followup.title`)"
+      title='跟进'
       :actions="actions"
       :add="{label:$t(`followup.addLabel`),click:()=>addFollowup()}"
     >
@@ -112,7 +113,7 @@
 <script>
 import { mapActions, mapState, mapGetters, mapMutations } from 'vuex'
 import { LocalStorage, date, Platform } from 'quasar'
-import Customer from '@/store/customer/model'
+// import Customer from '@/store/customer/model'
 import followupIndex from '@/components/wiki/mixins-followup-index'
 const { formatDate } = date
 export default {
@@ -146,7 +147,7 @@ export default {
   data () {
     return {
       actions: ['add'],
-      customer: new Customer(),
+      // customer: new Customer(),
       sortOptions: [
         {
           value: 'card',
@@ -290,9 +291,9 @@ export default {
   },
   mounted () {
     // this.loadFollowups(this.condition)
-    this.loadCustomer(+this.objectID).then((res) => {
-      this.customer = res
-    })
+    // this.loadCustomer(+this.objectID).then((res) => {
+    //   this.customer = res
+    // })
   },
   watch: {
     conditionAndSearch: {
