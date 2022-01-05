@@ -8,5 +8,8 @@ export default {
   followupDate: '跟进日期',
   customerContacter: '客户联系人',
   addContent: '填写跟进内容',
-  noFollowups: '暂无相关跟进'
+  noFollowups: '暂无相关跟进',
+  modify: {
+    postedBy: '由 {modifyBy} 跟进'
+  }
 }

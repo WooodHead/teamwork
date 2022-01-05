@@ -56,7 +56,6 @@ export default {
       offset = state.page.offset,
       byPage = state.byPage
     }) {
-    debugger
     // 后台参数拼接
     let params =
     {

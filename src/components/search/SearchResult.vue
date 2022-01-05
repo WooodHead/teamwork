@@ -214,7 +214,6 @@ export default {
       })
     },
     init () {
-      debugger
       this.list = []
       this.count = 0
       this.loading = true

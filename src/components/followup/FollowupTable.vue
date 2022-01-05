@@ -17,6 +17,7 @@
       @request="onRequest"
       binary-state-sort
       hide-bottom
+      class="my-sticky-header-table"
     >
       <template v-slot:header="props">
         <q-tr :props="props">
@@ -91,10 +92,10 @@ export default {
       },
       rowKey: 'id',
       columns: [
-        { name: 'title', classes: 'text-grey-8', label: '标题', field: 'title', align: 'left', sortable: true, sort: (a, b) => a.localeCompare(b) },
-        { name: 'contactForm', classes: 'text-grey-8', label: '跟进方式', field: 'contactForm', align: 'left', sortable: true },
-        { name: 'createBy', classes: 'text-grey-8', label: '创建者', field: 'createBy', align: 'left', sortable: true, sort: (a, b) => a.localeCompare(b) },
-        { name: 'modifyTime', classes: 'text-grey-8', label: '最近更新', field: 'modifyTime', align: 'left', sortable: true, format: (val, row) => date.formatDate(val, 'YYYY-MM-DD') }
+        { name: 'title', classes: 'text-grey-8', label: '标题', field: 'title', align: 'left', sortable: false },
+        { name: 'contactForm', classes: 'text-grey-8', label: '跟进方式', field: 'contactForm', align: 'left', sortable: false },
+        { name: 'createBy', classes: 'text-grey-8', label: '创建者', field: 'createBy', align: 'left', sortable: false },
+        { name: 'modifyTime', classes: 'text-grey-8', label: '最近更新', field: 'modifyTime', align: 'left', sortable: false, format: (val, row) => date.formatDate(val, 'YYYY-MM-DD HH:mm') }
       ]
     }
   },
@@ -145,5 +146,9 @@ export default {
 }
 </script>
 
-<style scoped>
+<style lang="sass" scoped>
+.my-sticky-header-table
+  .q-table__top,
+  thead tr:first-child th
+    font-weight: 700
 </style>

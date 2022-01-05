@@ -12,7 +12,7 @@
         <q-item-section>
           <div class="row q-pl-sm box">
             <q-badge
-              color="secondary"
+              :color="iconColor"
               multi-line
             >
               <span>
@@ -21,7 +21,6 @@
             </q-badge>
           </div>
         </q-item-section>
-
         <q-item-section>
           <div class="row  q-pl-none">
             <!-- 标题 -->
@@ -36,7 +35,7 @@
       <q-space />
       <q-item-section side>
         <q-item-label caption>
-          {{ timeAgo({ dateTime: model.modifyTime }) }}
+          {{ timeAgo({ dateTime: model.followupDate }) }}
         </q-item-label>
       </q-item-section>
     </q-item>

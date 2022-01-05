@@ -5,7 +5,7 @@
     :flat="$q.screen.lt.sm"
   >
     <!-- 卡片头部 -->
-      <!-- :title=" '['+ customer.notes+']'+ $t(`followup.title`)" -->
+    <!-- :title=" '['+ customer.notes+']'+ $t(`followup.title`)" -->
     <tw-header-card
       title='跟进'
       :actions="actions"
@@ -235,7 +235,6 @@ export default {
       }
     },
     condition () {
-      debugger
       const baseQuery = [
         { Key: 'ObjectType', Value: this.category, Oper: 'eq' },
         'and',
@@ -274,7 +273,6 @@ export default {
         return this.$store.getters['followup/search']
       },
       set (val) {
-        debugger
         val
           ? this.$store.commit('followup/setSearch', val)
           : this.$store.commit('followup/setSearch', '')

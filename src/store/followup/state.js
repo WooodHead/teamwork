@@ -37,7 +37,7 @@ export default function () {
           { label: '本月', value: date.getCurrMonthDays(), name: 'createTime' },
           { label: '上月', value: date.getLastMonthDays(), name: 'createTime' },
           { label: '本年度', value: date.getCurrYearDays(), name: 'createTime' },
-          { label: '自定义', value: { from: '', to: '' }, name: 'createTime', labelPrefix: '创建时间:', custom: true }
+          { label: '自定义', value: { from: '', to: '' }, name: 'createTime', labelPrefix: '跟进时间:', custom: true }
         ]
       },
       {

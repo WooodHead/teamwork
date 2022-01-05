@@ -59,7 +59,6 @@ export default {
    * 组装query
    */
   listPageType: (state, _getters) => {
-    debugger
     const _allListQuery = []
     // 多条件检索
     let query = state.query
@@ -67,17 +66,17 @@ export default {
       // 跟进方式
       let contactFormList = _.map(_.filter(query, q => q.name === 'contactForm'), qf => qf.value)
       if (contactFormList.length) {
-        _allListQuery.push(...['and', { Key: 'contactForm', Value: _.join(contactFormList), Oper: 'eq' }])
+        _allListQuery.push(...['and', { Key: 'contactForm', Value: _.join(contactFormList), Oper: 'in' }])
       }
       // 跟进日期
-      let fromCreateTimeList = _.map(_.filter(query, q => q.name === 'createTime'), qf => qf.value.from)
-      let toCreateTimeList = _.map(_.filter(query, q => q.name === 'createTime'), qf => qf.value.to)
-      if (fromCreateTimeList.length && toCreateTimeList.length) {
-        let minFromCreateTime = _.min(fromCreateTimeList)
-        let maxToCreateTime = _.max(toCreateTimeList)
-        if (minFromCreateTime.length === 10) minFromCreateTime = minFromCreateTime + ' 00:00:00'
-        if (maxToCreateTime.length === 10) maxToCreateTime = maxToCreateTime + ' 23:59:59'
-        _allListQuery.push(...['and', { Key: 'CreateTime', Value: minFromCreateTime, Oper: 'gt' }, 'and', { Key: 'CreateTime', Value: maxToCreateTime, Oper: 'le' }])
+      let fromFollowupDateList = _.map(_.filter(query, q => q.name === 'createTime'), qf => qf.value.from)
+      let toFollowupDateList = _.map(_.filter(query, q => q.name === 'createTime'), qf => qf.value.to)
+      if (fromFollowupDateList.length && toFollowupDateList.length) {
+        let minFromFollowupDate = _.min(fromFollowupDateList)
+        let maxToFollowupDate = _.max(toFollowupDateList)
+        if (minFromFollowupDate.length === 10) minFromFollowupDate = minFromFollowupDate + ' 00:00:00'
+        if (maxToFollowupDate.length === 10) maxToFollowupDate = maxToFollowupDate + ' 23:59:59'
+        _allListQuery.push(...['and', { Key: 'followupDate', Value: minFromFollowupDate, Oper: 'gt' }, 'and', { Key: 'followupDate', Value: maxToFollowupDate, Oper: 'le' }])
       }
     }
     const typePayload = [

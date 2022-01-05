@@ -30,16 +30,41 @@
             <div class="text-h5">
               <span class="text-weight-bold">{{currentModel.title}}</span>
             </div>
-            <div class="text-caption text-grey-9 ">
-              {{$t('document.modify.postedBy',{modifyBy:currentModel.modifyBy})}}•
-              {{timeAgo({ dateTime :currentModel.modifyTime})}}
+            <div class="text-caption-9 ">
+              {{$t('followup.modify.postedBy',{modifyBy:currentModel.modifyBy})}}•
+              {{timeAgo({ dateTime :currentModel.followupDate})}}
               <!-- <q-icon
                 :name="iconName"
                 :color="iconColor"
                 size="sm"
               /> -->
-              <!-- <span class="text-caption text-grey-9">{{currentModel.contactForm}}跟进</span> -->
+              <!-- <span class="text-caption-9">{{currentModel.contactForm}}跟进</span> -->
             </div>
+          </div>
+          <!-- 跟进负责人 -->
+          <div class="row">
+            <span class="text-caption q-mr-sm">跟进负责人：</span>
+            <tw-avatar
+              :key="`followup_${currentModel.id}_${currentModel.leaderID}`"
+              :id="currentModel && currentModel.leaderID"
+              size="sm"
+            />
+          </div>
+          <!-- 跟进参与人 -->
+          <div class="row" v-if="currentModel&&currentModel.members.length>0">
+            <span class="text-caption  q-mr-sm">跟进参与人：</span>
+            <tw-avatar  v-for="member in currentModel.members" 
+              :key="`followup_${currentModel.id}_${member}`"
+              :id="member"
+              size="sm"
+              class="q-mr-xs"
+            />
+          </div>
+          <!-- 客户联系人 -->
+          <div class="row">
+            <span class="text-caption q-mr-sm">客户联系人：</span>
+            {{psonName(currentModel.customerContacter)}}
+             <a :href="'tel:' + psonTel(currentModel.customerContacter)">({{psonTel(currentModel.customerContacter)}})</a>
           </div>
           <!-- 跟进具体内容 -->
           <div
@@ -81,7 +106,7 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex'
+import { mapState, mapActions } from 'vuex'
 import timeAgo from '@/utils/time-ago'
 import { showConfirm } from '@/utils/show-confirm'
 import { date, LocalStorage } from 'quasar'
@@ -114,11 +139,18 @@ export default {
     }
   },
   computed: {
+    ...mapState('person', ['selectPersons']),
     title () {
       return '[' + this.currentModel.title + ']的跟进'
     },
     currentModel () {
       return this.$store.getters['followup/currentModel'](+this.id)
+    },
+    psonName () {
+      return (psonId) => this.selectPersons[psonId].name || ''
+    },
+    psonTel () {
+      return (psonId) => this.selectPersons[psonId].phone || ''
     }
   },
   mounted () {
@@ -164,7 +196,7 @@ export default {
             this.$router.push({
               name: 'followup',
               params: { category: this.category, objectID: this.objectID }
-            }) 
+            })
           }
         })
       })
@@ -175,7 +207,8 @@ export default {
     TwMenu: () => import('components/base/TwMenu'),
     TwHeaderDetail: () => import('components/base/TwHeaderDetail'),
     DiscussBoard: () => import('components/discuss/DiscussBoard'),
-    TwSubscribe: () => import('components/base/TwSubscribe')
+    TwSubscribe: () => import('components/base/TwSubscribe'),
+    TwAvatar: () => import('components/base/TwAvatar')
   }
 }
 </script>

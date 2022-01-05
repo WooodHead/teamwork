@@ -54,11 +54,6 @@
         <p class="q-mt-none q-mb-xs">跟进时间：
           <span>{{model.lastFollowupTime}}</span>
         </p>
-        <p class="row q-mt-none q-mb-xs">跟进内容：<span
-            v-html="model.lastFollowupContent"
-            class="col recent-content"
-          ></span>
-        </p>
       </div>
       <div
         v-else
