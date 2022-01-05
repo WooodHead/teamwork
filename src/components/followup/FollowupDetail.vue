@@ -51,9 +51,13 @@
             />
           </div>
           <!-- 跟进参与人 -->
-          <div class="row" v-if="currentModel&&currentModel.members.length>0">
+          <div
+            class="row"
+            v-if="currentModel&&currentModel.members"
+          >
             <span class="text-caption  q-mr-sm">跟进参与人：</span>
-            <tw-avatar  v-for="member in currentModel.members" 
+            <tw-avatar
+              v-for="member in currentModel.members"
               :key="`followup_${currentModel.id}_${member}`"
               :id="member"
               size="sm"
@@ -64,7 +68,7 @@
           <div class="row">
             <span class="text-caption q-mr-sm">客户联系人：</span>
             {{psonName(currentModel.customerContacter)}}
-             <a :href="'tel:' + psonTel(currentModel.customerContacter)">({{psonTel(currentModel.customerContacter)}})</a>
+            <a :href="'tel:' + psonTel(currentModel.customerContacter)">({{psonTel(currentModel.customerContacter)}})</a>
           </div>
           <!-- 跟进具体内容 -->
           <div
@@ -147,10 +151,10 @@ export default {
       return this.$store.getters['followup/currentModel'](+this.id)
     },
     psonName () {
-      return (psonId) => this.selectPersons[psonId].name || ''
+      return (psonId) => this.selectPersons[psonId] ? this.selectPersons[psonId].name : ''
     },
     psonTel () {
-      return (psonId) => this.selectPersons[psonId].phone || ''
+      return (psonId) => this.selectPersons[psonId] ? this.selectPersons[psonId].phone : ''
     }
   },
   mounted () {
