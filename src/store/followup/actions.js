@@ -55,7 +55,7 @@ export default {
       limit = state.page.limit,
       offset = state.page.offset,
       byPage = state.byPage
-    }) {
+    }, returnData = true) {
     // 后台参数拼接
     let params =
     {
