@@ -35,7 +35,7 @@
       <q-space />
       <q-item-section side>
         <q-item-label caption>
-          {{ timeAgo({ dateTime: model.followupDate }) }}
+          {{formatDate(model.followupDate,'YYYY-MM-DD')}}
         </q-item-label>
       </q-item-section>
     </q-item>

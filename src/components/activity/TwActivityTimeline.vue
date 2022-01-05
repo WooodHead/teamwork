@@ -44,7 +44,7 @@
         />
         <!-- 项目、产品、团队、订单、机构、生产单位、客户创建 -->
         <add-modify-activity
-          v-else-if="'added'===activity.description"
+          v-else-if="'added'===activity.description && activity.widget.type !== 'followup'"
           class="col text-body1 text-weight-bold text-left"
           :activity="activity"
         />
@@ -81,6 +81,12 @@
         <!-- 简历 -->
         <resume-activity
           v-else-if="activity.objectType === 'recruitPlan' && activity.description !== 'SendInterviewInvite'"
+          class="col text-body1 text-weight-bold text-left"
+          :activity="activity"
+        />
+        <!-- 跟进 -->
+        <followup-activity
+          v-else-if="activity.widget.type === 'followup'"
           class="col text-body1 text-weight-bold text-left"
           :activity="activity"
         />
@@ -154,7 +160,8 @@ export default {
     ServiceActivity: () => import('components/activity/ServiceActivity'),
     ResumeActivity: () => import('components/activity/ResumeActivity'),
     ResumeInviteActivity: () => import('components/activity/ResumeInviteActivity'),
-    RecruitPlanActivity: () => import('components/activity/RecruitPlanActivity')
+    RecruitPlanActivity: () => import('components/activity/RecruitPlanActivity'),
+    FollowupActivity: () => import('components/activity/FollowupActivity')
   },
   methods: {
     isObject: _.isObject,

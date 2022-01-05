@@ -17,12 +17,12 @@ export default function () {
     firstLoaded: true,
     // 卡片/列表视图
     listType: 'card',
-    sort: 'modifyTime',
+    sort: 'followupDate',
     contactForm: [
       { label: '电话', val: '电话', iconName: 'smartphone', iconColor: 'primary' },
       { label: '邮件', val: '邮件', iconName: 'mail_outline', iconColor: 'orange' },
       { label: '面谈', val: '面谈', iconName: 'supervisor_account', iconColor: 'accent' },
-      { label: '视频会议', val: '视频会议', iconName: 'videoMeeting', iconColor: 'primary' },
+      { label: '视频会议', val: '视频会议', iconName: 'videoMeeting', iconColor: 'positive' },
       { label: '其他', val: '其他', iconName: 'call_missed_outgoing', iconColor: 'secondary' }
     ],
     // 模糊查询
