@@ -4,7 +4,7 @@
     class="card-grow-in-page"
   >
     <!-- 菜单区 -->
-    <tw-header-detail :noMenu="!!currentModel.archived">
+    <tw-header-detail :noMenu="currentModel && currentModel.createByID !== myself">
       <template #menu>
         <tw-menu
           :menus="menus"
@@ -31,7 +31,7 @@
               <span class="text-weight-bold">{{currentModel.title}}</span>
             </div>
             <div class="text-caption-9 ">
-              {{$t('followup.modify.postedBy',{modifyBy:currentModel.modifyBy})}}•
+              {{$t('followup.modify.postedBy',{modifyBy:currentModel.createBy})}}•
               {{timeAgo({ dateTime :currentModel.followupDate})}}
               <!-- <q-icon
                 :name="iconName"
@@ -65,7 +65,10 @@
             />
           </div>
           <!-- 客户联系人 -->
-          <div class="row">
+          <div
+            class="row"
+            v-if="currentModel&&currentModel.customerContacter"
+          >
             <span class="text-caption q-mr-sm">客户联系人：</span>
             {{psonName(currentModel.customerContacter)}}
             <a :href="'tel:' + psonTel(currentModel.customerContacter)">({{psonTel(currentModel.customerContacter)}})</a>
@@ -137,7 +140,7 @@ export default {
   data () {
     return {
       type: 'followup',
-      myself: LocalStorage.getItem('myself'),
+      myself: LocalStorage.getItem('myself').id,
       quickSelected: null,
       menus: ['edit', 'delete']
     }
