@@ -102,7 +102,7 @@
 <script>
 import { mapState, mapActions } from 'vuex'
 import { format } from 'quasar'
-import { showWarningMessage } from '@/utils/show-message'
+import { showWarningMessage, showSuccessMessage } from '@/utils/show-message'
 const { capitalize } = format,
   module = {
     event: 'schedule',
@@ -261,6 +261,9 @@ export default {
         }
       }).then(res => {
         if (this.type === 'document') {
+          debugger
+          let mes = this.$t(`action.${this.action}成功`)
+          showSuccessMessage(res.acl === 2 ? '该文档是保密文档，可设置白名单' : mes)
           this.$router.push({
             name: res.classify === 'folder' ? 'folder' : `${res.classify}Detail`,
             params: {

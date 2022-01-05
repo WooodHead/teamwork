@@ -152,7 +152,7 @@ export default {
   },
   methods: {
     ...mapActions('document', ['updateDocumentField', 'deleteDocument', 'archiveDocument']),
-    ...mapActions('bookmark', ['loadBookmarks', 'addBookmark', 'deleteBookmark', 'existBookmark']),
+    ...mapActions('bookmark', ['addBookmark', 'deleteBookmark', 'existBookmark']),
     deleteItem () {
       let that = this
       let message = this.$t('message.reallyDelete')
