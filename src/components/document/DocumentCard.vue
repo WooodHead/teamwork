@@ -3,7 +3,6 @@
     class="cursor-pointer text-center widget-card"
     :class="[file.color ,{'secrecy-content':file.acl===2}]"
     style="overflow:hidden"
-    @click="fileDetail(file.objectType,file.objectID,file.id,file.classify)"
   >
     <div
       class="widget-card-section"
@@ -19,6 +18,7 @@
         :objectID="file.objectID"
         style="margin-top: -10px;"
       ></file-menu>
+      <div  @click="fileDetail(file.objectType,file.objectID,file.id,file.classify)">
       <a
         v-if="!showSetColor&&file.objectType!=='productCase'"
         class="card-colorpicker"
@@ -109,6 +109,7 @@
         </q-card-section>
       </template>
       <!-- </div> -->
+      </div>
     </div>
     <set-document-color
       v-if="showSetColor"
