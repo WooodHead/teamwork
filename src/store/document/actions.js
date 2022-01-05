@@ -929,7 +929,6 @@ export default {
     return request
       .put(`documents/copy`, { ID: payload.ID, TargetID: payload.To.TargetID })
       .then(res => {
-        debugger
         const model = Document.from(res.data)
         commit('setDocumentList', model)
         commit('setTreeList', model)

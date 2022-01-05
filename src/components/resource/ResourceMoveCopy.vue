@@ -261,7 +261,6 @@ export default {
         }
       }).then(res => {
         if (this.type === 'document') {
-          debugger
           let mes = this.$t(`action.${this.action}成功`)
           showSuccessMessage(res.acl === 2 ? '该文档是保密文档，可设置白名单' : mes)
           this.$router.push({
