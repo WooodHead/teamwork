@@ -704,13 +704,17 @@ export default {
         return false
       })
   },
-  updateDocument ({ state, commit, dispatch }, payload) {
+  updateDocument ({ state, commit, dispatch, rootState }, payload) {
     const model = Document.to(payload)
     return request
       .put('documents/update', model)
       .then(res => {
         const model = Document.from(res.data)
         commit('updateDocument', model)
+        // 如果是从草稿文档发布了的，需要修改面包屑
+        if (model.isPublish) { 
+          rootState.breadcrumbs.widgetBreadcrumbs = _.filter(rootState.breadcrumbs.widgetBreadcrumbs, w => { return w.id !== 'draftDocuments' })
+        }
         return model
       })
       .catch(error => {
