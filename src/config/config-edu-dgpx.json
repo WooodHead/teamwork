@@ -22,8 +22,8 @@
     "enable": true,
     "baseDir": "teamwork-dgpx",
     "options": {
-      "accesskeyId": "LTAI4G4SjSVDWErXo42WyyEU",
-      "accesskeySecret": "9rOpnXfjbo6TpmsDA9AMBlJl5iA0k8",
+      "accesskeyId": "",
+      "accesskeySecret": "",
       "secure": true,
       "cname": true,
       "region": "oss-cn-hangzhou",
