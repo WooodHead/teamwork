@@ -1120,6 +1120,10 @@ export default {
           return model
         })
     } else {
+      commit('updatePage', {
+        offset: state.page.offset + 1,
+        nextPageToken: -1
+      })
       return model
     }
   }

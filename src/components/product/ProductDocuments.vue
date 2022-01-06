@@ -27,6 +27,7 @@
       category="product"
       :objectID="productId"
       class="q-mt-md"
+      @hook:mounted="initMounted"
       ref="folderContent"
     />
   </div>
@@ -42,9 +43,25 @@ export default {
     FolderAddMenu: () => import('components/document/folder/FolderAddMenu'),
     FolderContent: () => import('components/document/folder/FolderContent')
   },
+  data () {
+    return {
+      triggered: false
+    }    
+  },
   watch: {
-    productId (val) {
-      this.$refs.folderContent.restart()
+    productId: {
+      handler () {
+        if (this.$refs.folderContent) {
+          this.triggered = true
+          this.$refs.folderContent.restart()
+        }
+      },
+      immediate: true
+    }
+  },
+  methods: {
+    initMounted () {
+      !this.triggered && this.$refs.folderContent.restart()
     }
   }
 }
