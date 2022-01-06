@@ -24,11 +24,12 @@
     "options": {
       "accesskeyId": "",
       "accesskeySecret": "",
-      "secure": true,
-      "cname": true,
+      "bucket": "jd-teamwork",
       "region": "oss-cn-hangzhou",
       "endpoint": "https://file.jingdiao.com",
-      "bucket": "jd-teamwork"
+      "internal": true,
+      "secure": true,
+      "cname": true
     }
   },
   "email": "teamwork@notice.jingdiao.com",

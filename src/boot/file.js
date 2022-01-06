@@ -46,15 +46,15 @@ export { upload }
  */
 const getUrl = function (filePath, process) {
   var URI = 'icons/default-image.webp'
-  if (filePath && filePath.trim() !== '') {
+  if (!_.isEmpty(filePath)) {
     if (config.oss && config.oss.enable) {
-      URI = filePath && filePath !== '' && oss.getUrl(filePath, process)
+      URI = `/api/files/preview?filePath=${encodeURIComponent(filePath)}&extranet=true`
     } else {
       var extension = filePath.substring(filePath.lastIndexOf('.'))
       if (fileState.videoExts.includes(extension.toLowerCase())) {
-        URI = filePath && filePath !== '' && '/api/files/previewvideo?filePath=' + encodeURIComponent(filePath)
+        URI = '/api/files/previewvideo?filePath=' + encodeURIComponent(filePath)
       } else {
-        URI = filePath && filePath !== '' && '/api/files/preview?filePath=' + encodeURIComponent(filePath)
+        URI = '/api/files/preview?filePath=' + encodeURIComponent(filePath)
       }
     }
   }
