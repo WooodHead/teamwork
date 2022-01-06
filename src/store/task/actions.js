@@ -813,6 +813,9 @@ export default {
             white = _.map(_.filter(persons, function (o) {
               return _.compact(white.replace(/、/g, ',').replace(/，/g, ',').replace(/ /g, ',').split(',')).includes(o.name)
             }), 'id')
+
+            white.push(LocalStorage.getItem('myself').id)
+            white = _.uniq(white)
             Object.assign(model, { acl: 2, whiteList: white })
           }
           groupModelList.push(model)
@@ -903,7 +906,10 @@ export default {
           }
         )
         if (extraProperty.isSetSecretList) {
-          Object.assign(model, { acl: 2, whiteList: model.assignedTo })
+          let white = []
+          white.push(...model.assignedTo, LocalStorage.getItem('myself').id)
+
+          Object.assign(model, { acl: 2, whiteList: _.uniq(white) })
         }
         taskList.push(model)
       } catch (error) {
