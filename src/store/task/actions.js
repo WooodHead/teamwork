@@ -655,9 +655,9 @@ export default {
       })
   },
   /**
-* 更新任务评论数量
+* 更新任务讨论数量
 * @param {*} param0 id 任务id
-* @param {*} param1 isAdd true：新建评论；false：删除评论
+* @param {*} param1 isAdd true：新建讨论；false：删除讨论
 */
   updateTaskCommentCount ({ state, commit }, { id, isAdd }) {
     return request.put(url.UpdateCommentCount, { id, isAdd })
@@ -1003,7 +1003,7 @@ export default {
 
   //* ********导出相关方法 end*************** */
   /**
- * 获取最新评论内容
+ * 获取最新讨论内容
  * @param {String} taskID 清单或分组ID
  * @param {String} category 资源类型
  * @param {String} objectID 资源ID
@@ -1023,7 +1023,7 @@ export default {
       })
   },
   /**
- * 获取开始日期到今天的所有指派人评论数
+ * 获取开始日期到今天的所有指派人讨论数
  * @param {String} Ids taskID的集合
  * @param {String} createTime 创建日期
  * @param {String} objectID 资源ID
