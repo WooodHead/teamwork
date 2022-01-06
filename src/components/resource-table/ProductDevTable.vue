@@ -92,7 +92,6 @@ export default {
     }
   },
   computed: {
-    ...mapState('productDev', ['sort', 'order']),
     ...mapState('person', ['selectPersons']),
     ...mapState('organize', ['selectOrganizes'])
   },
