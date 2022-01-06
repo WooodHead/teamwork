@@ -14,7 +14,7 @@
       selected-color="primary"
       node-key="id"
       label-key="title"
-      class="q-pt-sm"
+      class="q-pt-sm ellipsis document-tree"
       :selected.sync="selected"
       ref="tree"
       @after-show="afterShow"
@@ -141,6 +141,30 @@ export default {
         })
         list = _.cloneDeep(list)
       }
+
+      // 如果是成熟案例库，重新处理数据
+      if (this.category === 'select-product-case' && list.length) {
+        let parent = _.find(list, ['classify', 'folder'])
+        let dictType = _.uniq(_.compact(_.map(list, 'tag')))
+        parent.children = []
+        _(dictType).forEach(function (value, index) {
+          let nowDictList = _.filter(list, { 'tag': value })
+          nowDictList = _.map(nowDictList, n => { 
+            n.parentId = Number(`-${index + 1}`)
+            n.level = parent.level + 2
+            return n
+          })
+          let ids = _.map(nowDictList, 'id')
+          list = _.filter(list, l => { return !ids.includes(l.id) })
+          list.push(...nowDictList)
+          list.push({
+            id: Number(`-${index + 1}`),
+            parentId: parent.id,
+            level: parent.level + 1,
+            title: value
+          })
+        })
+      }
       let tree = listToTree(list, 'id', 'parentId', '', '', true, (e) => { return e.classify === 'folder' })
       // 此时有可能从其他地方新增的数据，但是其父节点有可能还没获取成功
       if (tree.length > 1) {
@@ -155,15 +179,18 @@ export default {
     ...mapActions('document', ['loadProductDocument', 'loadDocuments', 'loadModel', 'loadTreeDocuments']),
     init () {
       // 获取文件夹树结构
-      this.loadModel({ id: +this.rootId, fields: 'MindMap' })
-        .then(res => {
-          let have = _.find(this.treeList, ['id', +res.id])
-          if (!have) {
-            this.setTreeList([res])
-          }
-          // 获取数据
-          this.loadAllByPage(res.id)
-        })
+      const isDocumentCenter = this.$route.path.split('/')[1] === 'document'
+      if (!(!isDocumentCenter && +this.rootId === 0) || isDocumentCenter) {
+        this.loadModel({ id: +this.rootId, fields: 'MindMap' })
+          .then(res => {
+            let have = _.find(this.treeList, ['id', +res.id])
+            if (!have) {
+              this.setTreeList([res])
+            }
+            // 获取数据
+            this.loadAllByPage(res.id)
+          })
+      }
     },
     loadAllByPage (id, offset, nextPageToken) {
       let query = [
@@ -259,8 +286,10 @@ export default {
       }
     },
     selectEvent (prop) {
-      this.model = prop.node
-      this.nodeSelected(+prop.node.id)
+      if (prop.key > 0) {
+        this.model = prop.node
+        this.nodeSelected(+prop.node.id)
+      }
     },
     clickMenuEvent (prop) {
       this.model = prop.node
@@ -287,5 +316,10 @@ export default {
 .tree-parent:hover .tree-menu {
   opacity: 1;
   transform: translateY(0);
+}
+.document-tree .tree-parent >div{
+text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
 }
 </style>

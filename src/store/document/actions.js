@@ -54,6 +54,7 @@ export default {
       offset
     }
     let Documents = []
+
     return request
       .get('documents/getpagelist', condition)
       .then(res => {
