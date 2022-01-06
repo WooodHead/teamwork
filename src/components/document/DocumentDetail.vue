@@ -2,7 +2,7 @@
   <q-card
     :flat="$q.screen.lt.sm"
     class="card-grow-in-page document-file-detail-img"
-    :style="haveLeftTree ? 'width: 100% !important;' : ''"
+    :style="haveLeftTree&&type==='document' ? 'width: 100% !important;' : ''"
   >
     <!-- 菜单区 -->
     <tw-header-detail :noMenu="noMenu">
