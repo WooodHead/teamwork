@@ -1,41 +1,26 @@
 <!-- 资源工具包添加页面 -->
 <template>
-  <q-card
-    class="card-grow-in-page"
-    :flat="$q.screen.lt.sm"
-  >
-    <tw-header-card :title="$t('settings.widget.addWidget',
-    {name:$t(`${category}.module`)})" />
+  <q-card class="card-grow-in-page" :flat="$q.screen.lt.sm">
+    <tw-header-card
+      :title="
+        $t('settings.widget.addWidget', { name: $t(`${category}.module`) })
+      "
+    />
     <q-card-section>
-      <q-list
-        separator
-        padding
-        class="q-px-xxl"
-      >
-        <q-item
-          v-ripple
-          v-for="widget in widgets"
-          :key="widget.value"
-        >
+      <q-list separator padding class="q-px-xxl">
+        <q-item v-ripple v-for="widget in widgets" :key="widget.value">
           <!-- 图标 -->
           <q-item-section avatar>
-            <q-btn
-              round
-              :icon="widget.icon"
-              :color="widget.color"
-            />
+            <q-btn round :icon="widget.icon" :color="widget.color" />
           </q-item-section>
           <!-- 标题 -->
           <q-item-section>
-            <q-item-label>{{widget.label}}</q-item-label>
-            <q-item-label caption>{{widget.notes}}</q-item-label>
+            <q-item-label>{{ widget.label }}</q-item-label>
+            <q-item-label caption>{{ widget.notes }}</q-item-label>
           </q-item-section>
           <!-- 选中 -->
           <q-item-section side>
-            <q-checkbox
-              v-model="widget.default"
-              @input="checkWidget(widget)"
-            />
+            <q-checkbox v-model="widget.default" @input="checkWidget(widget)" />
           </q-item-section>
         </q-item>
       </q-list>
@@ -80,7 +65,7 @@ export default {
         // deleted
         widget.deleted = false
         // setting
-        widget.setting = {}
+        !_.has(widget, 'setting') && (widget.setting = {})
         this.objCategory.widgets[widget.value] = _.clone(widget)
         this.objCategory.widgets[widget.value].default = false
       } else {
