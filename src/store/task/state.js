@@ -64,7 +64,7 @@ export default {
     noOverdueList: []
   },
   ctrlList: [],
-  exportExcelFields: ['TaskName', 'Progress', 'StartTime', 'EndTime', 'Finished', 'AssignedTo'],
+  exportExcelFields: ['TaskName', 'Progress', 'StartTime', 'EndTime', 'AssignedTo', 'Finished', 'FinishedBy', 'FinishedTime'],
   exportFinished: false, // 仅导出已完成的任务
   exportArchived: false, // 是否导出已归档的任务，默认不导已归档的。
   /** -----台账管理start----- */

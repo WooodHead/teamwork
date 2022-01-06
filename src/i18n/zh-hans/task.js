@@ -179,7 +179,7 @@ export default {
     Finished: '是否完成', // 是否完成
     FinishedTime: '实际完成时间', // 完成时间
     BeginTime: '实际开始时间', // 实际开始时间
-    finishedBy: '完成人', // 完成人
+    FinishedBy: '完成人', // 完成人
     AssignedTo: '负责人', // 指派人
     StartTime: '预计开始时间', // 开始时间
     EndTime: '预计结束时间', // 结束时间

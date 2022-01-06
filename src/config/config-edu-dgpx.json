@@ -1,0 +1,99 @@
+{
+  "version":"edu",
+  "name":"edu-dgpx",
+  "title":"东莞培训",
+  "extranet": true,
+  "imHeartBeatTime": 120000,
+  "dutyLevelProtection": 6,
+  "appUrl": {
+    "client": "https://teamwork-dgpx.jingdiao.com",
+    "server": "https://teamwork-dgpx.jingdiao.com/server"
+  },
+
+  "workflow": {
+    "appMark": "teamwork-dgpx",
+    "clientUrl": "https://bpmsweb.jingdiao.com/"
+  },
+  "socket": {
+    "appMark": "teamwork-dgpx",
+    "serverUrl": "wss://msgserver.jingdiao.com:8443/JDXANWebSocketPushService/PushServerLogin"
+  },
+  "oss": {
+      "enable": true,
+      "baseDir": "teamwork-dgpx",
+      "options": {
+        "accesskeyId": "",
+        "accesskeySecret": "",
+        "secure": true,
+        "cname": true,
+        "region": "oss-cn-hangzhou",
+        "endpoint": "https://file.jingdiao.com",
+        "bucket": "jd-teamwork"
+      }
+    },
+  "email": "teamwork@notice.jingdiao.com",
+  "userDefined":{
+    "room":"/room/1/schedule",
+    "equipment":"/equipment/100/schedule"
+  },
+  "thirdpartyApp": {
+    "help": "https://teamwork-help.jingdiao.com"
+  },
+  "app": {
+    "menusOfExclusive": [
+      "consultHome",
+      "customerHome",
+      "opportunityHome",
+      "orderHome",
+      "manufacturerHome",
+      "wikiHome",
+      "room",
+      "equipment",
+      "approvalHome"
+    ],
+    "menusOfAllRole": [
+      "home",
+      "contactsHome",
+      "wikiHome",
+      "teamHome",
+      "projectHome",
+      "productDevHome",
+      "room",
+      "equipment",
+      "approvalHome",
+      "consultHome",
+      "help"
+    ],
+    "menusProperOfRole": {
+      "User": [],
+      "SystemAdministrator": ["documentCenter", "settings"],
+      "SeniorManager": ["documentCenter"],
+      "OrganizeManager": [],
+      "Supporter": ["adminFeedbackHome"],
+      "SalesExecutive": ["customerHome","opportunityHome", "orderHome", "manufacturerHome"],
+      "SalesManager": ["customerHome","opportunityHome", "orderHome", "manufacturerHome"],
+      "SalesProduct": ["customerHome","opportunityHome", "orderHome", "manufacturerHome"],
+      "SalesPerson": ["customerHome","opportunityHome", "orderHome", "manufacturerHome"],
+      "Outsource": ["manufacturerHome"]
+    },
+    "modulesInCommonUse": [
+      "contacts",
+      "wiki",
+      "team",
+      "productDev",
+      "project",
+      "room",
+      "equipment"
+    ],
+    "toolsDefaultInWorkbench": [
+      "task",
+      "schedule",
+      "myBookmarks",
+      "trash",
+      "activity",
+      "myDrafts",
+      "myBoosts",
+      "history"
+    ]
+  }
+}
