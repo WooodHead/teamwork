@@ -32,7 +32,7 @@
             </div>
             <div class="text-caption-9 ">
               {{$t('followup.modify.postedBy',{modifyBy:currentModel.createBy})}}•
-              {{timeAgo({ dateTime :currentModel.followupDate})}}
+              {{formatDate(currentModel.followupDate,'YYYY-MM-DD')}}
               <!-- <q-icon
                 :name="iconName"
                 :color="iconColor"
@@ -43,7 +43,7 @@
           </div>
           <!-- 跟进负责人 -->
           <div class="row">
-            <span class="text-caption q-mr-sm">跟进负责人：</span>
+            <span class="q-mr-sm">跟进负责人：</span>
             <tw-avatar
               :key="`followup_${currentModel.id}_${currentModel.leaderID}`"
               :id="currentModel && currentModel.leaderID"
@@ -55,7 +55,7 @@
             class="row"
             v-if="currentModel&&currentModel.members"
           >
-            <span class="text-caption  q-mr-sm">跟进参与人：</span>
+            <span class="q-mr-sm">跟进参与人：</span>
             <tw-avatar
               v-for="member in currentModel.members"
               :key="`followup_${currentModel.id}_${member}`"
@@ -69,7 +69,7 @@
             class="row"
             v-if="currentModel&&currentModel.customerContacter"
           >
-            <span class="text-caption q-mr-sm">客户联系人：</span>
+            <span class="q-mr-sm">客户联系人：</span>
             {{psonName(currentModel.customerContacter)}}
             <a :href="'tel:' + psonTel(currentModel.customerContacter)">({{psonTel(currentModel.customerContacter)}})</a>
           </div>

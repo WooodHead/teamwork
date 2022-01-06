@@ -38,7 +38,7 @@ export default {
         },
         {
           label: this.$t('document.sortBy.DueDate'),
-          value: 'modifyTime'
+          value: 'followupDate'
         }
       ]
       return o
