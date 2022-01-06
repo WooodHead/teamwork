@@ -47,7 +47,7 @@
         align="middle"
         :label="notice.commentCount"
         color="primary"
-        title="评论数"
+        title="讨论数"
       />
     </q-item-section>
   </q-item>

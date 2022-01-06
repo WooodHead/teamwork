@@ -94,7 +94,7 @@ export default {
   among: '中，',
   added: '添加了', // 日程
   discuss: {
-    AddDiscuss: '{name}评论了:'
+    AddDiscuss: '{name}讨论了:'
   },
   customer: {
     // added: '创建了这个{type}'

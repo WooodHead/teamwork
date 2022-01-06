@@ -257,7 +257,7 @@
         />
       </q-card-section>
       <q-card-section>
-        <!-- 评论区 -->
+        <!-- 讨论区 -->
         <discuss-board
           :objectID="+id"
           objectType="task"

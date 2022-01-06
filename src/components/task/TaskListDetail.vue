@@ -79,7 +79,7 @@
           @click="toArchivedTasks(id)"
         />
       </q-card-section>
-      <!-- 评论区 -->
+      <!-- 讨论区 -->
       <q-card-section discuss-board>
         <discuss-board
           :objectID="+id"

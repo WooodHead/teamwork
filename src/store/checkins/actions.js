@@ -444,9 +444,9 @@ export default {
       })
   },
   /**
-* 更新任务评论数量
+* 更新任务讨论数量
 * @param {*} param0 id 任务id
-* @param {*} param1 isAdd true：新建评论；false：删除评论
+* @param {*} param1 isAdd true：新建讨论；false：删除讨论
 */
   updateAnswerCommentCount ({ commit }, { id, isAdd }) {
     return request.put(url.UpdateAnswerCommentCount, { id, isAdd })
