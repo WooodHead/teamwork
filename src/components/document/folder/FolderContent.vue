@@ -51,7 +51,7 @@
       />
       <!-- 滚动加载文件区域 -->
       <q-infinite-scroll
-      v-if="(visitWikiAuth(objectID)&&model.acl===1)||[0,2].includes(model.acl)"
+      v-if="(visitWikiAuth(objectID)&&model.acl===1)||[0,2].includes(model.acl)||category==='product'"
       ref="qInfiniteScroll"
       @load="onLoad"
       :offset="250"

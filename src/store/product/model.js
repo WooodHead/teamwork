@@ -271,6 +271,11 @@ function initAdditional (tplId, product) {
       }
       break
 
+    // 软件
+    case 'software':
+      initClone.classification = 'software'
+      break
+
     // 样品库
     case 'sample':
       initClone.classification = 'sample'

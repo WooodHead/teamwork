@@ -1,7 +1,7 @@
 {
-  "version":"edu",
-  "name":"edu-dgpx",
-  "title":"东莞培训",
+  "version": "edu",
+  "name": "jd-edu-dgpx",
+  "title": "东莞培训",
   "extranet": true,
   "imHeartBeatTime": 120000,
   "dutyLevelProtection": 6,
@@ -19,22 +19,22 @@
     "serverUrl": "wss://msgserver.jingdiao.com:8443/JDXANWebSocketPushService/PushServerLogin"
   },
   "oss": {
-      "enable": true,
-      "baseDir": "teamwork-dgpx",
-      "options": {
-        "accesskeyId": "",
-        "accesskeySecret": "",
-        "secure": true,
-        "cname": true,
-        "region": "oss-cn-hangzhou",
-        "endpoint": "https://file.jingdiao.com",
-        "bucket": "jd-teamwork"
-      }
-    },
+    "enable": true,
+    "baseDir": "teamwork-dgpx",
+    "options": {
+      "accesskeyId": "",
+      "accesskeySecret": "",
+      "secure": true,
+      "cname": true,
+      "region": "oss-cn-hangzhou",
+      "endpoint": "https://file.jingdiao.com",
+      "bucket": "jd-teamwork"
+    }
+  },
   "email": "teamwork@notice.jingdiao.com",
-  "userDefined":{
-    "room":"/room/1/schedule",
-    "equipment":"/equipment/100/schedule"
+  "userDefined": {
+    "room": "/room/1/schedule",
+    "equipment": "/equipment/100/schedule"
   },
   "thirdpartyApp": {
     "help": "https://teamwork-help.jingdiao.com"
@@ -70,10 +70,30 @@
       "SeniorManager": ["documentCenter"],
       "OrganizeManager": [],
       "Supporter": ["adminFeedbackHome"],
-      "SalesExecutive": ["customerHome","opportunityHome", "orderHome", "manufacturerHome"],
-      "SalesManager": ["customerHome","opportunityHome", "orderHome", "manufacturerHome"],
-      "SalesProduct": ["customerHome","opportunityHome", "orderHome", "manufacturerHome"],
-      "SalesPerson": ["customerHome","opportunityHome", "orderHome", "manufacturerHome"],
+      "SalesExecutive": [
+        "customerHome",
+        "opportunityHome",
+        "orderHome",
+        "manufacturerHome"
+      ],
+      "SalesManager": [
+        "customerHome",
+        "opportunityHome",
+        "orderHome",
+        "manufacturerHome"
+      ],
+      "SalesProduct": [
+        "customerHome",
+        "opportunityHome",
+        "orderHome",
+        "manufacturerHome"
+      ],
+      "SalesPerson": [
+        "customerHome",
+        "opportunityHome",
+        "orderHome",
+        "manufacturerHome"
+      ],
       "Outsource": ["manufacturerHome"]
     },
     "modulesInCommonUse": [

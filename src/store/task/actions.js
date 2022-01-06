@@ -1494,11 +1494,14 @@ function processDataByItem (item, fields, persons) {
     }
     if (item.AssignedTo !== '') {
       let names = []
-      item.AssignedTo.split(',').forEach(item => {
-        let name = persons[item] && persons[item].name
+      item.AssignedTo.split(',').forEach(a => {
+        let name = persons[a] && persons[a].name
         name && names.push(name)
       })
       item.AssignedTo = names
+    }
+    if (item.FinishedBy) {
+      item.FinishedBy = persons[+item.FinishedBy] && persons[+item.FinishedBy].name
     }
   }
   return item
