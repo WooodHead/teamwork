@@ -65,6 +65,7 @@
     ></quasar-editor>
     <!-- 添加标签 -->
     <tw-select-tag
+      v-if="moduleType === 'document'"
       filled
       stack-label
       multiple
