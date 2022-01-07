@@ -43,13 +43,18 @@ export default {
           ExpectedDeliveryDate: item => { return date.formatDate(item['expectedDeliveryDate'], 'YYYY-MM-DD') }
         },
         productDev: {
-          'CONVERT(Type USING gbk)': item => { return item['type'] }
+          'CONVERT(Type USING gbk)': item => { return item['type'] },
+          ProductDevNum: item => { return item['productDevNum'] },
+          Status: item => { return this.$t(`state.${item['status']}`) },
+          BeginDate: item => { return date.formatDate(item['beginDate'], 'YYYY-MM-DD') },
+          PredictEndDate: item => { return date.formatDate(item['predictEndDate'], 'YYYY-MM-DD') }
         },
         project: {
           ProjLevel: item => { return (item['projLevel'] && item['projLevel'].split(':').length >= 2) ? item['projLevel'].split(':')[1] : item['projLevel'] },
           ProjNum: item => { return item['projNum'] },
           Status: item => { return this.$t(`state.${item['status']}`) },
-          BeginDate: item => { return date.formatDate(item['beginDate'], 'YYYY-MM-DD') }
+          BeginDate: item => { return date.formatDate(item['beginDate'], 'YYYY-MM-DD') },
+          PredictEndDate: item => { return date.formatDate(item['predictEndDate'], 'YYYY-MM-DD') }
         },
         team: {
           'CONVERT(Type USING gbk)': item => { return item['type'] }

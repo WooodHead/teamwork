@@ -21,6 +21,10 @@ const productDev = {
     myFocus: '默认排序',
     type: '按类型排序',
     title: '按标题排序',
+    productDevNum: '按编号排序',
+    status: '按状态排序',
+    beginDate: '按开始日期排序',
+    predictEndDate: '按预计结束日期排序',
     organizeName: '按机构排序'
   },
   search: '搜索',
