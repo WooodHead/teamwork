@@ -167,8 +167,7 @@ import OEditorMenuBar from '@/components/base/q-editor/menubars/OEditorMenuBar'
 import OEditorMenuBubble from '@/components/base/q-editor/menubars/OEditorMenuBubble'
 import OMenubarBtn from '@/components/base/q-editor/buttons/OMenubarBtn'
 import { DefaultToolbar, MobileToolbar, DefaultBubble, TableToolbar } from '@/components/base/q-editor/data/editor'
-import { upload } from '@/boot/file'
-const config = require('app/app.config.js')
+import { upload, getUrl } from '@/boot/file'
 export default {
   name: 'QuasarEditor',
   data () {
@@ -470,7 +469,7 @@ export default {
             // 发送截图
             upload(this.folder, [newFile], process => { }, result => {
               _.forEach(result, file => {
-                let src = `/api/files/preview?filePath=${encodeURIComponent(file.PathName)}&extranet=` + (!!((config.extranet && config.oss && config.oss.enable)))
+                let src = getUrl(file.PathName)
                 if (src) {
                   this.editor.commands.image({
                     src,

@@ -119,9 +119,9 @@ export default {
     })
   },
   /**
-* 更新公告评论数量
+* 更新公告讨论数量
 * @param {*} param0 id 公告id
-* @param {*} param1 isAdd true：新建评论；false：删除评论
+* @param {*} param1 isAdd true：新建讨论；false：删除讨论
 */
   updateNoticeCommentCount ({ commit }, { id, isAdd }) {
     return request.put(url.UpdateCommentCount, { id, isAdd })

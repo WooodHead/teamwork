@@ -82,7 +82,7 @@ export default {
   howToNotify: '通知方式',
   whenToNotify: '通知时间',
   notifyEverything: '任意类型',
-  notifyEverythingDescription: '包括新的消息和评论，分配给你的待办事项，当有人提到你时，以及聊天等。',
+  notifyEverythingDescription: '包括新的消息和讨论，分配给你的待办事项，当有人提到你时，以及聊天等。',
   notifyChooseType: '自定义类型',
   notifyChooseTypeDescription: '选择允许通知的消息类型',
   notifyOnlyPings: '仅私聊、群组聊天或者@消息',

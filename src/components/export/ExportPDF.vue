@@ -155,7 +155,7 @@ export default {
       type: Boolean,
       default: false,
       required: false,
-      description: '导出某个资源下面的所有符合条件的评论内容，例如导出某个项目下面所有符合条件的任务评论'
+      description: '导出某个资源下面的所有符合条件的讨论内容，例如导出某个项目下面所有符合条件的任务讨论'
     }
   },
   data () {

@@ -186,10 +186,10 @@ export default {
       })
     },
     /**
-     * 评论添加完成后
+     * 讨论添加完成后
      */
     addAssessFinished (val) {
-      // 当前评论者是商机的负责人
+      // 当前讨论者是商机的负责人
       if (val && +this.$myinfo.id === this.model.manufacturerLeaderID) {
         // 更新评估的状态
         this.updateResult({ id: +this.id, result: val.value, notes: val.description }).then(res => {

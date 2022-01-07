@@ -28,12 +28,13 @@
     "baseDir": "teamwork-dev",
     "options": {
       "accesskeyId": "",
-      "accesskeySecret": "",       
-      "secure": true,
-      "cname": true,
+      "accesskeySecret": "",
+      "bucket": "jd-teamwork",
       "region": "oss-cn-hangzhou",
       "endpoint": "https://file.jingdiao.com",
-      "bucket": "jd-teamwork"
+      "internal": true,
+      "secure": true,
+      "cname": true
     }
   },
   "email": "teamwork@notice.jingdiao.com",
@@ -83,55 +84,20 @@
     ],
     "menusProperOfRole": {
       "User": [],
-      "SystemAdministrator": [
-        "documentCenter",
-        "settings",
-        "jobHome"
-      ],
-      "SeniorManager": [
-        "documentCenter",
-        "jobHome"
-      ],
+      "SystemAdministrator": ["documentCenter", "settings", "jobHome"],
+      "SeniorManager": ["documentCenter", "jobHome"],
       "OrganizeManager": [],
       "ProductManager": [],
-      "SalesExecutive": [
-        "opportunityHome",
-        "orderHome",
-        "manufacturerHome"
-      ],
-      "SalesManager": [
-        "opportunityHome",
-        "orderHome",
-        "manufacturerHome"
-      ],
-      "SalesProduct": [
-        "opportunityHome",
-        "orderHome",
-        "manufacturerHome"
-      ],
-      "SalesPerson": [
-        "opportunityHome",
-        "orderHome",
-        "manufacturerHome"
-      ],
-      "Outsource": [
-        "manufacturerHome"
-      ],
-      "Supporter": [
-        "adminFeedbackHome"
-      ],
-      "Finance": [
-        "salaryHome"
-      ],
-      "HRSpecialist": [
-        "jobHome"
-      ],
-      "PositionManager": [
-        "positionHome"
-      ],
-      "Interviewer": [
-        "jobHome"
-      ]
+      "SalesExecutive": ["opportunityHome", "orderHome", "manufacturerHome"],
+      "SalesManager": ["opportunityHome", "orderHome", "manufacturerHome"],
+      "SalesProduct": ["opportunityHome", "orderHome", "manufacturerHome"],
+      "SalesPerson": ["opportunityHome", "orderHome", "manufacturerHome"],
+      "Outsource": ["manufacturerHome"],
+      "Supporter": ["adminFeedbackHome"],
+      "Finance": ["salaryHome"],
+      "HRSpecialist": ["jobHome"],
+      "PositionManager": ["positionHome"],
+      "Interviewer": ["jobHome"]
     },
     "modulesInCommonUse": [
       "contacts",

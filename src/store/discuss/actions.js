@@ -5,7 +5,7 @@ import Discuss from './model'
 import Message from '@/store/message/model'
 import { LocalStorage } from 'quasar'
 export default {
-  // 新建一条评论
+  // 新建一条讨论
   addComment ({ commit }, { comment, msgProps } = {}) {
     let model = Discuss.to(comment)
     if (msgProps) {
@@ -20,7 +20,7 @@ export default {
         return false
       })
   },
-  // 更新一条评论
+  // 更新一条讨论
   updateComment ({ commit }, { id, content, msgProps }) {
     let messageModel = null
     if (msgProps) {
@@ -35,7 +35,7 @@ export default {
         return false
       })
   },
-  // 删除一条评论
+  // 删除一条讨论
   deleteComment ({ commit }, id) {
     request
       .delete('discuss/delete', { id: id })

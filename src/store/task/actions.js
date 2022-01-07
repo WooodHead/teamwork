@@ -655,9 +655,9 @@ export default {
       })
   },
   /**
-* 更新任务评论数量
+* 更新任务讨论数量
 * @param {*} param0 id 任务id
-* @param {*} param1 isAdd true：新建评论；false：删除评论
+* @param {*} param1 isAdd true：新建讨论；false：删除讨论
 */
   updateTaskCommentCount ({ state, commit }, { id, isAdd }) {
     return request.put(url.UpdateCommentCount, { id, isAdd })
@@ -1003,7 +1003,7 @@ export default {
 
   //* ********导出相关方法 end*************** */
   /**
- * 获取最新评论内容
+ * 获取最新讨论内容
  * @param {String} taskID 清单或分组ID
  * @param {String} category 资源类型
  * @param {String} objectID 资源ID
@@ -1023,7 +1023,7 @@ export default {
       })
   },
   /**
- * 获取开始日期到今天的所有指派人评论数
+ * 获取开始日期到今天的所有指派人讨论数
  * @param {String} Ids taskID的集合
  * @param {String} createTime 创建日期
  * @param {String} objectID 资源ID
@@ -1380,7 +1380,7 @@ export default {
         const tasks = Task.from(modellist)
         formatList = _.cloneDeep(tasks)
       }
-      // 是否需要按照选择的导出条件过滤
+      // 是否需要按照选择的导出条件过滤。先走filterExportExcel，再isFormat，数据量会少一些。
       if (extra && Object.keys(extra).length && _.has(extra, 'isExportFilter') && extra.isExportFilter) {
         formatList = rootGetters['task/filterExportExcel'](formatList)
       }
@@ -1388,50 +1388,72 @@ export default {
       if (extra && Object.keys(extra).length && _.has(extra, 'isFormat') && extra.isFormat) {
         let rootList = formatList.filter(a => a.type === 'list')
         rootList = _.orderBy(rootList, 'orderNumber', 'desc')
-        let list = []
+        let list = [], selectFinishedBy = rootState.task.person.id, exportArchived = rootState.task.exportArchived
         rootList.forEach(item => {
-          let tasksInList = rootGetters['task/tasksInListContainsArchived'](+item.id, formatList, rootState.task.exportArchived)
+          let tasksInList = rootGetters['task/tasksInListContainsArchived'](+item.id, formatList, exportArchived)
           if (tasksInList && tasksInList.length) {
-            list.push(item)
-            list.push(tasksInList)
+            // 如果搜索了完成人，则不显示空的清单和分组；如果没有，显示
+            if (selectFinishedBy) {
+              const groupList = tasksInList.filter(a => a.type === 'group'), deleteGroupIds = []
+              groupList.forEach(r => {
+                const itemTask = tasksInList.find(a => a.type === 'item' && a.parentId === r.id) 
+                if (!itemTask) {
+                  deleteGroupIds.push(r.id)
+                }
+              })
+              if (deleteGroupIds.length) {
+                tasksInList = tasksInList.filter(a => !deleteGroupIds.includes(a.id))
+              }
+              if (tasksInList.length) {
+                list.push(item)
+                list.push(tasksInList)
+              }
+            } else {
+              list.push(item)
+              list.push(tasksInList)
+            }
           }
         })
         formatList = _.flattenDeep(list)
         formatList = _.cloneDeep(Task.to(formatList))
       }
-      let lists = formatList.filter(t => t.Type === 'list')
-      let groups = formatList.filter(t => t.Type === 'group')
-      let params = {
-        taskID: 0,
-        category: '',
-        objectID: 0
-      }
-      if (lists.length === 0 && groups.length === 0) {
-        // 导出任务
-        params.taskID = lists[0].TaskID
-      } else if (lists.length === 0 && groups.length === 1) {
-        // 导出分组
-        params.taskID = groups[0].TaskID
-      } else if (lists.length === 1) {
-        // 导出清单
-        params.taskID = lists[0].TaskID
-      } else if (lists.length > 1) {
-        // 导出资源下的任务
-        params.objectID = formatList[0].ObjectID
-        params.category = formatList[0].ObjectType
-      }
-      return dispatch('getNewCommentOfAssigned', params).then(res => {
-        let comments = res
-        formatList.forEach(item => {
-          item = processDataByItem(item, fields, persons)
-          if (item.Type && item.Type === 'item') {
-            let comment = comments.find(a => a.objectID === item.TaskID && item.AssignedTo.includes(a.createBy))
-            item.Progress = _.isEmpty(comment) ? '暂无' : htmlToText(comment.content)
-          }
-          data.push(item)
+      if (formatList.length) {
+        let lists = formatList.filter(t => t.Type === 'list')
+        let groups = formatList.filter(t => t.Type === 'group')
+        let params = {
+          taskID: 0,
+          category: '',
+          objectID: 0
+        }
+        if (lists.length === 0 && groups.length === 0) {
+          // 导出单个任务
+          params.taskID = lists[0].TaskID
+        } else if (lists.length === 0 && groups.length === 1) {
+          // 导出分组
+          params.taskID = groups[0].TaskID
+        } else if (lists.length === 1) {
+          // 导出清单
+          params.taskID = lists[0].TaskID
+        } else if (lists.length > 1) {
+          // 导出资源下的任务
+          params.objectID = formatList[0].ObjectID
+          params.category = formatList[0].ObjectType
+        }
+        return dispatch('getNewCommentOfAssigned', params).then(res => {
+          let comments = res
+          formatList.forEach(item => {
+            item = processDataByItem(item, fields, persons)
+            if (item.Type && item.Type === 'item') {
+              let comment = comments.find(a => a.objectID === item.TaskID && item.AssignedTo.includes(a.createBy))
+              item.Progress = _.isEmpty(comment) ? '暂无' : htmlToText(comment.content)
+            }
+            data.push(item)
+          })
+          return data
         })
+      } else {
         return data
-      })
+      }
     }
   },
   // 发送任务添加历史记录

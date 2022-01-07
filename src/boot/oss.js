@@ -1,6 +1,6 @@
 
 /**
- @Name：基于OSS Browser.js SDK 实现文件上传阿里云对象存储、预览和下载
+ @Name：基于OSS Browser.js SDK 实现文件上传阿里云OSS、预览和下载
  @Author：陈冬
  @date：2020/6/30
  @Copyright：西安精雕软件科技有限公司
@@ -10,17 +10,32 @@ import Vue from 'vue'
 const OSS = require('ali-oss')
 const cf = require('app/app.config.js')
 const config = cf.oss
-const client = (cf.extranet && config && config.enable) ? new OSS({
-  accessKeyId: config.options.accesskeyId,
-  accessKeySecret: config.options.accesskeySecret,
-  secure: config.options.secure,
-  cname: config.options.cname,
-  region: config.options.region,
-  endpoint: config.options.endpoint,
-  bucket: config.options.bucket
-}) : {}
+const options = config.options
 // 封装OSS对外暴露的对象
 var oss = (cf.extranet && config && config.enable) ? {
+  /**
+   * 初始化client
+   */
+  initClient () {
+    let client = new OSS({
+      accessKeyId: options.accesskeyId,
+      /** access secret you create */
+      accessKeySecret: options.accesskeySecret,
+      /** the default bucket you want to access If you don't have any bucket, please use putBucket() create one first. */
+      bucket: options.bucket,
+      /** oss region domain. It takes priority over region. */
+      endpoint: options.endpoint,
+      /** the bucket data region location, please see Data Regions, default is oss-cn-hangzhou. */
+      region: options.region,
+      /** access OSS with aliyun internal network or not, default is false. If your servers are running on aliyun too, you can set true to save lot of money. */
+      internal: options.internal,
+      /** instruct OSS client to use HTTPS (secure: true) or HTTP (secure: false) protocol. */
+      secure: options.secure,
+      /** use custom domain name */
+      cname: options.cname
+    })
+    return client
+  },
   /**
    * 普通上传
    * 一般小于100M的文件
@@ -33,7 +48,7 @@ var oss = (cf.extranet && config && config.enable) ? {
       // 例如file.txt）或目录（例如abc/test/file.txt）的形式，
       // 实现将文件上传至当前Bucket或Bucket下的指定目录。
       let objectName = (config.baseDir + '/' + filePath).replace('//', '/')
-      return client.put(objectName, file)
+      return this.initClient().put(objectName, file)
     } catch (e) {
       console.log(e)
     }
@@ -45,13 +60,13 @@ var oss = (cf.extranet && config && config.enable) ? {
    * @param {*} filePath 上传到阿里云OSS上的文件路径，格式aaa/ccc/d.jpg
    * @param {*} file 文件对象
    */
-  multipartUpload (filePath, file, asyncProgress) {
+  async multipartUpload (filePath, file, asyncProgress) {
     try {
       // object-key可以自定义为文件名（
       // 例如file.txt）或目录（例如abc/test/file.txt）的形式，
       // 实现将文件上传至当前Bucket或Bucket下的指定目录。
       let objectName = (config.baseDir + '/' + filePath).replace('//', '/')
-      return client.multipartUpload(objectName, file, {
+      return this.initClient().multipartUpload(objectName, file, {
         checkpoint: '/temp',
         parallel: 4,
         partSize: 1024 * 1024, // 设置分片大小
@@ -99,7 +114,7 @@ var oss = (cf.extranet && config && config.enable) ? {
    * @param {*} process 图片处理设定，参考阿里云官网（https://help.aliyun.com/document_detail/44688.html?spm=a2c4g.11186623.2.13.6ffa7866TcsZZQ#concept-hxj-c4n-vdb）
    * @returns
    */
-  getUrl (filePath, process) {
+  async getUrl (filePath, process) {
     try {
       let objectName = (config.baseDir + '/' + filePath).replace('//', '/')
       let url = ''
@@ -110,7 +125,10 @@ var oss = (cf.extranet && config && config.enable) ? {
         url = urlObj.value
       } else {
         // 此处以设置URL的有效时长为3600s为例，若不设置有效时长，则默认为1800s。 31536000（365天）
-        url = client.signatureUrl(objectName, { expires: 31536000, process: process })
+        url = this.initClient().signatureUrl(objectName, {
+          expires: 31536000,
+          process: process
+        })
         imgUrlCache.push({
           'key': objectName,
           'value': url
@@ -129,7 +147,7 @@ var oss = (cf.extranet && config && config.enable) ? {
    * @param {*} fileName
    * @returns
    */
-  download (filePath) {
+  async download (filePath) {
     // 配置响应头实现通过URL访问时自动下载文件，并设置下载后的文件名。
     var array = filePath.split('/')
     var fileName = array[array.length - 1]
@@ -139,7 +157,7 @@ var oss = (cf.extranet && config && config.enable) ? {
     try {
       // filePath表示从OSS下载文件时需要指定包含文件后缀在内的完整路径，例如abc/efg/123.jpg。
       let objectName = (config.baseDir + '/' + filePath).replace('//', '/')
-      var url = client.signatureUrl(objectName, { response })
+      var url = this.initClient().signatureUrl(objectName, { response })
       const link = document.createElement('a')
       link.href = url
       link.setAttribute('download', decodeURIComponent(fileName))

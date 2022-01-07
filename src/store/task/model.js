@@ -40,7 +40,7 @@ const init = {
   parent: {},
   children: [], // 子节点
   pathIds: [],
-  commentCount: 0, // 评论数量
+  commentCount: 0, // 讨论数量
   tags: [],
   parentId: 0,
   rootId: 0,

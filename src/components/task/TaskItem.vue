@@ -114,7 +114,7 @@
                     class="text-negative"
                   />
 
-                  <!-- 评论数量 -->
+                  <!-- 讨论数量 -->
                   <span
                     v-if="task.commentCount"
                     class="q-ml-xs cursor-pointer"
@@ -161,7 +161,7 @@
               >
                 {{task.name}}
               </div>
-              <!-- 评论数量 -->
+              <!-- 讨论数量 -->
               <div
                 v-if="task.commentCount"
                 class="self-center q-ml-xs cursor-pointer"
@@ -207,7 +207,7 @@
                     :label="tag"
                   />
                 </span>
-                <!-- 评论数量 -->
+                <!-- 讨论数量 -->
                 <span
                   v-if="task.commentCount"
                   class="self-center q-ml-xs q-mr-xs "

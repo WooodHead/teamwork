@@ -1,6 +1,6 @@
 import Vue from 'vue'
 export default {
-  // 添加一条评论
+  // 添加一条讨论
   addComment (state, comment) {
     let commentModel = state.comments && _.find(state.comments, item => item.id === comment.id)
     if (commentModel) {
@@ -9,16 +9,16 @@ export default {
       state.comments.push(comment)
     }
   },
-  // 添加多条评论
+  // 添加多条讨论
   addComments (state, comments) {
     const newComments = _.differenceBy(comments, state.comments, 'id')
     state.comments.push(...newComments)
   },
-  // 更新一条评论
+  // 更新一条讨论
   updateComment (state, comment) {
     Object.assign(_.find(state.comments, item => item.id === comment.id), comment)
   },
-  // 删除一条评论
+  // 删除一条讨论
   deleteComment (state, id) {
     Vue.delete(state.comments, state.comments.findIndex(item => item.id === id))
   },

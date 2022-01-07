@@ -48,11 +48,11 @@ export default {
   computed: {
     title () {
       if (this.Object.title) {
-        return '评论: "' + this.Object.title + '"'
+        return '讨论: "' + this.Object.title + '"'
       } else if (this.discuss.objectType === 'answer') {
-        return '评论: "' + this.Object.modifyBy + '的回答' + '"'
+        return '讨论: "' + this.Object.modifyBy + '的回答' + '"'
       } else {
-        return '评论:"' + this.Object.name + '"'
+        return '讨论:"' + this.Object.name + '"'
       }
     }
   },
