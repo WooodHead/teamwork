@@ -59,8 +59,8 @@
       </div>
     </q-card-section>
     <!-- 跟进人 -->
-    <div class="q-pl-sm">
-      <q-card-section class="row q-py-none no-wrap q-gutter-xs">
+    <div class="q-pl-sm q-mb-md">
+      <q-card-section class="row q-py-none no-wrap q-gutter-xs ">
         <template>
           <tw-avatar
             :key="`followup_${model.id}_${model.leaderID}`"
