@@ -8,28 +8,69 @@
 <template>
   <div>
     <q-card-section>
-      <div
-        v-for="(dictionary,index) in dictionarys"
-        :key="dictionary.id"
-      >
+      <div v-for="(dictionary, index) in dictionarys" :key="dictionary.id">
         <q-card-section v-if="index" />
         <div
+          v-if="listType !== 'table'"
           class="row items-center q-mb-md"
           :class="$q.platform.is.desktop ? 'text-h6' : 'text-subtitle1'"
         >
-          <span>{{dictionary.dictValue}}</span>
+          <span>{{ dictionary.dictValue }}</span>
           <q-separator class="fade-line" />
         </div>
         <draggable
           :value="dictDocuments(dictionary)"
           @input="setDraggable($event)"
-          @start="onDragStart($event,dictionary)"
+          @start="onDragStart($event, dictionary)"
           class="row q-gutter-lg"
           v-bind="dragOptions"
           handle=".handle"
           :disabled="draggableDisabled"
         >
+          <folder-table
+            border
+            v-if="documents.length && listType === 'table'"
+            :list="dictDocuments(dictionary)"
+            category="productCase"
+            objectID="0"
+            :id="id"
+          >
+            <template #table-top-left>
+              <div
+                class="row items-center q-mb-md"
+                :class="$q.platform.is.desktop ? 'text-h6' : 'text-subtitle1'"
+              >
+                <span>{{ dictionary.dictValue }}</span>
+              </div>
+            </template>
+            <template #table-top-right>
+              <q-btn
+                icon="add"
+                color="positive"
+                label="新建"
+                @click="openEditPage(dictionary.dictValue)"
+              />
+            </template>
+          </folder-table>
+          <folder-list
+            v-else-if="documents.length && listType === 'list'"
+            :list="dictDocuments(dictionary)"
+            category="productCase"
+            objectID="0"
+            :id="id"
+          >
+            <template #list>
+              <q-btn
+                icon="add"
+                color="positive"
+                class="full-width q-mx-md"
+                :label="`新建${dictionary.dictValue}`"
+                 @click="openEditPage(dictionary.dictValue)"
+              />
+            </template>
+          </folder-list>
           <document-card
+            v-else
             v-for="item in dictDocuments(dictionary)"
             :key="item.id"
             class="span-stype handle"
@@ -38,15 +79,15 @@
           <!-- 新增卡片 -->
           <q-card
             class="cursor-pointer widget-card span-stype handle"
-            v-if="model.authorID===$myinfo.id||$myinfo.auth.role.isSystemAdministrator"
+            v-if="
+              (model.authorID === $myinfo.id ||
+                $myinfo.auth.role.isSystemAdministrator) &&
+                listType === 'card'
+            "
             @click="openEditPage(dictionary.dictValue)"
           >
             <div class="text-center absolute-center">
-              <q-icon
-                style="color:#ccc"
-                name="add"
-                size="xl"
-              />
+              <q-icon style="color:#ccc" name="add" size="xl" />
             </div>
           </q-card>
         </draggable>
@@ -54,10 +95,7 @@
     </q-card-section>
     <!-- 文件夹保密区 -->
     <q-card-section v-if="!!model.acl">
-      <tw-secrecy-area
-        :currentModel="model"
-        :parentModel="modelParent"
-      />
+      <tw-secrecy-area :currentModel="model" :parentModel="modelParent" />
     </q-card-section>
   </div>
 </template>
@@ -102,16 +140,23 @@ export default {
   // },
   computed: {
     ...mapState('dictionary', ['dictionary']),
-    ...mapState('document', ['sort']),
+    ...mapState('document', ['sort', 'listType']),
     draggableDisabled () {
-      const haveEdit = this.model.authorID === this.$myinfo.id || this.$myinfo.auth.role.isSystemAdministrator
+      const haveEdit =
+        this.model.authorID === this.$myinfo.id ||
+        this.$myinfo.auth.role.isSystemAdministrator
       return !haveEdit
     },
     model () {
       return this.$store.getters['document/currentModel'](+this.id)
     },
     modelParent () {
-      return this.model ? _.find(this.$store.state.document.documentList, d => d.id === this.model.parentId) : {}
+      return this.model
+        ? _.find(
+          this.$store.state.document.documentList,
+          d => d.id === this.model.parentId
+        )
+        : {}
     },
     dictionarys () {
       return this.dictionary['productCase']
@@ -119,13 +164,15 @@ export default {
         : []
     },
     documents () {
-      return this.$store.getters['document/documents'](+this.model.id || +this.id)
+      return this.$store.getters['document/documents'](
+        +this.model.id || +this.id
+      )
     }
   },
   methods: {
     _filter: _.filter,
     dictDocuments (dictionary) {
-      let docs = _.filter(this.documents, { 'tag': dictionary.dictValue })
+      let docs = _.filter(this.documents, { tag: dictionary.dictValue })
       return _.sortBy(docs, ['orderNumber'], ['asc'])
     },
     ...mapActions('document', ['updateDocumentField']),
@@ -145,7 +192,7 @@ export default {
         return false
       }
       const id = this.dragDocument.id
-      let index = _.findIndex(newValue, { 'id': id })
+      let index = _.findIndex(newValue, { id: id })
       let prev = newValue[index - 1]
       let next = newValue[index + 1]
       let prevOrder = 0
@@ -168,7 +215,9 @@ export default {
   components: {
     draggable,
     DocumentCard: () => import('components/document/DocumentCard'),
-    TwSecrecyArea: () => import('components/base/TwSecrecyArea')
+    TwSecrecyArea: () => import('components/base/TwSecrecyArea'),
+    FolderList: () => import('components/document/folder/FolderList'),
+    FolderTable: () => import('components/document/folder/FolderTable')
   }
 }
 </script>

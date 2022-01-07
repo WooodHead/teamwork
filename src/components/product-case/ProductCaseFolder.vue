@@ -12,6 +12,40 @@
       :selectOptions="options"
       @update:select="sortUpdate"
     >
+      <template v-slot:right>
+        <q-select
+          :value="sort"
+          @input="sortUpdate"
+          :options="options"
+          dense
+          emit-value
+          map-options
+          options-dense
+          outlined
+          rounded
+        >
+        </q-select>
+        <q-btn-group
+          rounded
+          outline
+          class="q-ml-sm"
+        >
+          <q-btn
+            v-for="(view,index) in viewType"
+            :key="view.value"
+            outline
+            :title="view.title"
+            @click="setListType(view.value)"
+            color="grey-5"
+            :class="{'q-pl-sm':index===0,'q-pr-sm':index===viewType.length-1}"
+          >
+            <q-icon
+              :name="view.icon"
+              :color="listType===view.value?'primary':''"
+            />
+          </q-btn>
+        </q-btn-group>
+      </template>
     </tw-header-card>
     <!-- 初始化未更新，正在加载中 -->
     <div
@@ -37,16 +71,18 @@
 </template>
 <script>
 import { mapState, mapMutations, mapActions } from 'vuex'
+import folderIndex from '@/components/wiki/mixins-folder-index'
 export default {
   name: 'ProductCaseFolder',
+  mixins: [folderIndex],
   data () {
     return {
       showDialog: false,
-      options: [
-        { label: this.$t('document.sortBy.UnSorted'), value: 'IsPublish asc,OrderNumber' },
-        { label: this.$t('document.sortBy.Title'), value: 'Title' },
-        { label: this.$t('document.sortBy.DueDate'), value: 'ModifyTime' }
-      ],
+      // options: [
+      //   { label: this.$t('document.sortBy.UnSorted'), value: 'IsPublish asc,OrderNumber' },
+      //   { label: this.$t('document.sortBy.Title'), value: 'Title' },
+      //   { label: this.$t('document.sortBy.DueDate'), value: 'ModifyTime' }
+      // ],
       addAction: {
         label: this.$t('productCase.add'),
         click: () => { this.addEmptyFolder() }
@@ -71,10 +107,12 @@ export default {
       .then(res => {
         this.id = res ? res.id : 0
       })
-    this.setListType('card')
+    if (this.listType === 'mindMap') {
+      this.setListType('card')
+    }
   },
   computed: {
-    ...mapState('document', ['page', 'search', 'sort']),
+    ...mapState('document', ['page', 'search', 'sort', 'listType']),
     model () {
       if (this.category && this.objectID && this.id === 0) {
         return this.$store.getters['document/resourceDocument'](this.category, +this.objectID)
@@ -110,5 +148,8 @@ export default {
     .card-grow-in-page {
       min-width: 100%;
     }
+  }
+/deep/ .q-btn-group .q-btn__wrapper {
+    padding: 4px 4px;
   }
 </style>

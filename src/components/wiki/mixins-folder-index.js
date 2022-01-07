@@ -60,7 +60,7 @@ export default {
     },
     viewType () {
       const views = []
-      this.$q.platform.is.desktop && this.$route.name !== 'wikiHome' &&
+      this.$q.platform.is.desktop && !['productCaseHome', 'wikiHome'].includes(this.$route.name) &&
         views.push({
           icon: 'app:tw-icon-view-mindmap',
           selectIcon: 'img:icons/view/视图-思维导图-1.svg',

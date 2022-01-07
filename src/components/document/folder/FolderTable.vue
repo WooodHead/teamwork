@@ -8,6 +8,7 @@
 <template>
   <div class="full-width">
     <q-table
+     :bordered ="border"
       flat
       :data="list"
       :columns="columns"
@@ -16,9 +17,16 @@
       :pagination.sync="pagination"
       @request="onRequest"
       binary-state-sort
+      no-data-label="I didn't find anything for you"
       hide-bottom
      text-grey-8
     >
+     <template v-slot:top-left>
+       <slot name="table-top-left"></slot>
+      </template>
+       <template v-slot:top-right>
+        <slot name="table-top-right"></slot>
+      </template>
       <template v-slot:header="props">
         <q-tr :props="props">
           <q-th
@@ -76,6 +84,10 @@ export default {
   mixins: [showCardDetail],
   props: {
     list: { type: Array, default: () => [] },
+    border: {
+      type: Boolean,
+      default: false
+    },
     id: {
       type: [Number, String],
       default: 0,

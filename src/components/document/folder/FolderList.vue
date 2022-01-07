@@ -50,6 +50,7 @@
         inset="item"
       />
     </template>
+    <slot name="list"></slot>
   </q-list>
 </template>
 
