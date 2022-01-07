@@ -95,6 +95,7 @@ export default {
         .get('documents/getmodel', { id, fields })
         .then(res => {
           let model = Document.from(res.data)
+          commit('setDocumentList', [model])
           return model
         })
     } else {
@@ -214,18 +215,23 @@ export default {
    */
   loadFolders ({ state, commit }, ids) {
     const _query = [{ Key: 'DocID', Value: ids, Oper: 'in' }]
-    return request
-      .get('documents/getlist', { query: JSON.stringify(_query) })
-      .then(res => {
-        const documents = Document.from(res.data)
-        documents.length > 0 && commit('setDocumentList', documents)
-        return documents
-      })
-      .catch(error => {
-        error.userMessage &&
-          showWarningMessage(i18n.t(`project.error.${error.userMessage}`))
-        return false
-      })
+    let list = _.filter(state.documentList, d => { return ids.split(',').includes(d.id.toString()) })
+    if (list.length !== ids.split(',').length) {
+      return request
+        .get('documents/getlist', { query: JSON.stringify(_query) })
+        .then(res => {
+          const documents = Document.from(res.data)
+          documents.length > 0 && commit('setDocumentList', documents)
+          return documents
+        })
+        .catch(error => {
+          error.userMessage &&
+            showWarningMessage(i18n.t(`project.error.${error.userMessage}`))
+          return false
+        })
+    } else { 
+      return list
+    }
   },
   /**
    * 加载文件夹资源
@@ -464,11 +470,10 @@ export default {
     ]
 
     const condition = {
-      query: JSON.stringify(_query),
-      orderby: state.sort + ' DESC'
+      query: JSON.stringify(_query)
     }
     state.search && (condition.search = state.search)
-    return request.get('documents/getlist', condition).then(res => {
+    return request.get('documents/getcount', condition).then(res => {
       let data = Document.from(res.data)
       data.length > 0 && commit('setDocumentList', data)
       return data.length
@@ -494,7 +499,6 @@ export default {
           Oper: 'eq'
         }
       ]
-
       const condition = {
         query: JSON.stringify(_query),
         orderby: state.sort + ' DESC'
