@@ -35,12 +35,6 @@
         label="邮箱"
         :hint="$t('auth.hint.email')"
       />
-      <div class="q-mt-md">
-        <tw-editor
-          :init-content.sync="person.description"
-          :placeholder="`职责`"
-        ></tw-editor>
-      </div>
       <!--保存操作按钮-->
       <div class="q-mt-md row justify-end">
         <q-btn
@@ -65,7 +59,6 @@ import { mapActions } from 'vuex'
 import { format } from 'quasar'
 const { capitalize } = format
 import Person from '@/store/person/model'
-import { showSuccessMessage } from '@/utils/show-message'
 import { mobilePhoneRules } from '@/utils/form-rules'
 export default {
   name: 'MemberForm',
@@ -132,7 +125,6 @@ export default {
         this.person.isOutStaff = 1
         this.$store.dispatch(`person/updatePerson`, this.person).then(res => {
           if (res) {
-            showSuccessMessage('添加成功')
             // 添加成功后，更新成员、关闭添加表单
             let newPsons = _.map(this.psonIDs, id => { return { id } })
             newPsons.push({ id: res.id })
@@ -142,7 +134,6 @@ export default {
       } else {
         this.$store.dispatch(`person/updatePerson`, this.person).then(res => {
           if (res) {
-            showSuccessMessage('编辑成功')
             // 添加成功后，关闭添加表单
             this.$emit('cancel')
           }
@@ -155,9 +146,6 @@ export default {
         this.$emit('cancel')
       })
     }
-  },
-  components: {
-    TwEditor: () => import('components/base/TwEditor')
   }
 }
 </script>
