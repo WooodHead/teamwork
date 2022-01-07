@@ -132,7 +132,7 @@ export default {
     this.initRootId()
     this.setInitListType()
     if (+this.id) {
-      this.loadModel({ id: +this.id, fields: 'DocID,ObjectType,ObjectID' })
+      this.loadModel({ id: +this.id })
         .then(res => {
           res.objectType === 'wiki' && this.inMembers(+res.objectID)
           res.objectType === 'wiki' && this.haveVisitAuth(+res.objectID)
@@ -464,7 +464,7 @@ export default {
     },
     initRootId () {
       if (['wiki', 'select-product-case'].includes(this.category)) {
-        this.loadModel({ id: +this.id, fields: 'DocID,Path' })
+        this.loadModel({ id: +this.id })
           .then(res => {
             this.rootId = +res.path.split(',')[1]
           })
