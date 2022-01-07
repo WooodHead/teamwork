@@ -65,18 +65,19 @@
       ref="qInfiniteScroll"
     >
       <q-card-section
-        class="q-px-xl q-pt-none"
+        class="q-px-xl q-pt-none row q-col-gutter-x-sm"
         v-if="listType==='card'"
       >
         <div
+          id="div-followup-card"
+          class="col-6"
           v-for="followup in modelList"
           :key="followup.id"
-          :class="modelList.length>1?'col-6':'col-12'"
         >
           <followup-card
             class="q-mt-sm"
             :model="followup"
-          ></followup-card>
+          />
         </div>
       </q-card-section>
       <q-card-section
@@ -87,7 +88,7 @@
           :list="modelList"
           :category="category"
           :objectID="+objectID"
-        ></followup-table>
+        />
       </q-card-section>
       <template v-slot:loading>
         <div class="row justify-center q-my-md">
@@ -318,5 +319,21 @@ export default {
   }
 }
 </script>
-<style scoped>
+<style scoped lang="scss">
+@media screen and (max-width: $breakpoint-xs-max) {
+  .tw-resume-header {
+    margin-left: 30px;
+    margin-right: 30px;
+  }
+}
+@media screen and (max-width: $breakpoint-sm-max) {
+  #div-followup-card {
+    width: 100%;
+  }
+}
+@media screen and (min-width: $breakpoint-sm-max) {
+  #div-followup-card {
+    width: 50%;
+  }
+}
 </style>
