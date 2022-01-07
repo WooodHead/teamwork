@@ -6,75 +6,85 @@
 @Copyright：西安精雕软件科技有限公司
 -->
 <template>
-  <q-card
-    :flat="$q.screen.lt.sm"
-    class="card-grow-in-page"
-  >
+  <q-card :flat="$q.screen.lt.sm" class="card-grow-in-page">
     <!-- 头部区域 -->
     <tw-header-card
-      :title="model.title?model.title:''"
-      :actions="model.authorID===$myinfo.id||$myinfo.auth.role.isSystemAdministrator?['menu']:[]"
+      :title="model.title ? model.title : ''"
+      :actions="
+        model.authorID === $myinfo.id || $myinfo.auth.role.isSystemAdministrator
+          ? ['menu']
+          : []
+      "
     >
       <!-- <template v-slot:add>
         <add-product-case-menu :id="id" />
       </template> -->
-      <template
-        v-slot:titleAppend
-        v-if="!model.isPublish"
-      >
-        <q-badge
-          align="top"
-          color="orange"
-          class="q-ml-xs q-pb-xs"
-        >未发布</q-badge>
+      <template v-slot:titleAppend v-if="!model.isPublish">
+        <q-badge align="top" color="orange" class="q-ml-xs q-pb-xs"
+          >未发布</q-badge
+        >
       </template>
       <template
         v-slot:menu
-        v-if="model.authorID===$myinfo.id||$myinfo.auth.role.isSystemAdministrator"
+        v-if="
+          model.authorID === $myinfo.id ||
+            $myinfo.auth.role.isSystemAdministrator
+        "
       >
         <folder-menu
           :model="model"
-          :excludeButton="['move', 'copy', 'archive','secrecy','bookmark']"
+          :excludeButton="['move', 'copy', 'archive', 'secrecy', 'bookmark']"
         />
+      </template>
+      <template v-slot:right>
+        <q-btn-group rounded outline class="q-ml-sm">
+          <q-btn
+            v-for="(view, index) in viewType"
+            :key="view.value"
+            outline
+            :title="view.title"
+            @click="setListType(view.value)"
+            color="grey-5"
+            :class="{
+              'q-pl-sm': index === 0,
+              'q-pr-sm': index === viewType.length - 1
+            }"
+          >
+            <q-icon
+              :name="view.icon"
+              :color="listType === view.value ? 'primary' : ''"
+            />
+          </q-btn>
+        </q-btn-group>
       </template>
     </tw-header-card>
     <!-- 初始化未更新，正在加载中 -->
-    <div
-      class="row justify-center q-py-md"
-      v-if="id === 0"
-    >
-      <q-spinner-dots
-        color="primary"
-        size="40px"
-      />
+    <div class="row justify-center q-py-md" v-if="id === 0">
+      <q-spinner-dots color="primary" size="40px" />
     </div>
     <div :class="{ 'q-px-xl': !$q.platform.is.mobile }">
-      <detail-content
-        :id="id"
-        v-if="id > 0"
-      />
+      <detail-content :id="id" v-if="id > 0" />
       <q-card-section>
         <discuss-board
           objectType="document"
           :objectID="+id"
-          :objectTitle="model.title||''"
+          :objectTitle="model.title || ''"
         />
       </q-card-section>
 
       <!-- 订阅 -->
       <q-card-section>
-        <tw-subscribe
-          objectType="document"
-          :objectID="+id"
-        />
+        <tw-subscribe objectType="document" :objectID="+id" />
       </q-card-section>
     </div>
   </q-card>
 </template>
 <script>
 import { mapState, mapActions } from 'vuex'
+import folderIndex from '@/components/wiki/mixins-folder-index'
 export default {
   name: 'ProductCaseDetail',
+  mixins: [folderIndex],
   props: {
     id: {
       type: [Number, String],
@@ -83,8 +93,7 @@ export default {
     }
   },
   data () {
-    return {
-    }
+    return {}
   },
   mounted () {
     this.loadDocument(+this.id)
@@ -110,12 +119,15 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.card-grow-in-page {
+  max-width: 90vw;
+}
+@media (max-width: $breakpoint-xs-max) {
   .card-grow-in-page {
-    max-width: 90vw;
+    min-width: 100%;
   }
-  @media (max-width: $breakpoint-xs-max) {
-    .card-grow-in-page {
-      min-width: 100%;
-    }
+}
+/deep/ .q-btn-group .q-btn__wrapper {
+    padding: 4px 4px;
   }
 </style>
