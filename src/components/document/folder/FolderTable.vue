@@ -33,7 +33,19 @@
       </template>
       <template v-slot:body-cell-title="props">
         <q-td :props="props">
+          <attach-icon
+          v-if="showImgDetail(props.row)"
+          :path="props.row.filePath"
+          :extension="props.row.extension"
+          :snapshotPath="props.row.snapshotPath"
+          show3DRotateStatus
+          limit3DHeight
+          :snapshotOnly="false"
+          showSnapshotCut
+          class="attach-icon"
+        />
           <q-icon
+          v-else
             :style="props.row.classify==='folder'?'color:#ffc107':'color:#bbc4ca'"
             :name="props.row.classify==='folder'?'app:tw-icon-folder':'app:tw-icon-file'"
           />
@@ -101,10 +113,16 @@ export default {
     }
   },
   computed: {
-    ...mapState('document', ['emptyFolder'])
+    ...mapState('document', ['emptyFolder']),
+    ...mapState('file', ['imgExts', 'threeDExts', 'videoExts'])
   },
   methods: {
     ...mapMutations('document', ['setSort', 'setOrder']),
+    showImgDetail (attach) {
+      return (attach.extension && this.imgExts.includes(attach.extension.toLowerCase())) ||
+      (attach.extension && this.videoExts.includes(attach.extension.toLowerCase())) ||
+      (attach.extension && this.threeDExts.includes(attach.extension.toLowerCase()))
+    },
     onRequest (props) {
       const obj = {
         title: 'Title',
@@ -132,13 +150,17 @@ export default {
     }
   },
   components: {
+    'attach-icon': () => import('components/attach/AttachIcon')
     // FolderAdd: () => import('components/document/folder/FolderAdd')
   }
 }
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 .q-table th{
   font-size:14px !important;
+}
+/deep/ .attach-icon img{
+  width:25px !important
 }
 </style>

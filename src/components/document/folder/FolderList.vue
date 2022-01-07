@@ -16,7 +16,18 @@
           top
           avatar
         >
-          <q-avatar>
+         <attach-icon
+          v-if="showImgDetail(item)"
+          :path="item.filePath"
+          :extension="item.extension"
+          :snapshotPath="item.snapshotPath"
+          show3DRotateStatus
+          limit3DHeight
+          :snapshotOnly="false"
+          showSnapshotCut
+          class="attach-icon"
+        />
+          <q-avatar  v-else>
             <q-icon
               :style="item.classify==='folder'?'color:#ffc107':'color:#bbc4ca'"
               :name="item.classify==='folder'?'app:tw-icon-folder':'app:tw-icon-file'"
@@ -44,7 +55,7 @@
 
 <script>
 import { date } from 'quasar'
-import { mapMutations } from 'vuex'
+import { mapState, mapMutations } from 'vuex'
 import showCardDetail from '@/components/document/folder/mixins-file-click.js'
 import timeAgo from '@/utils/time-ago'
 export default {
@@ -89,10 +100,16 @@ export default {
     }
   },
   computed: {
+    ...mapState('file', ['imgExts', 'threeDExts', 'videoExts'])
   },
   methods: {
     timeAgo,
     ...mapMutations('document', ['setSort', 'setOrder']),
+    showImgDetail (attach) {
+      return (attach.extension && this.imgExts.includes(attach.extension.toLowerCase())) ||
+      (attach.extension && this.videoExts.includes(attach.extension.toLowerCase())) ||
+      (attach.extension && this.threeDExts.includes(attach.extension.toLowerCase()))
+    },
     onRequest (props) {
       const obj = {
         title: 'Title',
@@ -120,10 +137,14 @@ export default {
     }
   },
   components: {
+    'attach-icon': () => import('components/attach/AttachIcon')
     // FolderAdd: () => import('components/document/folder/FolderAdd')
   }
 }
 </script>
 
-<style scoped>
+<style scoped lang="scss">
+/deep/ .attach-icon img{
+  width:25px !important
+}
 </style>
