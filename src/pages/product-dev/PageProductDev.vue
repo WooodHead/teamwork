@@ -78,6 +78,22 @@ export default {
           value: 'CONVERT(Title USING gbk)'
         },
         {
+          label: this.$t('productDev.sortBy.productDevNum'),
+          value: 'ProductDevNum'
+        },
+        {
+          label: this.$t('productDev.sortBy.status'),
+          value: 'Status'
+        },
+        {
+          label: this.$t('productDev.sortBy.beginDate'),
+          value: 'BeginDate'
+        },
+        {
+          label: this.$t('productDev.sortBy.predictEndDate'),
+          value: 'PredictEndDate'
+        },
+        {
           label: this.$t('productDev.sortBy.organizeName'),
           value: 'OrganizeID'
         }

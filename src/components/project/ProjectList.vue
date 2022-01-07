@@ -95,6 +95,10 @@ export default {
           value: 'ProjLevel'
         },
         {
+          label: this.$t('project.sortBy.title'),
+          value: 'CONVERT(ProjName USING GBK)'
+        },
+        {
           label: this.$t('project.sortBy.projNum'),
           value: 'ProjNum'
         },
@@ -105,6 +109,10 @@ export default {
         {
           label: this.$t('project.sortBy.beginDate'),
           value: 'BeginDate'
+        },
+        {
+          label: this.$t('project.sortBy.predictEndDate'),
+          value: 'PredictEndDate'
         },
         {
           label: this.$t('project.sortBy.organizeID'),

@@ -71,13 +71,13 @@ export default {
       rowKey: 'id',
       columns: [
         { name: 'num', label: '项目编号', field: 'projNum', align: 'left', sortable: true },
-        { name: 'title', label: '项目名称', field: 'title', align: 'left' },
+        { name: 'title', label: '项目名称', field: 'title', align: 'left', sortable: true },
         { name: 'projLevel', label: '项目等级', field: 'projLevel', align: 'left', sortable: true },
         { name: 'organizeID', label: '机构', field: 'organizeID', align: 'left', sortable: true, format: (val, row) => this.selectOrganizes[val] && this.selectOrganizes[val].shortName },
-        { name: 'leaderID', label: '负责人', field: 'leaderID', align: 'left', sortable: true },
+        { name: 'leaderID', label: '负责人', field: 'leaderID', align: 'left' },
         { name: 'status', label: '项目状态', field: 'status', align: 'left', sortable: true },
         { name: 'beginDate', label: '开始日期', field: 'beginDate', align: 'left', sortable: true, format: (val, row) => date.formatDate(val, 'YYYY-MM-DD') },
-        { name: 'predictEndDate', label: '预计结束日期', field: 'predictEndDate', align: 'left', format: (val, row) => date.formatDate(val, 'YYYY-MM-DD') }
+        { name: 'predictEndDate', label: '预计结束日期', field: 'predictEndDate', align: 'left', sortable: true, format: (val, row) => date.formatDate(val, 'YYYY-MM-DD') }
       ],
       sortedStatus: ['wait', 'doing', 'putoff', 'suspended', 'done'],
       fieldContrast: {

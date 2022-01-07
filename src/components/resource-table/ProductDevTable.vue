@@ -69,21 +69,21 @@ export default {
       },
       rowKey: 'id',
       columns: [
-        { name: 'num', label: '编号', field: 'productDevNum', align: 'left' },
+        { name: 'num', label: '编号', field: 'productDevNum', align: 'left', sortable: true },
         { name: 'title', label: '名称', field: 'title', align: 'left', sortable: true },
         { name: 'type', label: '类型', field: 'type', align: 'left', sortable: true },
         { name: 'organizeID', label: '机构', field: 'organizeID', align: 'left', sortable: true, format: (val, row) => this.selectOrganizes[val] && this.selectOrganizes[val].shortName },
         { name: 'leaderID', label: '负责人', field: 'leaderID', align: 'left' },
-        { name: 'status', label: '状态', field: 'status', align: 'left' },
-        { name: 'beginDate', label: '开始日期', field: 'beginDate', align: 'left', format: (val, row) => date.formatDate(val, 'YYYY-MM-DD') },
-        { name: 'predictEndDate', label: '预计结束日期', field: 'predictEndDate', align: 'left', format: (val, row) => date.formatDate(val, 'YYYY-MM-DD') }
+        { name: 'status', label: '状态', field: 'status', align: 'left', sortable: true },
+        { name: 'beginDate', label: '开始日期', field: 'beginDate', align: 'left', sortable: true, format: (val, row) => date.formatDate(val, 'YYYY-MM-DD') },
+        { name: 'predictEndDate', label: '预计结束日期', field: 'predictEndDate', align: 'left', sortable: true, format: (val, row) => date.formatDate(val, 'YYYY-MM-DD') }
       ],
       sortedStatus: ['wait', 'doing', 'putoff', 'suspended', 'done'],
       fieldContrast: {
         num: 'ProductDevNum',
         title: 'CONVERT(Title USING GBK)',
         type: 'Type',
-        orgShortName: 'OrganizeID', // 随下拉框中机构排序规则
+        organizeID: 'OrganizeID', // 随下拉框中机构排序规则
         leaderID: 'LeaderID',
         status: 'Status',
         beginDate: 'BeginDate',
