@@ -24,6 +24,7 @@ export default {
         (customer.createTime && customer.createTime.toLowerCase().includes(search.toLowerCase()))
       )
     }
+  
     // 多条件筛选
     let query = state.query
     if (query && query.length) {
@@ -50,14 +51,15 @@ export default {
       // 行业
       let applyIndustryList = _.map(_.filter(query, q => q.name === 'applyIndustry'), qf => qf.value)
       if (applyIndustryList.length) {
-        customers = _.filter(customers, customer => applyIndustryList.includes(+customer.applyIndustry))
+        customers = _.filter(customers, customer => applyIndustryList.includes(customer.applyIndustry))
       }
       // 来源
       let infoSourceList = _.map(_.filter(query, q => q.name === 'infoSource'), qf => qf.value)
       if (infoSourceList.length) {
-        customers = _.filter(customers, customer => infoSourceList.includes(+customer.infoSource))
+        customers = _.filter(customers, customer => infoSourceList.includes(customer.infoSource))
       }
     }
+ 
     return customers
   },
   customersSorted: (state, getters) => {

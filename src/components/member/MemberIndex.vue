@@ -73,7 +73,7 @@
                         v-model="member.notes"
                         :ref="identify+member.psonID"
                       >
-                        <template v-slot="{ initialValue, value, emitValue }">
+                        <template v-slot="{ emitValue }">
                           <q-input
                             autofocus
                             dense

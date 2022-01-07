@@ -132,7 +132,7 @@ export default {
     this.initRootId()
     this.setInitListType()
     if (+this.id) {
-      this.loadModel({ id: +this.id, fields: 'DocID,ObjectType,ObjectID' })
+      this.loadModel({ id: +this.id })
         .then(res => {
           res.objectType === 'wiki' && this.inMembers(+res.objectID)
           res.objectType === 'wiki' && this.haveVisitAuth(+res.objectID)
@@ -421,7 +421,7 @@ export default {
         }
         // 文档面包屑：当文档edit,copy,move,send,// TODO publicLink,history时，加入文档面包屑
         const name = _.last(newRoute.path.split('/'))
-        if (document.classify !== 'folder' && ['edit', 'copy', 'move', 'send', 'history', 'versions', 'record'].includes(name)) {
+        if (document.classify !== 'folder' && ['edit', 'copy', 'move', 'send', 'history', 'versions', 'count'].includes(name)) {
           let params = { id: document.id }
           if (this.category) {
             Object.assign(params, { category: this.category, objectID: +this.objectID })
@@ -464,7 +464,7 @@ export default {
     },
     initRootId () {
       if (['wiki', 'select-product-case'].includes(this.category)) {
-        this.loadModel({ id: +this.id, fields: 'DocID,Path' })
+        this.loadModel({ id: +this.id })
           .then(res => {
             this.rootId = +res.path.split(',')[1]
           })
