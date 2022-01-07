@@ -75,7 +75,7 @@
               />
             </div>
           </person-select-panel>
-          <q-card-actions class="q-mb-md q-pl-none">
+          <q-card-actions class="q-mb-md q-pl-none justify-end">
             <q-btn
               dense
               :label="$t('message.send.send')"
