@@ -225,33 +225,24 @@ export default {
     ...mapActions('dictionary', ['loadDictionarys']),
     // 保存
     onSave () {
-      this.$custom.hasOrganizeLocation
+      (this.$custom.hasOrganizeLocation && this.openType === 'edit')
         ? (this.isShowDialog = true)
         : this.updateOrg()
     },
     // 不同步
-    outSyncOrganize () {
+    async outSyncOrganize () {
       this.updateOrg()
       this.isShowDialog = false
     },
     // 同步
-    sycnOrganize () {
-      this.loadOrganizes()
-        .then((res) => {
-          this.organizeObj.path = this.organizeObj.path + ','
-          _.forEach(res, (item) => {
-            if (item.path.includes(this.organizeObj.path)) {
-              this.nextOrganizeAddrs.push(item)
-              _.forEach(this.nextOrganizeAddrs, (organizeAdd) => {
-                organizeAdd.organizeAddress = this.organizeObj.organizeAddress
-                this.updateOrganize(organizeAdd)
-              })
-            }
-          })
-        })
-        .then(() => {
-          this.updateOrg()
-        })
+    async sycnOrganize () {
+      this.nextOrganizeAddrs = []
+      this.organizeObj.path = this.organizeObj.path + ','
+      let forg = _.filter(this.$store.getters['organize/selectOrganizes'], o => o.path.includes(this.organizeObj.path))
+      for (let i = 0; i < forg.length; i++) {
+        await this.updateOrganizeField({ id: forg[i].id, organizeAddress: this.organizeObj.organizeAddress })
+      }
+      this.updateOrg()
       this.isShowDialog = false
     },
     // 更新机构信息
