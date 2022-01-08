@@ -71,9 +71,12 @@ export default ({ store, router }) => {
     }
     let fromArr = from.path.split('/') // 不将当前页面的路由加入浏览器的history记录
     if (['add', 'edit', 'upload', 'link'].includes(fromArr[fromArr.length - 1]) ||
-                          ['add', 'edit', 'upload', 'link'].includes(fromArr[fromArr.length - 2])) {
-      router.replace(to.path)
+                        ['add', 'edit', 'upload', 'link'].includes(fromArr[fromArr.length - 2])) {
+      router.replace(to.path).catch(err => err)
       router.go(-1)
-    }
+    } else if (['copy', 'move'].includes(fromArr[fromArr.length - 1]) ||
+      ['copy', 'move'].includes(fromArr[fromArr.length - 2])) {
+      router.replace(to.path).catch(err => err)
+    }        
   })
 }
