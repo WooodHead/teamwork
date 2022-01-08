@@ -53,6 +53,7 @@
       <!-- 跟进内容 -->
       <div
         class="text-caption ellipsis-2-lines q-pl-sm"
+        :title="htmlToText(model &&model.content)"
         v-html="model.content.replace(/<\/?.+?>/g, '').replace(/check_box_outline_blank/g,'cat').replace(/check_box/g,'cat')"
       >
       </div>
