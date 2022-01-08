@@ -70,7 +70,7 @@
       >
         <div
           id="div-followup-card"
-          class="col-6"
+          :class="modelList.length>1?'col-6':'col-12 full-width'"
           v-for="followup in modelList"
           :key="followup.id"
         >
