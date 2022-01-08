@@ -1524,6 +1524,8 @@ function processDataByItem (item, fields, persons) {
     }
     if (item.FinishedBy) {
       item.FinishedBy = persons[+item.FinishedBy] && persons[+item.FinishedBy].name
+    } else {
+      item.FinishedBy = ''
     }
   }
   return item
