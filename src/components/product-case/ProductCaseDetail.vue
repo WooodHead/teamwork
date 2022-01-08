@@ -12,8 +12,8 @@
       :title="model.title ? model.title : ''"
       :actions="
         model.authorID === $myinfo.id || $myinfo.auth.role.isSystemAdministrator
-          ? ['menu']
-          : []
+          ? ['menu','other']
+          : ['other']
       "
     >
       <!-- <template v-slot:add>

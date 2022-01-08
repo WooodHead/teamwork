@@ -130,7 +130,7 @@ export default {
   },
   mounted () {
     this.initRootId()
-    this.setInitListType()
+    // this.setInitListType()
     if (+this.id) {
       this.loadModel({ id: +this.id })
         .then(res => {

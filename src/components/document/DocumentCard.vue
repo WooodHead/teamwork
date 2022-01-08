@@ -18,7 +18,7 @@
         :objectID="file.objectID"
         style="margin-top: -10px;"
       ></file-menu>
-      <div  @click="fileDetail(file.objectType,file.objectID,file.id,file.classify)">
+      <div class="document-click"  @click="fileDetail(file.objectType,file.objectID,file.id,file.classify)">
       <a
         v-if="!showSetColor&&file.objectType!=='productCase'"
         class="card-colorpicker"
@@ -94,15 +94,15 @@
 
         <q-separator inset />
 
-        <q-card-section class="q-pt-xs ellipsis-3-lines">
+        <q-card-section class="q-pt-xs q-pb-xl ellipsis-3-lines">
           <div
             style="overflow: inherit;word-wrap: break-word;"
             class="text-subtitle3 q-pb-none toolsCardStyle ellipsis-3-lines"
           >
-            <template v-if="imgExts.includes(file.extension.toLowerCase())">
+            <!-- <template v-if="imgExts.includes(file.extension.toLowerCase())">
               {{file.title}}
-            </template>
-            <template v-else>
+            </template> -->
+            <template>
               {{file.title}}
             </template>
           </div>

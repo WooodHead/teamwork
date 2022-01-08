@@ -108,7 +108,6 @@ export default {
     ...mapMutations('document', ['setSort', 'setOrder']),
     showImgDetail (attach) {
       return (attach.extension && this.imgExts.includes(attach.extension.toLowerCase())) ||
-      (attach.extension && this.videoExts.includes(attach.extension.toLowerCase())) ||
       (attach.extension && this.threeDExts.includes(attach.extension.toLowerCase()))
     },
     onRequest (props) {
@@ -146,6 +145,6 @@ export default {
 
 <style scoped lang="scss">
 /deep/ .attach-icon img{
-  width:25px !important
+  width:20px !important
 }
 </style>
