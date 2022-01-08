@@ -7,7 +7,7 @@
 -->
 <template>
   <div>
-    <q-card-section>
+    <q-card-section :class="{'q-pt-none':$q.platform.is.mobile}">
       <div v-for="(dictionary, index) in dictionarys" :key="dictionary.id">
         <q-card-section v-if="index" />
         <div
@@ -35,21 +35,34 @@
             objectID="0"
             :id="id"
           >
-            <template #table-top-left>
-              <div
-                class="row items-center q-mb-md"
-                :class="$q.platform.is.desktop ? 'text-h6' : 'text-subtitle1'"
-              >
-                <span>{{ dictionary.dictValue }}</span>
-              </div>
-            </template>
-            <template #table-top-right>
-              <q-btn
-                icon="add"
-                color="positive"
-                label="新建"
-                @click="openEditPage(dictionary.dictValue)"
-              />
+            <template #table-bottom-row>
+              <q-tr>
+                <td colspan="3">
+                  <span
+                    :class="
+                      $q.platform.is.desktop ? 'text-h6' : 'text-subtitle1'
+                    "
+                    >{{ dictionary.dictValue }}</span
+                  >
+                </td>
+                <td class="text-right">
+                  <q-btn
+                    flat
+                    icon="add"
+                    color="positive"
+                    label="新建"
+                    @click="openEditPage(dictionary.dictValue)"
+                  />
+                </td>
+                <!-- <div class="row q-px-md q-py-sm">
+   
+                <q-space />
+   
+                </div> -->
+              </q-tr>
+              <!-- <div class="row q-px-md q-py-sm">
+               
+              </div> -->
             </template>
           </folder-table>
           <folder-list
@@ -60,13 +73,15 @@
             :id="id"
           >
             <template #list>
-              <q-btn
-                icon="add"
-                color="positive"
-                class="full-width q-mx-md"
-                :label="`新建${dictionary.dictValue}`"
-                 @click="openEditPage(dictionary.dictValue)"
-              />
+              <div class="text-right">
+                <q-btn
+                  flat
+                  icon="add"
+                  color="positive"
+                  :label="`新建${dictionary.dictValue}`"
+                  @click="openEditPage(dictionary.dictValue)"
+                />
+              </div>
             </template>
           </folder-list>
           <document-card
