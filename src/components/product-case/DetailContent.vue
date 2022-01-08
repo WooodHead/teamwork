@@ -7,7 +7,7 @@
 -->
 <template>
   <div>
-    <q-card-section :class="{'q-pt-none':$q.platform.is.mobile}">
+    <q-card-section :class="{ 'q-pt-none': $q.platform.is.mobile }">
       <div v-for="(dictionary, index) in dictionarys" :key="dictionary.id">
         <q-card-section v-if="index" />
         <div
@@ -35,17 +35,17 @@
             objectID="0"
             :id="id"
           >
+            <template #table-top-left>
+              <div
+                class="q-pb-none"
+                :class="$q.platform.is.desktop ? 'text-h6' : 'text-subtitle1'"
+              >
+                {{ dictionary.dictValue }}
+              </div>
+            </template>
             <template #table-bottom-row>
               <q-tr>
-                <td colspan="3">
-                  <span
-                    :class="
-                      $q.platform.is.desktop ? 'text-h6' : 'text-subtitle1'
-                    "
-                    >{{ dictionary.dictValue }}</span
-                  >
-                </td>
-                <td class="text-right">
+                <td>
                   <q-btn
                     flat
                     icon="add"
@@ -54,15 +54,7 @@
                     @click="openEditPage(dictionary.dictValue)"
                   />
                 </td>
-                <!-- <div class="row q-px-md q-py-sm">
-   
-                <q-space />
-   
-                </div> -->
               </q-tr>
-              <!-- <div class="row q-px-md q-py-sm">
-               
-              </div> -->
             </template>
           </folder-table>
           <folder-list
@@ -73,15 +65,14 @@
             :id="id"
           >
             <template #list>
-              <div class="text-right">
-                <q-btn
-                  flat
-                  icon="add"
-                  color="positive"
-                  :label="`新建${dictionary.dictValue}`"
-                  @click="openEditPage(dictionary.dictValue)"
-                />
-              </div>
+              <q-btn
+                flat
+                icon="add"
+                class="q-ml-xs"
+                color="positive"
+                :label="`新建${dictionary.dictValue}`"
+                @click="openEditPage(dictionary.dictValue)"
+              />
             </template>
           </folder-list>
           <document-card

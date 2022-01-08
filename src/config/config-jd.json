@@ -49,6 +49,7 @@
   "app": {
     "menusOfExclusive": [
       "downloadArea",
+      "wikiHome",
       "guobiao",
       "consultHome",
       "productHome",
@@ -66,6 +67,7 @@
       "home",
       "contactsHome",
       "downloadArea",
+      "wikiHome",
       "guobiao",
       "teamHome",
       "projectHome",

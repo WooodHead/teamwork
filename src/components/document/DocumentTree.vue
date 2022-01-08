@@ -143,10 +143,10 @@ export default {
       }
 
       // 如果是成熟案例库，重新处理数据
-      if (this.category === 'select-product-case' && list.length) {
-        let parent = _.find(list, ['classify', 'folder'])
+      let parent = _.find(list, ['classify', 'folder'])
+      if (this.category === 'select-product-case' && list.length && parent) {
         let dictType = _.uniq(_.compact(_.map(list, 'tag')))
-        parent.children = []
+        parent && (parent.children = []) 
         _(dictType).forEach(function (value, index) {
           let nowDictList = _.filter(list, { 'tag': value })
           nowDictList = _.map(nowDictList, n => { 

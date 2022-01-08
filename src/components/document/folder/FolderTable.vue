@@ -21,12 +21,12 @@
       hide-bottom
       text-grey-8
     >
-      <!-- <template v-slot:top-left>
+      <template v-slot:top-left>
         <slot name="table-top-left"></slot>
       </template>
       <template v-slot:top-right>
         <slot name="table-top-right"></slot>
-      </template> -->
+      </template>
       <template v-slot:bottom-row>
         <slot name="table-bottom-row"></slot>
       </template>
@@ -44,17 +44,9 @@
       </template>
       <template v-slot:body-cell-title="props">
         <q-td :props="props">
-          <attach-icon
+          <img
             v-if="showImgDetail(props.row)"
-            :path="props.row.filePath"
-            :extension="props.row.extension"
-            :snapshotPath="props.row.snapshotPath"
-            show3DRotateStatus
-            limit3DHeight
-            :snapshotOnly="false"
-            showSnapshotCut
-            class="attach-icon"
-            style="display: contents;"
+            :src="getUrl(props.row.filePath)"
           />
           <q-icon
             v-else
@@ -89,6 +81,7 @@
 import { date } from 'quasar'
 import { mapState, mapMutations } from 'vuex'
 import showCardDetail from '@/components/document/folder/mixins-file-click.js'
+import { getUrl } from '@/boot/file'
 export default {
   name: 'FolderTable',
   mixins: [showCardDetail],
@@ -179,6 +172,7 @@ export default {
     ...mapState('file', ['imgExts', 'threeDExts', 'videoExts'])
   },
   methods: {
+    getUrl,
     ...mapMutations('document', ['setSort', 'setOrder']),
     showImgDetail (attach) {
       return (
@@ -214,7 +208,7 @@ export default {
     }
   },
   components: {
-    'attach-icon': () => import('components/attach/AttachIcon')
+    // 'attach-icon': () => import('components/attach/AttachIcon')
     // FolderAdd: () => import('components/document/folder/FolderAdd')
   }
 }
@@ -224,8 +218,11 @@ export default {
 .q-table th {
   font-size: 14px !important;
 }
-/deep/ .attach-icon img {
-  width: 20px !important;
+ img {
+   width: 48px !important;
+    height: 30px;
+    object-fit: cover;
+    vertical-align: middle;
 }
 // /deep/ .attach-icon >div{
 //       display: contents;
