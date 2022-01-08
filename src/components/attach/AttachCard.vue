@@ -30,7 +30,7 @@
       >
         {{ attach.title }}
       </div>
-       <div class="q-pt-xs q-pb-md" v-if="attach.tags && attach.tags.length">
+       <div class="q-py-xs" v-if="attach.tags && attach.tags.length">
           <tw-chip
             v-for="tag in attach.tags"
             :key="tag"
