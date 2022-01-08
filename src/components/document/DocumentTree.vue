@@ -206,7 +206,8 @@ export default {
           sort: this.sort,
           search: this.search,
           limit: 20,
-          offset: offset || 0
+          offset: offset || 0,
+          byPage: this.category !== 'select-product-case'
         })
         .then(res => {
           this.loadModel({ id: +id, fields: 'MindMap' })
@@ -217,7 +218,7 @@ export default {
                 this.treeList.splice(loadMoreIndex, 1)
               }
 
-              if (res.nextPageToken >= 0) {
+              if (res.nextPageToken >= 0 && this.category !== 'select-product-case') {
                 this.setTreeList([
                   {
                     id: `-${+id}`,

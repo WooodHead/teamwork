@@ -42,21 +42,24 @@ export default {
   },
   loadTreeDocuments (
     { state, commit },
-    { query, filter, sort = state.sort, search = state.search, limit, offset, fields = 'Tree' } = {}
+    { query, filter, byPage = true, sort = state.sort, search = state.search, limit, offset, fields = 'Tree' } = {}
   ) {
-    const condition = {
+    let condition = {
       query: JSON.stringify(query),
       filter: JSON.stringify(filter),
-      sort,
       search,
-      fields,
-      limit,
-      offset
+      fields
+    }
+    let url = byPage ? 'documents/getpagelist' : 'documents/getlist'
+    if (byPage) {
+      Object.assign(condition, { limit, offset, sort })
+    } else { 
+      Object.assign(condition, { orderby: sort })
     }
     let Documents = []
 
     return request
-      .get('documents/getpagelist', condition)
+      .get(url, condition)
       .then(res => {
         Documents = Document.from(res.data)
         res.data = Documents
