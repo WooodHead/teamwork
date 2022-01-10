@@ -135,7 +135,7 @@ function fromOne (end) {
     businessType: end.BusinessType,
     source: end.Source,
     acl: end.Acl,
-    whiteList: formatEndArray(end.WhiteList),
+    whiteList: end.WhiteList ? JSON.parse(end.WhiteList) : [],
     organizeID: end.OrganizeID,
     progress: end.Progress, // 任务进展，导出时用到,
     isSplitSingleTask: false, // 是否拆分为单人任务
@@ -231,7 +231,7 @@ function toOne (front) {
     BusinessType: front.businessType,
     Source: front.source,
     Acl: front.acl,
-    WhiteList: front.whiteList ? front.whiteList.join(',') : '',
+    WhiteList: front.whiteList ? JSON.stringify(front.whiteList) : '[]',
     OrganizeID: front.organizeID,
     Progress: front.progress, // 任务进展，导出时用到
     ...commomFields.to(front)
@@ -271,8 +271,10 @@ export default class Task {
   }
   static from (end) {
     if (_.isArray(end)) {
+      console.log(_.map(end, e => fromOne(e)))
       return _.map(end, e => fromOne(e))
     } else {
+      _.map(fromOne(end))
       return fromOne(end)
     }
   }

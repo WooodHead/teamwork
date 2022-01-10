@@ -29,7 +29,7 @@ function fromOne (end) {
     tag: end.Tag,
     acl: end.Acl,
     color: end.Color,
-    whiteList: end.WhiteList ? _.map(end.WhiteList.split(','), id => +id) : [],
+    whiteList: end.WhiteList ? JSON.parse(end.WhiteList) : [],
     subscribers: end.Subscribers,
     children: end.Children ? Document.from(end.Children) : [],
     // 仅自己可编辑
@@ -59,7 +59,7 @@ function toOne (front) {
     DownLoads: front.downLoads,
     Tag: front.tag,
     Acl: front.acl,
-    WhiteList: front.whiteList ? front.whiteList.join(',') : '',
+    WhiteList: front.whiteList ? JSON.stringify(front.whiteList) : '[]',
     Subscribers: front.subscribers,
     // 仅自己可编辑
     OnlyICanEdit: front.onlyICanEdit,
@@ -85,7 +85,7 @@ export default class Document {
       authorID: my.id,
       authorName: my.name,
       acl: 0,
-      whiteList: '',
+      whiteList: '[]',
       // 仅自己可编辑
       onlyICanEdit: 0,
       onlyICanDownload: 0,
