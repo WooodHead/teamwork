@@ -304,10 +304,11 @@ export default {
         return {}
       })
   },
-  updateServiceMembers ({ state, commit }, { id, personIDs, identify }) {
+  updateServiceMembers ({ state, commit }, { id, newMemberIds, oldMemberIds, identify }) {
     return request.patch(url.updatemember, {
       id,
-      personIDs: _.join(personIDs),
+      newMemberIds: _.join(newMemberIds),
+      oldMemberIds: _.join(oldMemberIds),
       identify: identify
     })
       .then(res => {

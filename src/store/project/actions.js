@@ -279,14 +279,16 @@ export default {
   /**
    * 更新项目成员
    * @param {*} id:项目ID
-   * @param {*} personIDs： 项目成员的IDs的集合
+   * @param {*} newMemberIds： 目前项目成员的IDs的集合
+   * @param {*} oldMemberIds： 原项目成员的IDs的集合
    * @param {*} identify 成员职位
    */
-  updateProjectMembers ({ state, commit }, { id, personIDs, identify }) {
+  updateProjectMembers ({ state, commit }, { id, newMemberIds, oldMemberIds, identify }) {
     return request
       .put('projects/updatemember', {
         id,
-        personIDs: _.join(personIDs),
+        newMemberIds: _.join(newMemberIds),
+        oldMemberIds: _.join(oldMemberIds),
         identify: identify
       })
       .then(res => {

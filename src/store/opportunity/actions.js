@@ -304,14 +304,16 @@ export default {
   /**
    * 更新商机成员
    * @param {*} id:商机ID
-   * @param {*} personIDs：商机成员的IDs的集合
+   * @param {*} newMemberIds： 目前商机成员的IDs的集合
+   * @param {*} oldMemberIds： 原商机成员的IDs的集合
    * @param {*} identify 成员职位
    */
-  updateOpportunityMembers ({ state, commit }, { id, personIDs, identify }) {
+  updateOpportunityMembers ({ state, commit }, { id, newMemberIds, oldMemberIds, identify }) {
     return request
       .put('opportunitys/updatemember', {
         id,
-        personIDs: _.join(personIDs),
+        newMemberIds: _.join(newMemberIds),
+        oldMemberIds: _.join(oldMemberIds),
         identify: identify
       })
       .then(res => {

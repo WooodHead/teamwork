@@ -208,12 +208,14 @@ export default {
   /**
  * 更新团队成员
  * @param {*} id:团队ID
- * @param {*} personIDs： 团队成员的IDs的集合
+ * @param {*} newMemberIds： 目前团队成员的IDs的集合
+ * @param {*} oldMemberIds： 原团队成员的IDs的集合
  */
-  updateTeamMembers ({ state, commit }, { id, personIDs, identify }) {
+  updateTeamMembers ({ state, commit }, { id, newMemberIds, oldMemberIds, identify }) {
     return request.put('teams/updatemember', {
       id,
-      personIDs: _.join(personIDs),
+      newMemberIds: _.join(newMemberIds),
+      oldMemberIds: _.join(oldMemberIds),
       identify: identify
     })
       .then(res => {

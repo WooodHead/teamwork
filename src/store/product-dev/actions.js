@@ -216,15 +216,17 @@ export default {
   /**
    * 更新产品成员
    * @param {*} id 产品ID
-   * @param {*} personIDs 产品成员IDs
+   * @param {*} newMemberIds： 目前产品成员的IDs的集合
+   * @param {*} oldMemberIds： 原产品成员的IDs的集合
    * @param {*} identify 需要保留的人员类型
    * @param {*} projIDs 项目IDs（科研产品成员合并时使用）
    */
-  updateProductDevMembers ({ state, commit }, { id, personIDs, identify, projIDs }) {
+  updateProductDevMembers ({ state, commit }, { id, newMemberIds, oldMemberIds, identify, projIDs }) {
     const productDev = _.find(state.productDevs, { id })
     return request.put('productDevs/updatemember', {
       id,
-      personIDs: _.join(personIDs),
+      newMemberIds: _.join(newMemberIds),
+      oldMemberIds: _.join(oldMemberIds),
       identify: identify,
       forManagement: productDev.forManagement,
       projIDs: _.join(projIDs)
