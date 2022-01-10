@@ -1,12 +1,15 @@
 <template>
   <q-card
     class="card-grow-in-page"
-    :style="{'position:relative':!$q.screen.lt.sm}"
+    :style="{ 'position:relative': !$q.screen.lt.sm }"
     :flat="$q.screen.lt.sm"
-    :class="{'card-is-template':model.isTemplate,'q-ma-none':$q.platform.is.mobile}"
+    :class="{
+      'card-is-template': model.isTemplate,
+      'q-ma-none': $q.platform.is.mobile,
+    }"
   >
     <tw-header-detail
-      :title="titleVisible?'':model.title"
+      :title="titleVisible ? '' : model.title"
       :noMenu="!showMenu || model.archived"
     >
       <template #menu>
@@ -32,10 +35,7 @@
     </tw-header-detail>
 
     <!-- 归档说明区 -->
-    <q-card-section
-      v-if="model.archived"
-      class="q-px-xxl"
-    >
+    <q-card-section v-if="model.archived" class="q-px-xxl">
       <tw-archive-notes
         :id="model.id"
         :type="category"
@@ -52,18 +52,12 @@
       </div>
       <!-- 标题 -->
       <div v-intersection="onIntersection"></div>
-      <div
-        class="text-title"
-        style="word-wrap: break-word;"
-      >
+      <div class="text-title" style="word-wrap: break-word">
         <!-- <slot name="titleLeftBadge"></slot> -->
         {{ model.title }}
         <slot name="titleBadge"></slot>
       </div>
-      <div
-        class="text-subtitle1 "
-        style="word-wrap: break-word;"
-      >
+      <div class="text-subtitle1" style="word-wrap: break-word">
         <slot name="subtitle"></slot>
       </div>
       <!-- 描述 -->
@@ -71,13 +65,13 @@
       <div
         v-if="category !== 'organize'"
         class="text-subtitle1"
-        style="word-wrap: break-word;white-space: normal;"
+        style="word-wrap: break-word; white-space: normal"
         v-html="htmlToText(model.notes)"
       ></div>
       <!-- 团队成员 -->
       <resource-team-view
-        v-if="model&&!model.isTemplate&&model.members"
-        :category='category'
+        v-if="model && !model.isTemplate && model.members"
+        :category="category"
         :objectID="Number(objectID)"
         :members.sync="members"
         @updateMembers="updateMembers"
@@ -99,10 +93,7 @@
     <slot name="append" />
     <!-- 动态信息 -->
     <q-card-section class="q-px-xxl">
-      <tw-activity
-        :category="category"
-        :objectID="+objectID"
-      />
+      <tw-activity :category="category" :objectID="+objectID" />
     </q-card-section>
 
     <!-- 底部logo -->
@@ -115,36 +106,44 @@
         @click="$router.push('/')"
       />
       <div class="text-bold q-pt-sm">
-        {{$t('widget.welcomeTo')}} {{ model.title }}!
+        {{ $t('widget.welcomeTo') }} {{ model.title }}!
       </div>
-      <div
-        class="text-grey-7"
-        v-if="model.acl"
-      >
-        {{$t('widget.this')}}{{$t(`${category}.title`)}}{{model.isTemplate?$t('template.template'):''}}{{model.isTemplate&&model.acl===2?$t('auth.acl.templateSecret'):acl[model.acl]}}
+      <div class="text-grey-7" v-if="model.acl">
+        {{ $t('widget.this') }}{{ $t(`${category}.title`)
+        }}{{ model.isTemplate ? $t('template.template') : ''
+        }}{{
+          model.isTemplate && model.acl === 2
+            ? $t('auth.acl.templateSecret')
+            : acl[model.acl]
+        }}
       </div>
       <!-- 团队成员 -->
       <resource-team-view
-        v-if="model.isTemplate&&model.acl===2"
-        :category='category'
+        v-if="model.isTemplate && model.acl === 2"
+        :category="category"
         :objectID="Number(objectID)"
         :members.sync="model.whiteList"
         :showButton="false"
       />
       <div class="text-grey-7">
         <slot name="logo"></slot>
-        <div v-if="!['organize','wiki'].includes(category)">{{$t('base.resourceOrganize')}}：{{organize.name}}</div>
+        <div v-if="!['organize', 'wiki'].includes(category)">
+          {{ $t('base.resourceOrganize') }}：{{ organize.name }}
+        </div>
         <slot name="orgBottom"></slot>
         {{ model.createBy }}
-        {{$t('widget.create')}}
-        {{ model.createTime && formatDate(model.createTime.replace(/-/g, '/'), 'YYYY-MM-DD HH:mm') }}
+        {{ $t('widget.create') }}
+        {{
+          model.createTime &&
+          formatDate(model.createTime.replace(/-/g, '/'), 'YYYY-MM-DD HH:mm')
+        }}
       </div>
     </q-card-section>
     <!-- 创建项目引导步骤 -->
     <q-dialog
       v-model="seamless"
       seamless
-      :position="$q.screen.gt.xs?'left':'bottom'"
+      :position="$q.screen.gt.xs ? 'left' : 'bottom'"
     >
       <guide-helper
         :model="guideModule"
@@ -389,8 +388,8 @@ export default {
         this.isBookmark = res
       })
     },
-    updateMembers (arrayPersonIDs) {
-      this.$store.dispatch(`${this.category}/update${capitalize(this.category)}Members`, { id: +this.objectID, personIDs: arrayPersonIDs })
+    updateMembers (arrayPersonIDs, identify) {
+      this.$store.dispatch(`${this.category}/update${capitalize(this.category)}Members`, { id: +this.objectID, newMemberIds: arrayPersonIDs, oldMemberIds: this.members, identify: identify })
     },
     // 是否显示创建项目引导步骤
     showGuideHelper () {
@@ -419,7 +418,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  .card-is-template {
-    background: #ecf9fd url(/icons/grid-background.png) -5px -22px;
-  }
+.card-is-template {
+  background: #ecf9fd url(/icons/grid-background.png) -5px -22px;
+}
 </style>

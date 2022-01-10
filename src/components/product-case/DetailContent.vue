@@ -7,7 +7,7 @@
 -->
 <template>
   <div>
-    <q-card-section>
+    <q-card-section :class="{ 'q-pt-none': $q.platform.is.mobile }">
       <div v-for="(dictionary, index) in dictionarys" :key="dictionary.id">
         <q-card-section v-if="index" />
         <div
@@ -37,19 +37,24 @@
           >
             <template #table-top-left>
               <div
-                class="row items-center q-mb-md"
+                class="q-pb-none"
                 :class="$q.platform.is.desktop ? 'text-h6' : 'text-subtitle1'"
               >
-                <span>{{ dictionary.dictValue }}</span>
+                {{ dictionary.dictValue }}
               </div>
             </template>
-            <template #table-top-right>
-              <q-btn
-                icon="add"
-                color="positive"
-                label="新建"
-                @click="openEditPage(dictionary.dictValue)"
-              />
+            <template #table-bottom-row>
+              <q-tr>
+                <td>
+                  <q-btn
+                    flat
+                    icon="add"
+                    color="positive"
+                    label="新建"
+                    @click="openEditPage(dictionary.dictValue)"
+                  />
+                </td>
+              </q-tr>
             </template>
           </folder-table>
           <folder-list
@@ -61,11 +66,12 @@
           >
             <template #list>
               <q-btn
+                flat
                 icon="add"
+                class="q-ml-xs"
                 color="positive"
-                class="full-width q-mx-md"
                 :label="`新建${dictionary.dictValue}`"
-                 @click="openEditPage(dictionary.dictValue)"
+                @click="openEditPage(dictionary.dictValue)"
               />
             </template>
           </folder-list>

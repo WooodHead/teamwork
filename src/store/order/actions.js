@@ -262,14 +262,16 @@ export default {
   /**
    * 更新订单成员
    * @param {*} id 订单ID
-   * @param {*} personIDs 订单成员IDs
+   * @param {*} newMemberIds： 目前订单成员的IDs的集合
+   * @param {*} oldMemberIds： 原订单成员的IDs的集合
    * @param {*} identify 人员职责 //member、leader、visitor
    */
-  updateOrderMembers ({ commit }, { id, personIDs, identify }) {
+  updateOrderMembers ({ commit }, { id, newMemberIds, oldMemberIds, identify }) {
     return request
       .put('orders/updatemember', {
         id,
-        psonIDs: _.join(personIDs),
+        newMemberIds: _.join(newMemberIds),
+        oldMemberIds: _.join(oldMemberIds),
         identify: identify
       })
       .then(res => {

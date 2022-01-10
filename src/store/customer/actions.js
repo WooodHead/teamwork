@@ -250,14 +250,16 @@ export default {
   /**
    * 更新客户成员
    * @param {*} id:客户ID
-   * @param {*} personIDs： 客户的IDs的集合
+   * @param {*} newMemberIds： 目前客户成员的IDs的集合
+   * @param {*} oldMemberIds： 原客户成员的IDs的集合
    * @param {*} identify 成员职位
    */
-  updateCustomerMembers ({ commit }, { id, personIDs, identify }) {
+  updateCustomerMembers ({ commit }, { id, newMemberIds, oldMemberIds, identify }) {
     return request
       .put(url.UpdateMember, {
         id,
-        psonIDs: _.join(personIDs),
+        newMemberIds: _.join(newMemberIds),
+        oldMemberIds: _.join(oldMemberIds),
         identify: identify
       })
       .then(res => {

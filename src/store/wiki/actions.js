@@ -170,12 +170,14 @@ export default {
   /**
  * 更新知识空间成员
  * @param {*} id:知识空间ID
- * @param {*} personIDs： 知识空间成员的IDs的集合
+ * @param {*} newMemberIds： 目前知识空间成员的IDs的集合
+ * @param {*} oldMemberIds： 原知识空间成员的IDs的集合
  */
-  updateWikiMembers ({ state, commit }, { id, personIDs, identify }) {
+  updateWikiMembers ({ state, commit }, { id, newMemberIds, oldMemberIds, identify }) {
     return request.put('wikis/updatemember', {
       id,
-      personIDs: _.join(personIDs),
+      newMemberIds: _.join(newMemberIds),
+      oldMemberIds: _.join(oldMemberIds),
       identify: identify
     })
       .then(res => {

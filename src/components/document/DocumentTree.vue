@@ -143,10 +143,10 @@ export default {
       }
 
       // 如果是成熟案例库，重新处理数据
-      if (this.category === 'select-product-case' && list.length) {
-        let parent = _.find(list, ['classify', 'folder'])
+      let parent = _.find(list, ['classify', 'folder'])
+      if (this.category === 'select-product-case' && list.length && parent) {
         let dictType = _.uniq(_.compact(_.map(list, 'tag')))
-        parent.children = []
+        parent && (parent.children = []) 
         _(dictType).forEach(function (value, index) {
           let nowDictList = _.filter(list, { 'tag': value })
           nowDictList = _.map(nowDictList, n => { 
@@ -206,7 +206,8 @@ export default {
           sort: this.sort,
           search: this.search,
           limit: 20,
-          offset: offset || 0
+          offset: offset || 0,
+          byPage: this.category !== 'select-product-case'
         })
         .then(res => {
           this.loadModel({ id: +id, fields: 'MindMap' })
@@ -217,7 +218,7 @@ export default {
                 this.treeList.splice(loadMoreIndex, 1)
               }
 
-              if (res.nextPageToken >= 0) {
+              if (res.nextPageToken >= 0 && this.category !== 'select-product-case') {
                 this.setTreeList([
                   {
                     id: `-${+id}`,

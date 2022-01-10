@@ -8,7 +8,7 @@
 <template>
   <div class="full-width">
     <q-table
-     :bordered ="border"
+      :bordered="border"
       flat
       :data="list"
       :columns="columns"
@@ -19,13 +19,16 @@
       binary-state-sort
       no-data-label="I didn't find anything for you"
       hide-bottom
-     text-grey-8
+      text-grey-8
     >
-     <template v-slot:top-left>
-       <slot name="table-top-left"></slot>
+      <template v-slot:top-left>
+        <slot name="table-top-left"></slot>
       </template>
-       <template v-slot:top-right>
+      <template v-slot:top-right>
         <slot name="table-top-right"></slot>
+      </template>
+      <template v-slot:bottom-row>
+        <slot name="table-bottom-row"></slot>
       </template>
       <template v-slot:header="props">
         <q-tr :props="props">
@@ -41,34 +44,33 @@
       </template>
       <template v-slot:body-cell-title="props">
         <q-td :props="props">
-          <attach-icon
-          v-if="showImgDetail(props.row)"
-          :path="props.row.filePath"
-          :extension="props.row.extension"
-          :snapshotPath="props.row.snapshotPath"
-          show3DRotateStatus
-          limit3DHeight
-          :snapshotOnly="false"
-          showSnapshotCut
-          class="attach-icon"
-        />
-          <q-icon
-          v-else
-            :style="props.row.classify==='folder'?'color:#ffc107':'color:#bbc4ca'"
-            :name="props.row.classify==='folder'?'app:tw-icon-folder':'app:tw-icon-file'"
+          <img
+            v-if="showImgDetail(props.row)"
+            :src="getUrl(props.row.filePath)"
           />
-          <span
-            class="q-ml-md"
-            :title="props.value"
-          >{{props.value}}</span>
-          <span v-if="['file','link'].includes(props.row.classify)">{{`${props.row.extension||props.row.classify}`}}</span>
+          <q-icon
+            v-else
+            :style="
+              props.row.classify === 'folder'
+                ? 'color:#ffc107'
+                : 'color:#bbc4ca'
+            "
+            :name="
+              props.row.classify === 'folder'
+                ? 'app:tw-icon-folder'
+                : 'app:tw-icon-file'
+            "
+          />
+          <span class="q-ml-md" :title="props.value">{{ props.value }}</span>
+          <span v-if="['file', 'link'].includes(props.row.classify)">{{
+            `${props.row.extension || props.row.classify}`
+          }}</span>
         </q-td>
       </template>
       <template v-slot:body-cell-size="props">
         <q-td :props="props">
-          <span v-if="props.row.classify==='folder'"> - </span>
-          <span v-else> {{props.value}}</span>
-
+          <span v-if="props.row.classify === 'folder'"> - </span>
+          <span v-else> {{ props.value }}</span>
         </q-td>
       </template>
     </q-table>
@@ -79,6 +81,7 @@
 import { date } from 'quasar'
 import { mapState, mapMutations } from 'vuex'
 import showCardDetail from '@/components/document/folder/mixins-file-click.js'
+import { getUrl } from '@/boot/file'
 export default {
   name: 'FolderTable',
   mixins: [showCardDetail],
@@ -117,10 +120,50 @@ export default {
       },
       rowKey: 'id',
       columns: [
-        { name: 'title', classes: '', style: 'font-size: 14px', headerClasses: 'text-grey-8', label: '文件名', field: 'title', align: 'left', sortable: true, sort: (a, b) => a.localeCompare(b) },
-        { name: 'authorName', classes: '', style: 'font-size: 14px', headerClasses: 'text-grey-8', label: '创建者', field: 'authorName', align: 'left', sortable: true, sort: (a, b) => a.localeCompare(b) },
-        { name: 'modifyTime', classes: '', style: 'font-size: 14px', headerClasses: 'text-grey-8', label: '最近更新', field: 'modifyTime', align: 'left', sortable: true, format: (val, row) => date.formatDate(val, 'YYYY-MM-DD') },
-        { name: 'size', classes: '', style: 'font-size: 14px', headerClasses: 'text-grey-8', label: '大小(KB)', field: 'size', align: 'left', sortable: true, sort: (a, b) => a > b }
+        {
+          name: 'title',
+          classes: '',
+          style: 'font-size: 14px',
+          headerClasses: 'text-grey-8',
+          label: '文件名',
+          field: 'title',
+          align: 'left',
+          sortable: true,
+          sort: (a, b) => a.localeCompare(b)
+        },
+        {
+          name: 'authorName',
+          classes: '',
+          style: 'font-size: 14px',
+          headerClasses: 'text-grey-8',
+          label: '创建者',
+          field: 'authorName',
+          align: 'left',
+          sortable: true,
+          sort: (a, b) => a.localeCompare(b)
+        },
+        {
+          name: 'modifyTime',
+          classes: '',
+          style: 'font-size: 14px',
+          headerClasses: 'text-grey-8',
+          label: '最近更新',
+          field: 'modifyTime',
+          align: 'left',
+          sortable: true,
+          format: (val, row) => date.formatDate(val, 'YYYY-MM-DD')
+        },
+        {
+          name: 'size',
+          classes: '',
+          style: 'font-size: 14px',
+          headerClasses: 'text-grey-8',
+          label: '大小(KB)',
+          field: 'size',
+          align: 'left',
+          sortable: true,
+          sort: (a, b) => a > b
+        }
       ]
     }
   },
@@ -129,11 +172,15 @@ export default {
     ...mapState('file', ['imgExts', 'threeDExts', 'videoExts'])
   },
   methods: {
+    getUrl,
     ...mapMutations('document', ['setSort', 'setOrder']),
     showImgDetail (attach) {
-      return (attach.extension && this.imgExts.includes(attach.extension.toLowerCase())) ||
-      (attach.extension && this.videoExts.includes(attach.extension.toLowerCase())) ||
-      (attach.extension && this.threeDExts.includes(attach.extension.toLowerCase()))
+      return (
+        (attach.extension &&
+          this.imgExts.includes(attach.extension.toLowerCase())) ||
+        (attach.extension &&
+          this.threeDExts.includes(attach.extension.toLowerCase()))
+      )
     },
     onRequest (props) {
       const obj = {
@@ -142,8 +189,7 @@ export default {
         modifyTime: 'ModifyTime',
         size: 'Size'
       }
-      let sortName = props.pagination &&
-        props.pagination.sortBy
+      let sortName = props.pagination && props.pagination.sortBy
       if (sortName) {
         this.pagination.descending = !this.pagination.descending
         let sortOrder = this.pagination.descending ? 'desc' : 'asc'
@@ -162,17 +208,23 @@ export default {
     }
   },
   components: {
-    'attach-icon': () => import('components/attach/AttachIcon')
+    // 'attach-icon': () => import('components/attach/AttachIcon')
     // FolderAdd: () => import('components/document/folder/FolderAdd')
   }
 }
 </script>
 
 <style scoped lang="scss">
-.q-table th{
-  font-size:14px !important;
+.q-table th {
+  font-size: 14px !important;
 }
-/deep/ .attach-icon img{
-  width:25px !important
+ img {
+   width: 48px !important;
+    height: 30px;
+    object-fit: cover;
+    vertical-align: middle;
 }
+// /deep/ .attach-icon >div{
+//       display: contents;
+// }
 </style>

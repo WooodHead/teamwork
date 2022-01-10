@@ -1,40 +1,47 @@
 <template>
-  <q-card
-    class="card-grow-in-page"
-    :flat="$q.screen.lt.sm"
-  >
+  <q-card class="card-grow-in-page" :flat="$q.screen.lt.sm">
     <tw-header-card
-      :title="$t('member.whichMember',{which:$t(`${category}.title`)})"
+      :title="$t('member.whichMember', { which: $t(`${category}.title`) })"
       v-if="!guide"
     />
     <q-list class="q-px-xxl">
       <template v-for="identify in identifyList">
-        <q-item-label
-          header
-          :key="'header'+identify"
-        >
+        <q-item-label header :key="'header' + identify">
           <tw-group-header
             :title="$t(`member.${identify}`)"
             titleClass="text-h6"
-            :leftBtn="identify!=='leader'?{
-                icon:'add',
-                size:'sm',
-                color:'positive',
-                label:$t(`member.add`),
-                click:()=>addBtnClickEvent(identify)}:null"
+            :leftBtn="
+              identify !== 'leader'
+                ? {
+                    icon: 'add',
+                    size: 'sm',
+                    color: 'positive',
+                    label: $t(`member.add`),
+                    click: () => addBtnClickEvent(identify),
+                  }
+                : null
+            "
           />
         </q-item-label>
-        <q-item :key="'content'+identify">
+        <q-item :key="'content' + identify">
           <q-item-section>
             <member-form
               class="q-mx-lg"
-              v-if="showMemberForm&&selectIdentify===identify"
+              v-if="showMemberForm && selectIdentify === identify"
               :psonID="psonID"
               :objectID="objectID"
               :category="category"
-              :psonIDs="identifyGroup[identify]&&identifyGroup[identify].map(item=>item.psonID)"
+              :psonIDs="
+                identifyGroup[identify] &&
+                identifyGroup[identify].map((item) => item.psonID)
+              "
               @ok="updateMembers"
-              @cancel="()=>{showMemberForm = false,selectIdentify='';psonID=0}"
+              @cancel="
+                () => {
+                  ;(showMemberForm = false), (selectIdentify = '')
+                  psonID = 0
+                }
+              "
             />
             <q-list class="row text-left q-px-md">
               <q-item
@@ -42,36 +49,23 @@
                 v-for="member in identifyGroup[identify]"
                 :key="member.psonID"
               >
-                <q-item-section
-                  avatar
-                  top
-                >
+                <q-item-section avatar top>
                   <tw-avatar :id="member.psonID" />
                 </q-item-section>
                 <q-item-section top>
                   <q-item-label lines="1">
-                    <span class="text-grey-8">{{member.name}}</span>
+                    <span class="text-grey-8">{{ member.name }}</span>
                   </q-item-label>
-                  <q-item-label
-                    caption
-                    lines="1"
-                  >
-                    <span
-                      v-if="member.notes===''"
-                      class="text-grey-6"
-                    >职责描述</span>
-                    <span
-                      v-else
-                      class="text-grey-8"
-                    >{{member.notes}}</span>
-                    <q-icon
-                      class="cursor-pointer absolute"
-                      name="edit"
+                  <q-item-label caption lines="1">
+                    <span v-if="member.notes === ''" class="text-grey-6"
+                      >职责描述</span
                     >
+                    <span v-else class="text-grey-8">{{ member.notes }}</span>
+                    <q-icon class="cursor-pointer absolute" name="edit">
                       <q-popup-edit
-                        :content-style="{width:'400px'}"
+                        :content-style="{ width: '400px' }"
                         v-model="member.notes"
-                        :ref="identify+member.psonID"
+                        :ref="identify + member.psonID"
                       >
                         <template v-slot="{ emitValue }">
                           <q-input
@@ -82,7 +76,9 @@
                             :value="member.notes"
                             hint="职责描述"
                             @input="emitValue"
-                            @keydown.enter.prevent.capture="setNotes(identify+member.psonID,member)"
+                            @keydown.enter.prevent.capture="
+                              setNotes(identify + member.psonID, member)
+                            "
                           >
                             <template v-slot:after>
                               <q-btn
@@ -90,7 +86,9 @@
                                 dense
                                 color="positive"
                                 icon="check_circle"
-                                @click.stop="setNotes(identify+member.psonID,member)"
+                                @click.stop="
+                                  setNotes(identify + member.psonID, member)
+                                "
                               />
                             </template>
                           </q-input>
@@ -98,23 +96,39 @@
                       </q-popup-edit>
                     </q-icon>
                   </q-item-label>
-                  <q-item-label
-                    lines="1"
-                    class="text-grey-8"
-                  >
-                    <div v-if="['customer'].includes(category) && identify === 'client' && model.classify">
+                  <q-item-label lines="1" class="text-grey-8">
+                    <div
+                      v-if="
+                        ['customer'].includes(category) &&
+                        identify === 'client' &&
+                        model.classify
+                      "
+                    >
                       <q-btn
                         size="12px"
-                        @click.stop="removeMemberPerson(identifyGroup[identify],member,identify)"
+                        @click.stop="
+                          removeMemberPerson(
+                            identifyGroup[identify],
+                            member,
+                            identify
+                          )
+                        "
                         class="text-primary"
                         no-caps
                         :label="$t(`member.remove`)"
-                        :disable="identify==='leader'"
+                        :disable="identify === 'leader'"
                         flat
                         dense
-                      /> •
+                      />
+                      •
                       <q-btn
-                        @click.stop="()=>{selectIdentify = identify; showMemberForm = true;psonID = member.psonID}"
+                        @click.stop="
+                          () => {
+                            selectIdentify = identify
+                            showMemberForm = true
+                            psonID = member.psonID
+                          }
+                        "
                         size="12px"
                         class="text-primary"
                         no-caps
@@ -126,14 +140,21 @@
                     <div v-else>
                       <q-btn
                         size="12px"
-                        @click.stop="removeMember(identifyGroup[identify],member.id,identify)"
+                        @click.stop="
+                          removeMember(
+                            identifyGroup[identify],
+                            member.id,
+                            identify
+                          )
+                        "
                         class="text-primary"
                         no-caps
                         :label="$t(`member.remove`)"
-                        :disable="identify==='leader'"
+                        :disable="identify === 'leader'"
                         flat
                         dense
-                      /> •
+                      />
+                      •
                       <q-btn
                         size="12px"
                         @click.stop="inviteTo(member.psonID)"
@@ -159,7 +180,7 @@
       transition-hide="slide-down"
     >
       <person-select-panel
-        style="width: 600px; max-width: 90vw;"
+        style="width: 600px; max-width: 90vw"
         @multiSelect="updateMembers"
         :isVirtualScroll="true"
         :multiple="true"
@@ -260,8 +281,8 @@ export default {
       }
     },
     updateMembers (persons) {
-      var personIDs = _.map(persons, 'id')
-      this.$store.dispatch(`${this.category}/update${capitalize(this.category)}Members`, { id: +this.objectID, personIDs: personIDs, identify: this.selectIdentify })
+      const personIDs = _.map(persons, 'id')
+      this.$store.dispatch(`${this.category}/update${capitalize(this.category)}Members`, { id: +this.objectID, newMemberIds: personIDs, oldMemberIds: this.initSelectedPersonIDs, identify: this.selectIdentify })
         .then(res => {
           if (res) {
             // 重新获取最新的members
@@ -281,9 +302,10 @@ export default {
     removeMember (members, id, identify) {
       var _this = this
       showConfirm('确定要移除该成员？', () => {
-        var arrayMembers = _.pull(members, _.find(members, m => m.id === id))
-        var psonIds = _.map(arrayMembers, 'psonID')
-        _this.$store.dispatch(`${_this.category}/update${capitalize(_this.category)}Members`, { id: +_this.objectID, personIDs: psonIds, identify: identify })
+        const oldPersonIds = _.map(members, 'psonID')
+        const arrayMembers = _.pull(members, _.find(members, m => m.id === id))
+        const psonIds = _.map(arrayMembers, 'psonID')
+        _this.$store.dispatch(`${_this.category}/update${capitalize(_this.category)}Members`, { id: +_this.objectID, newMemberIds: psonIds, oldMemberIds: oldPersonIds, identify: identify })
           .then(res => {
             _this.loadMembers({ category: _this.category, objectID: +_this.objectID, types: _.join(_this.identifyList, ',') })
           })
@@ -307,9 +329,10 @@ export default {
       let _this = this
       showConfirm(i18n.t(`person.confirmDelete`), () => {
         _this.$store.dispatch(`person/deletePersons`, member.psonID).then(res => {
-          var arrayMembers = _.pull(members, _.find(members, m => m.id === member.id))
-          var psonIds = _.map(arrayMembers, 'psonID')
-          _this.$store.dispatch(`${_this.category}/update${capitalize(_this.category)}Members`, { id: +_this.objectID, personIDs: psonIds, identify: identify })
+          const oldPersonIds = _.map(members, 'psonID')
+          const arrayMembers = _.pull(members, _.find(members, m => m.id === member.id))
+          const psonIds = _.map(arrayMembers, 'psonID')
+          _this.$store.dispatch(`${_this.category}/update${capitalize(_this.category)}Members`, { id: +_this.objectID, newMemberIds: psonIds, oldMemberIds: oldPersonIds, identify: identify })
             .then(res => {
               _this.loadMembers({ category: _this.category, objectID: +_this.objectID, types: _.join(_this.identifyList, ',') })
             })

@@ -101,7 +101,7 @@ export default {
     this.loadDocumentByQuery(
       {
         endQuery: query,
-        fields: 'DocID',
+        fields: 'List',
         onlyGetData: true
       })
       .then(res => {
